@@ -1,10 +1,13 @@
 {
     "name": "Visible Connections",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "manifest_version": 3,
     "author": "Karen Grigorian",
     "description": "View visible connections between web pages",
-    "permissions": ["storage", "clipboardWrite"],
+    "permissions": [
+        "storage",
+        "clipboardWrite"
+    ],
     "content_scripts": [
         {
             "matches": [
@@ -12,7 +15,7 @@
             ],
             "js": [
                 "content.js",
-                "bridge.js"         
+                "bridge.js"
             ],
             "css": [
                 "contentStyles.css"
@@ -23,7 +26,6 @@
     "background": {
         "service_worker": "background.js"
     },
-    
     "action": {
         "default_icon": {
             "16": "images/icon16.png",
@@ -32,24 +34,25 @@
         },
         "default_popup": "popup.html"
     },
-    
     "host_permissions": [
         "http://*/*",
         "https://*/*"
     ],
     "web_accessible_resources": [
         {
-        "resources": ["images/*","reader/*"],
-        "matches": ["<all_urls>"]
+            "resources": [
+                "images/*",
+                "reader/*"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
         }
     ],
-
-    
     "icons": {
         "16": "images/icon16.png",
         "32": "images/icon32.png",
         "48": "images/icon48.png",
         "128": "images/icon128.png"
     }
-  
 }

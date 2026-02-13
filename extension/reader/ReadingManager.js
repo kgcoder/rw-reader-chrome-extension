@@ -1110,12 +1110,6 @@ class ReadingManager {
     
 
 
-    addFlinksToNewRightDoc() {
-        this.prepareRightLinks()
-        this.checkIfFlinksAreBroken()
-        this.addFlinksToRightDiv()
-    }
-
     
 
     redrawAllTabs(selectLastDoc = false){
@@ -1228,7 +1222,8 @@ class ReadingManager {
     applyFlinksOnTheRight(removeOldFlinks = true){
         if(removeOldFlinks)this.removeFlinksFromRightDiv()
 
-        setTimeout(() => {
+   
+        requestAnimationFrame(() => {
             if(g.readingManager.mainDocData && g.readingManager.mainDocData.docType === 'condoc' && !g.readingManager.embeddedDocData)return
 
             if (!this.isFullScreen) {
@@ -1243,7 +1238,7 @@ class ReadingManager {
                 flinksData.flinksUpdateNeeded = false
             }
 
-        },0)
+        })
         
     }
 
@@ -1594,6 +1589,7 @@ class ReadingManager {
         
         if (!this.currentConnection || !this.currentConnection.activeFlinks) return
 
+
         const secondScrollDiv = noteObj.scrollDiv
         
         const rightPresentationDiv = getPresentationDivFrom(secondScrollDiv)
@@ -1629,8 +1625,10 @@ class ReadingManager {
             return
         }
  
+
         const rightRects = g.noteDivsManager.calculateHighlightPosition(rightScrollDiv,textNodesArray,rightEnd.index,rightEnd.length,divX,topY,this.docWidth)
 
+      
         if(rightRects.length){
             flink.rightRects = rightRects
     
@@ -2188,7 +2186,7 @@ class ReadingManager {
 
     
             for(let flink of flinks){
-                if(flink.rightEndOutOfBounds)continue
+                if (flink.rightEndOutOfBounds) continue
                 for(let rect of flink.rightRects){
                     
                     

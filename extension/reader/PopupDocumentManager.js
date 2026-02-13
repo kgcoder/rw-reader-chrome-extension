@@ -2272,6 +2272,7 @@ class PopupDocumentManager{
 
         const jsonArray = JSON.parse(text)
 
+
         if (!jsonArray) return
 
         if (!jsonArray.length) {
@@ -2283,8 +2284,8 @@ class PopupDocumentManager{
         listenersOwner.comments = listenersOwner.comments.concat(jsonArray)
 
 
-        let parents = listenersOwner.comments.filter(item => item.parent == 0)
-        const notParents = listenersOwner.comments.filter(item => item.parent != 0)
+        let parents = listenersOwner.comments.filter(item => !!item && item.parent == 0)
+        const notParents = listenersOwner.comments.filter(item => !!item && item.parent != 0)
 
         parents = parents.sort((a,b) => a.date.localeCompare(b.date))
 
