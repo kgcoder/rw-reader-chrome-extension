@@ -1,14 +1,13 @@
-
-
-html, body{
+html,
+body {
     margin: 0;
     padding: 0;
 }
 
-#popup-header{
+#popup-header {
 
-    display:flex;
-    height:50px;
+    display: flex;
+    height: 50px;
     background-color: rgb(183, 38, 38);
     justify-content: center;
     align-items: center;
@@ -18,57 +17,57 @@ html, body{
 
 
 
-#popup-title{
-    color:white;
+#popup-title {
+    color: white;
     font-size: 20px;
 
 }
 
-#mainContainer{
+#mainContainer {
     display: none;
     flex-direction: column;
     padding: 15px;
 
 }
 
-#parsing-rules-section{
+#parsing-rules-section {
     display: none;
     flex-direction: column;
 }
 
-.vertical-spacer{
+.vertical-spacer {
     height: 15px;
 }
 
-.horizontal-spacer-20{
-    width:20px;
+.horizontal-spacer-20 {
+    width: 20px;
 }
 
-.horizontal-spacer-3{
-    width:3px;
+.horizontal-spacer-3 {
+    width: 3px;
 }
 
 
 
-#links-container{
+#links-container {
     display: flex;
     flex-direction: column;
 }
 
-.PopupItemDiv{
-    width:250px;
+.PopupItemDiv {
+    width: 250px;
     align-items: center;
     height: 30px;
     display: flex;
 }
 
-.MenuTitle{
+.MenuTitle {
     font-weight: bold;
 }
 
 
 
-.LinkRow{
+.LinkRow {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -77,20 +76,20 @@ html, body{
 
 
 
-.LinkColumn{
+.LinkColumn {
     display: flex;
-    flex:1;
+    flex: 1;
 
     flex-direction: column;
     justify-content: center;
     overflow-x: hidden;
 }
 
-.LinkTitle{
+.LinkTitle {
     font-weight: bold;
 }
 
-.LinkButton{
+.LinkButton {
     display: flex;
     flex: 0 0 auto;
     align-items: center;
@@ -99,11 +98,11 @@ html, body{
     height: 30px;
 }
 
-.LinkButton:hover{
+.LinkButton:hover {
     cursor: pointer;
 }
 
-.swDownloadButton:hover{
+.swDownloadButton:hover {
     cursor: pointer;
 }
 
@@ -116,79 +115,77 @@ html, body{
     gap: 5px;
 }
 
-.LinkCopyButton{
+.LinkCopyButton {
     background-color: darkslateblue;
-    width:50px;
+    width: 50px;
     color: white;
-    
+
 }
 
-.LinkSendButton{
-    display:flex;
+.LinkSendButton {
+    display: flex;
     background-color: #F68705;
-    width:50px;
+    width: 50px;
     color: white;
-    gap:5px;
+    gap: 5px;
 }
 
 
 
-.RssLinksContainer{
-    display:flex;
+.RssLinksContainer {
+    display: flex;
     flex-direction: column;
-    gap:15px;
+    gap: 15px;
 }
 
 
-.popup-bottom-link{
-    color:dimgray;
+.popup-bottom-link {
+    color: dimgray;
 }
 
 
-#fallback-message{
+#fallback-message {
     margin-top: 20px;
     font-size: 14px;
 }
 
 
-.urlConfigTitle{
+.urlConfigTitle {
     margin-top: 20px;
 }
 
-.UrlConfigElement{
+.UrlConfigElement {
     display: none;
 }
 
-#secondUrlConfigLink{
+#secondUrlConfigLink {
     margin-top: 10px;
 }
 
 
-#right-page-url-container{
+#right-page-url-container {
     display: flex;
     flex-direction: column;
-   
-}
-
-
-
-#right-doc-download-button-container{
-    display: flex;
-    flex:1;
-    gap:10px;
 
 }
 
-#right-doc-url-input{
+
+
+#right-doc-download-button-container {
     display: flex;
-    flex:1;
+    flex: 1;
+    gap: 10px;
+
+}
+
+#right-doc-url-input {
+    display: flex;
+    flex: 1;
     height: 30px;
     padding-left: 5px;
 }
 
-#open-in-playground-button{
+#open-in-playground-button {
     display: none;
-  
+
 }
-
-

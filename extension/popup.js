@@ -114,11 +114,13 @@ function updatePageMetadata(response) {
     
 
 
+    const aboutVideoLink = document.getElementById("about-video-link")
     const howToLink = document.getElementById("how-to-link")
     const examplesLink = document.getElementById("visible-connections-examples-link")
     const sourceCodeLink = document.getElementById("source-code-link")
 
-   examplesLink.addEventListener('click',() => window.open('https://reinventingtheweb.com/community-resources/','_blank'))
+    aboutVideoLink.addEventListener('click',() => window.open('https://www.youtube.com/watch?v=1Lm9WchLcBw','_blank'))
+    examplesLink.addEventListener('click',() => window.open('https://reinventingtheweb.com/community-resources/','_blank'))
     howToLink.addEventListener('click',() => window.open('https://reinventingtheweb.com/how-to-create-visible-connections/','_blank'))
     sourceCodeLink.addEventListener('click',() => window.open('https://github.com/kgcoder/visible-connections-chrome-extension','_blank'))
 
