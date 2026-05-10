@@ -2413,6 +2413,7 @@ class ReadingManager {
 
 
     async flinkPressedInLeftDocument(flink,flinksData){
+        const topPanelHeight = g.pdm.getCurrentDocTopOffset()
         const mainScrollDocDiv = document.getElementById("CurrentDocument")
 
         const noteDataIndex = this.getNoteIndexByUrl(flinksData.url)

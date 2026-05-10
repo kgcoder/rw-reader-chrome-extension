@@ -11,6 +11,9 @@
     background-color: var(--bg-main); 
 }
 
+#multiple-links-popup.theme-light{
+  background-color: var(--bg-main); 
+}
 
 .theme-light .StaticCommentsSection {
   background-color: var(--bg-main);
@@ -23,6 +26,8 @@
 .theme-light .NoteEditingDiv{
     color: var(--text-main);
 }
+
+
 
 
 
@@ -138,6 +143,14 @@
 
 .theme-light a[data-static] {
   color: rgb(36, 176, 76);
+}
+
+.theme-light a.multiple-links-popup-row{
+  color: var(--text-main);
+}
+
+.theme-light a.multiple-links-popup-row:hover{
+  text-decoration: none;
 }
 
 

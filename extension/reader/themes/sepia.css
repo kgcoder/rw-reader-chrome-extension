@@ -18,6 +18,10 @@
     background-color: var(--bg-main); /* dark background */
 }
 
+#multiple-links-popup.theme-sepia{
+  background-color: var(--bg-main); 
+}
+
 
 .theme-sepia .StaticCommentsSection {
     background-color: var(--bg-main);
@@ -146,6 +150,14 @@
 
   .theme-sepia a[data-static] {
     color: rgb(26, 125, 54);
+  }
+
+.theme-sepia a.multiple-links-popup-row{
+    color: var(--text-main);
+  }
+
+   .theme-sepia a.multiple-links-popup-row:hover{
+    text-decoration: none;
   }
   
   

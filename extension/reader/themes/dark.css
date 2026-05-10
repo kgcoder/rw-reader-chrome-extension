@@ -10,6 +10,10 @@
     background-color: var(--bg-main); /* dark background */
 }
 
+#multiple-links-popup.theme-dark{
+  background-color: var(--bg-main); 
+}
+
 /* .DocumentSidePanel.theme-dark {
     background-color: var(--bg-main);
 } */
@@ -133,6 +137,17 @@
   .theme-dark a:hover {
     text-decoration: underline;
   }
+
+
+  .theme-dark a.multiple-links-popup-row{
+    color: var(--text-main);
+  }
+
+   .theme-dark a.multiple-links-popup-row:hover{
+    text-decoration: none;
+  }
+
+
 
   .theme-dark a[data-static] {
     color: rgb(36, 176, 76);

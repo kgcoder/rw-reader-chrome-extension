@@ -27,7 +27,8 @@ export async function setTheme(themeName, shouldSave = false) {
 
     const columnDivs = document.getElementsByClassName('DocumentColumn')
     const sidePanelDivs = document.getElementsByClassName('DocumentSidePanel')
-    for (const div of [...columnDivs,...sidePanelDivs]) {
+    const multipleFlinksPopup = document.getElementById('multiple-links-popup')
+    for (const div of [...columnDivs,...sidePanelDivs,multipleFlinksPopup]) {
         // Remove any existing theme-* class
         div.classList.forEach(cls => {
         if (cls.startsWith('theme-')) {

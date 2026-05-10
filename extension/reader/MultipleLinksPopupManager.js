@@ -23,7 +23,7 @@ export function showMultipleLinksPopup(pageX,pageY, touchedLinks, noteData = nul
     popup.style.top = pageY + 'px'
     popup.style.display = 'flex'
 
-    popup.style.width = '250px'
+    popup.style.width = '240px'
     popup.style.height = touchedLinks.length * 30 + 'px'
 
     for(const link of touchedLinks){
