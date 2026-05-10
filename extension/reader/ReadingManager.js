@@ -19,6 +19,7 @@ import { loadStaticContentFromUrl } from "./parsers/ParsingManager.js";
 import FLTextEnd from "./models/FLTextEnd.js";
 import FLPointEnd from "./models/FLPointEnd.js";
 import { maxFlinksNumberBeforeOptimization } from "./constants.js";
+import { showMultipleLinksPopup } from "./MultipleLinksPopupManager.js";
 const kFlinkHorizontalThickness = 5
 
 let now,
@@ -1968,7 +1969,7 @@ class ReadingManager {
 
 
 
-    async handleTouchInMainDoc(pageX,pageY){
+    async handleTouchInMainDoc(pageX,pageY,currentlyPressedLink){
 
         if(g.pdm.isShowingInfo || g.pdm.isLeftSourceCodeShowing)return
         
@@ -2032,7 +2033,7 @@ class ReadingManager {
             const x = pageX - g.pdm.getCurrentDocLeftVerticalPanelWidth()
             const y = pageY - kLeftDivTop - topPanelHeight + mainScrollDocDiv.scrollTop
         
-            let shortestTouchedFlink
+            let touchedFlinks = []
             for(let flinksData of this.connections){
                 if(!flinksData.activeFlinks)continue
                 for(let flink of flinksData.activeFlinks){
@@ -2043,19 +2044,8 @@ class ReadingManager {
                             
                             if(isDotInsideFrame(x,y,{minX:rect.left,minY:rect.top,maxX:rect.left + rect.width,maxY:rect.top + rect.height})){
                                
-                                const length = flink.leftEnds[0].length
-                                if (shortestTouchedFlink) {
-                                    const currentShortestLength = shortestTouchedFlink.length
-                                    if (length < currentShortestLength) {
-                                        shortestTouchedFlink = { flink, flinksData, length }
-                                        break
-                                    }
-                                } else {
-                                    shortestTouchedFlink = { flink, flinksData, length }   
-                                    break
-                                }
-
-                                
+                                touchedFlinks.push({flink,flinksData})
+                        
                             }
                         }
     
@@ -2066,56 +2056,62 @@ class ReadingManager {
     
             }
 
+            const finalArray = []
+        
+            if(touchedFlinks.length){
 
-            if (shortestTouchedFlink) {
-                const { flink, flinksData } = shortestTouchedFlink
-                
-                const noteDataIndex = this.getNoteIndexByUrl(flinksData.url)
-
-                if (noteDataIndex === -1) {
-                    await g.readingManager.downloadOnePage(flinksData.url)
-                    const noteData = this.rightNotesData[this.rightNotesData.length - 1]
-
-                    if(noteData){
-                        if (noteData.docType === 'c') {
-                            this.moveRightCollageInPositionForLink(flink,mainScrollDocDiv.scrollTop, topPanelHeight)
-                        }else if(noteData.docType === 'h'){
-                            const secondScrollDiv = noteData.scrollDiv
-                            this.scrollRightDocInPositionForLink(flink,mainScrollDocDiv.scrollTop,secondScrollDiv,noteData)
-                        }
-
+          
+                if(currentlyPressedLink){
+                    event.preventDefault()
+                    const text = currentlyPressedLink.innerText
+                    if(text.length > 30){
+                        text = text.slice(0,30).trim() + '...'
                     }
-                    return
-                }
-                const noteData = this.rightNotesData[noteDataIndex]
+                    finalArray.push({type:'hyperlink',text, url: currentlyPressedLink.href, target:currentlyPressedLink.target })
 
-                if (this.isFullScreen) {
-                    g.pdm.toggleFullScreen()
                 }
-                
-                if (noteData.docType === 'c') {
 
-                    if(this.selectedRightDocIndex !== noteDataIndex){
-                        g.pdm.showTab(noteDataIndex)
-                        g.readingManager.redrawFlinks()
+                for(const item of touchedFlinks){
+
+                    const {flink, flinksData} = item
+
+                    const firstPresentationDiv = document.getElementById("CurrentDocumentMainDiv")
+                    const leftText = getTextFromDiv(firstPresentationDiv) 
+
+                    const leftEnd = flink.leftEnds[0]
+
+                    let leftLine = leftText.substring(leftEnd.index,leftEnd.index + leftEnd.length)
+
+                    if(leftLine.length > 30){
+                        leftLine = leftLine.slice(0,30).trim() + '...'
                     }
 
-                    this.moveRightCollageInPositionForLink(flink,mainScrollDocDiv.scrollTop, topPanelHeight)
+
+                    finalArray.push({type:'flink',flink,flinksData,text:leftLine})
 
 
-                }else if(noteData.docType === 'h'){
-                
 
-                    if(this.selectedRightDocIndex !== noteDataIndex){
-                        g.pdm.showTab(noteDataIndex)
-                        g.readingManager.redrawFlinks()
-                    }
-
-                    const secondScrollDiv = noteData.scrollDiv
-                    this.scrollRightDocInPositionForLink(flink,mainScrollDocDiv.scrollTop,secondScrollDiv,noteData)
-                    
                 }
+
+
+            }else{
+                if(currentlyPressedLink){
+                    currentlyPressedLink.click()
+                }
+            }
+
+
+
+            if (!currentlyPressedLink && finalArray.length === 1) {
+                const { flink, flinksData } = finalArray[0]
+
+                this.flinkPressedInLeftDocument(flink, flinksData)
                 
+                
+                
+            }else if(finalArray.length){
+                showMultipleLinksPopup(pageX,pageY,finalArray)
+
             }
 
 
@@ -2126,7 +2122,7 @@ class ReadingManager {
 
 
 
-    handleTouchInRightDoc(pageX,pageY){
+    handleTouchInRightDoc(pageX,pageY,currentlyPressedLink){
         if(this.isFullScreen)return
         const noteData = this.rightNotesData[this.selectedRightDocIndex]
 
@@ -2182,8 +2178,8 @@ class ReadingManager {
             const y = pageY - topPanelHeight - kLeftDivTop + scrollTop
     
 
-            let shortestTouchedFlink
 
+            let touchedFlinks = []
     
             for(let flink of flinks){
                 if (flink.rightEndOutOfBounds) continue
@@ -2192,31 +2188,63 @@ class ReadingManager {
                     
                     
                     if(isDotInsideFrame(x,y,{minX:rect.left,minY:rect.top,maxX:rect.left + rect.width,maxY:rect.top + rect.height})){
-                        
-                        const length = flink.rightEnds[0].length
-                        if (shortestTouchedFlink) {
-                            const currentShortestLength = shortestTouchedFlink.length
-                            if (length < currentShortestLength) {
-                                shortestTouchedFlink = { flink, length }
-                                break
-                            }
-                        } else {
-                            shortestTouchedFlink = { flink, length }
-                            break
-                        }
-                        
+                        touchedFlinks.push(flink)
                     }
                 }
             }
 
-            if (shortestTouchedFlink) {
-                const {flink} = shortestTouchedFlink
-                if (this.mainDocType === 'c') {
-                    this.moveLeftCollageInPositionForLink(flink,scrollTop,topPanelHeight)
-                }else if(this.mainDocType === 'h'){
-                    this.scrollMainDocInPositionForLink(flink,secondDiv,noteData)
+
+               const finalArray = []
+        
+            if(touchedFlinks.length){
+
+          
+                if(currentlyPressedLink){
+                    event.preventDefault()
+                    const text = currentlyPressedLink.innerText
+                    if(text.length > 30){
+                        text = text.slice(0,30).trim() + '...'
+                    }
+                    finalArray.push({type:'hyperlink',text, url: currentlyPressedLink.href, target:currentlyPressedLink.target })
+
                 }
-                
+
+                for(const flink of touchedFlinks){
+
+
+
+                    const presentationDiv = getPresentationDivFrom(secondDiv)
+                    const rightText = getTextFromDiv(presentationDiv) 
+
+                    const rightEnd = flink.rightEnds[0]
+
+                    let rightLine = rightText.substring(rightEnd.index,rightEnd.index + rightEnd.length)
+
+                    if(rightLine.length > 30){
+                        rightLine = rightLine.slice(0,30).trim() + '...'
+                    }
+
+                    finalArray.push({type:'flink',flink,flinksData,text:rightLine})
+
+
+
+                }
+
+
+            }else{
+                if(currentlyPressedLink){
+                    currentlyPressedLink.click()
+                }
+            }
+
+
+            if (!currentlyPressedLink && touchedFlinks.length === 1) {
+                const flink = touchedFlinks[0]
+                this.flinkPressedInRightDocument(flink,noteData)
+                     
+            }else if(finalArray.length){
+                showMultipleLinksPopup(pageX,pageY,finalArray,noteData)
+
             }
 
 
@@ -2384,7 +2412,67 @@ class ReadingManager {
 
 
 
+    async flinkPressedInLeftDocument(flink,flinksData){
+        const mainScrollDocDiv = document.getElementById("CurrentDocument")
 
+        const noteDataIndex = this.getNoteIndexByUrl(flinksData.url)
+
+        if (noteDataIndex === -1) {
+            await g.readingManager.downloadOnePage(flinksData.url)
+            const noteData = this.rightNotesData[this.rightNotesData.length - 1]
+
+            if(noteData){
+                if (noteData.docType === 'c') {
+                    this.moveRightCollageInPositionForLink(flink,mainScrollDocDiv.scrollTop, topPanelHeight)
+                }else if(noteData.docType === 'h'){
+                    const secondScrollDiv = noteData.scrollDiv
+                    this.scrollRightDocInPositionForLink(flink,mainScrollDocDiv.scrollTop,secondScrollDiv,noteData)
+                }
+
+            }
+            return
+        }
+        const noteData = this.rightNotesData[noteDataIndex]
+
+        if (this.isFullScreen) {
+            g.pdm.toggleFullScreen()
+        }
+        
+        if (noteData.docType === 'c') {
+
+            if(this.selectedRightDocIndex !== noteDataIndex){
+                g.pdm.showTab(noteDataIndex)
+                g.readingManager.redrawFlinks()
+            }
+
+            this.moveRightCollageInPositionForLink(flink,mainScrollDocDiv.scrollTop, topPanelHeight)
+
+
+        }else if(noteData.docType === 'h'){
+        
+
+            if(this.selectedRightDocIndex !== noteDataIndex){
+                g.pdm.showTab(noteDataIndex)
+                g.readingManager.redrawFlinks()
+            }
+
+            const secondScrollDiv = noteData.scrollDiv
+            this.scrollRightDocInPositionForLink(flink,mainScrollDocDiv.scrollTop,secondScrollDiv,noteData)
+            
+        }
+    }
+
+
+    async flinkPressedInRightDocument(flink,noteData){
+        const secondDiv = noteData.scrollDiv
+        if (this.mainDocType === 'c') {
+            const scrollTop = secondDiv.scrollTop
+            const topPanelHeight = g.pdm.getRightDocTopOffset(noteData)
+            this.moveLeftCollageInPositionForLink(flink,scrollTop,topPanelHeight)
+        }else if(this.mainDocType === 'h'){
+            this.scrollMainDocInPositionForLink(flink,secondDiv,noteData)
+        }
+    }
 
     scrollRightDocInPositionForPoint(flink,leftY, rightScrollDiv, rightTopPanelHeight){
 

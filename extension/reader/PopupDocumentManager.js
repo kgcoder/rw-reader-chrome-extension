@@ -18,6 +18,7 @@ import { kColorsForFlinks } from './constants.js'
 import { fetchWebPage } from './NetworkManager.js'
 import ExportPageManager from './ExportPageManager.js'
 import { loadStaticContentFromUrl } from './parsers/ParsingManager.js'
+import { hideMultipleLinksPopup } from './MultipleLinksPopupManager.js'
 
 export const kMiddleGap = 100
 export const kLeftDivTop = 60
@@ -184,19 +185,85 @@ class PopupDocumentManager{
         this.createOneIconComponent(currentDocumentEmbeddingSymbol, iconPaths.ic_exclamation, 'Reader-LeftTitleEmbeddingSymbol')
         currentDocumentEmbeddingSymbol.style.display = 'none'
     
+
+        const saveCurrentlyPressedLinkIfNeeded = (link) => {
+            if(!link)return
+
+            let shouldPreventDefault = false
+                
+            const mainDocDiv = document.getElementById("CurrentDocumentMainDiv")
+
+            if(mainDocDiv.contains(link)){
+                shouldPreventDefault = true
+                this.currentLink = link
+            }else{
+
+                const noteData = g.readingManager.rightNotesData[g.readingManager.selectedRightDocIndex]
+                if(noteData.docType === 'h'){
+                    const secondDiv = noteData.scrollDiv
+                    const secondPresentationDiv = getPresentationDivFrom(secondDiv)
+                    if(secondPresentationDiv.contains(link)){
+                        shouldPreventDefault = true
+                        this.currentLink = link
+                    }
+
+                }
+            }
+
+            return shouldPreventDefault
+            
+        }
     
         allDocumentsContainer.addEventListener('mousedown', e => {
+            this.currentLink = null
             this.isDragging = false;
             this.startX = e.pageX;
             this.startY = e.pageY;
+
+            const element = document.elementFromPoint(
+                e.clientX,
+                e.clientY
+            );
+
+
+            const link = element.closest("a");
+
+            if(saveCurrentlyPressedLinkIfNeeded(link)){
+                e.preventDefault()
+            }
+
         });
 
+        allDocumentsContainer.addEventListener('click', e => {
+            const element = document.elementFromPoint(
+                e.clientX,
+                e.clientY
+            );
+
+
+            const link = element.closest("a");
+
+            if(saveCurrentlyPressedLinkIfNeeded(link)){
+                e.preventDefault()
+            }
+
+        })
+
+
         allDocumentsContainer.addEventListener('mousemove', e => {
+            this.currentLink = null
+            if(this.isMultiplePopupOpen){
+                hideMultipleLinksPopup(300)
+            }
             const dx = e.pageX - this.startX;
             const dy = e.pageY - this.startY;
             if (Math.abs(dx) > 5 || Math.abs(dy) > 5) { // threshold in pixels
                 this.isDragging = true;
             }
+
+            this.movementEvent = e
+
+
         });
 
 
@@ -205,7 +272,6 @@ class PopupDocumentManager{
         allDocumentsContainer.addEventListener('mouseup',(e)=>{
             if (this.isDragging) return
             if(this.isLeftSourceCodeShowing || this.isLeftExporting || this.isShowingInfo)return
-
      
             const {pageX,pageY} = e
     
@@ -246,12 +312,12 @@ class PopupDocumentManager{
             if(g.readingManager.isFullScreen || pageX < docWidth){
                 if( pageY > kLeftDivTop){
                     
-                    g.readingManager.handleTouchInMainDoc(pageX,pageY)
+                    g.readingManager.handleTouchInMainDoc(pageX,pageY,this.currentLink)
                 }
             }else if(pageX > docWidth + kMiddleGap){
                 const rightTop = 50//kRightDocsTabRowHeight + (this.rightNotesData.length > 1 ? kRightDivTopBarHeight : 0)
                 if(pageY > rightTop){
-                    g.readingManager.handleTouchInRightDoc(pageX,pageY)
+                    g.readingManager.handleTouchInRightDoc(pageX,pageY,this.currentLink)
                 }
             }else{
                 

@@ -1521,7 +1521,6 @@ a.TopPanelOptionLink:hover {
 #RightDocumentCollectionContainer {
     display: flex;
     flex: 1;
-    background-color: green;
     overflow: hidden;
     box-sizing: border-box;
 
@@ -1862,4 +1861,30 @@ div.MenuHorizontalLine {
     top:50%;
     transform: translateX(-50%);
 
+}
+
+
+#multiple-links-popup{
+    display: none;
+    position: absolute;
+    background-color: white;
+    z-index: 1000000;
+    flex-direction: column;
+    padding:4px;
+    gap:4px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+}
+
+.multiple-links-popup-row{
+    display: flex;
+    flex:1;
+    align-items: center;
+    border-radius: 8px;
+    padding-left:8px;
+    padding-right:8px;
+    cursor: pointer;
+    text-decoration: none;
+    color:black;
 }
