@@ -11,7 +11,7 @@ https://github.com/kgcoder/default-web
 */
 
 import g from "./Globals.js"
-import { setTheme } from "./helpers.js";
+import { setTheme, showToastMessage } from "./helpers.js";
 import IconsInfo from "./Icons.js";
 import { parseStaticContent } from "./parsers/ParsingManager.js";
 import { checkKey } from "./KeyboardManager.js";
@@ -39,16 +39,22 @@ window.addEventListener("message", (event) => {
 });
 
 window.addEventListener('initReader', async (e) => {
-    const { url, contentString, useThickLinks } = e.detail;
+    const { url, contentString, useThickLinks, savedParsingRules } = e.detail;
     g.readingManager.flinkStyle = useThickLinks ? 'thick' : 'thin'
     mainDocData = e.detail
     
+    const {dataObject,error} = await parseStaticContent(contentString,url, savedParsingRules)
 
-    loadUIAndIcons()
+    if(dataObject && !error){
+        loadUIAndIcons()
+    }
 
 
-    const {dataObject,error} = await parseStaticContent(contentString,url)
-    if (dataObject.docType === 'c') {
+    if(!dataObject){
+      setTimeout(() => {
+        window.postMessage({ type: "RELOAD_PAGE" }, "*")
+      },1000)
+    }else if (dataObject.docType === 'c') {
         await g.pdm.loadCollage(dataObject)
     } else if(dataObject.docType === 'h'){
         await g.pdm.loadDocument(dataObject) 

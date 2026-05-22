@@ -10,6 +10,7 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/default-web
 */
 
+
 let parsingConfig = ''
 let currentLocation
 let hasFlinks = false
@@ -27,7 +28,41 @@ let isShowingParsingRulesConstructor = false
 document.addEventListener('DOMContentLoaded', onLoad);
 
 
+document.onkeydown = onKeyPress
 //chrome.storage.local.clear()
+
+async function onKeyPress(e) {
+      if(e.code === 'KeyP' && e.ctrlKey){
+        
+        const result = await chrome.storage.local.get('parsingRulesObject')
+        if(!result || !result.parsingRulesObject)return
+
+        const rules = await getSavedParsingRulesForLocation(currentLocation)
+
+
+        if(rules){
+            await chrome.storage.local.set({useSavedParsingRules:true})
+            window.location.reload()
+        }
+        
+
+       
+    }
+    
+}
+
+
+async function getSavedParsingRulesForLocation(locationString){
+    const match = locationString.match(/^https?:\/\/([^/]+)\/?.*?$/)
+    if(match){
+        const domain = match[1]
+        const result = await chrome.storage.local.get('parsingRulesObject')
+        if(!result || !result.parsingRulesObject)return null
+        const rulesString = result.parsingRulesObject[domain]
+        return rulesString
+    }
+    return null
+}
 
 async function onLoad() {
     
@@ -230,12 +265,18 @@ async function showReaderOverlay() {
     }
 
     let contentString
+    let savedParsingRules
+    let isOnePre = false
     if (!theTitle || !contentEl) {
 
         contentString = document.body.innerHTML
-        const pre = document.querySelector('pre')
-        if (pre) {
+        const pres = document.querySelectorAll('pre')
+        if(pres && pres.length === 1){
+
+            const pre = pres[0]
+      
             contentString = unescapeHTML(pre.innerHTML)
+            isOnePre = true
         }
    
         const collageMatch = contentString.match(/<cdoc\b[^>]*>([\s\S]*?)<\/cdoc>/im)
@@ -244,7 +285,19 @@ async function showReaderOverlay() {
 
 
 
-        if (!textViewMatch && !collageMatch && !condocMatch) return
+        if (!textViewMatch && !collageMatch && !condocMatch) {
+            const result = await chrome.storage.local.get('useSavedParsingRules')
+            if(result.useSavedParsingRules){
+                await chrome.storage.local.set({useSavedParsingRules:false})
+
+                savedParsingRules = await getSavedParsingRulesForLocation(currentLocation)
+
+                if(!isOnePre) contentString = document.documentElement.outerHTML
+
+            }
+
+            if(!savedParsingRules) return
+        }
         
 
 
@@ -256,6 +309,32 @@ async function showReaderOverlay() {
         
     if(!contentString)contentString = document.documentElement.outerHTML
 
+    if(savedParsingRules && savedParsingRules !== 'text'){
+        const selectors = getSelectorsFromConfigString(savedParsingRules)
+
+        const showParsingError = () => {
+            alert('Something is wrong with the parsing rules for this site')
+        }
+        
+        if(!selectors || !selectors.contentSelector){
+            showParsingError()
+            return
+        }
+        const {contentSelector} = selectors
+        if(!contentSelector){
+            showParsingError()
+            return
+        }
+
+        const contentEl = document.querySelector(contentSelector)
+        if(!contentEl){
+            showParsingError()
+            return
+        }
+
+        
+
+    }
 
     const res = await fetch(chrome.runtime.getURL("reader/reader.html"));
     const html = await res.text();
@@ -284,7 +363,7 @@ document.write = () => {};
     script.type = "module";
     script.src = chrome.runtime.getURL('reader/readerStartUp.js');
     script.onload = () => {
-        window.dispatchEvent(new CustomEvent('initReader', {detail:{ contentString, url:currentLocation, useThickLinks }}));
+        window.dispatchEvent(new CustomEvent('initReader', {detail:{ contentString, url:currentLocation, useThickLinks, savedParsingRules }}));
     };
     document.body.appendChild(script);
 
@@ -376,4 +455,75 @@ function unescapeHTML(html) {
     return new DOMParser()
         .parseFromString('<!doctype html><body>' + html, 'text/html')
         .body.textContent;
+}
+
+//==========
+//methods duplicated in the Reader
+function getSelectorsFromConfigString(configString){
+    const actions = getActionsFromConfigString(configString)
+
+    if(!actions)return null
+
+    let contentSelector
+    let titleSelector
+
+    let removalSelectors = []
+
+
+    let authorNameSelector
+    let publicationDateSelector
+
+
+    actions.forEach(a => {
+        if(a.action === 'c'){
+            contentSelector = decodeURIComponent(a.text.trim())
+        }
+        if (a.action === 'r') {
+            const tags = decodeURIComponent(a.text.trim()).split(',').map(tag => tag.trim()).filter(tag => !!tag)
+            removalSelectors.push(...tags)
+        }
+        if (a.action === 't') {
+            titleSelector = decodeURIComponent(a.text.trim())
+        }
+
+        if (a.action === 'a') {
+            authorNameSelector = decodeURIComponent(a.text.trim()) 
+        }
+
+        if (a.action === 'd') {
+            publicationDateSelector = decodeURIComponent(a.text)
+        }
+
+    })
+
+    return {contentSelector,titleSelector,removalSelectors,authorNameSelector,publicationDateSelector}
+        
+
+}
+
+function getActionsFromConfigString(configString){
+    const actions = []
+    const chunks = configString.split('/')
+    if (chunks.length % 2 !== 0) {
+       
+        return false
+    }
+
+    while (chunks.length) {
+        const actionName = chunks.shift()
+        const actionText = chunks.shift()
+        actions.push({ action: actionName.toLowerCase(), text: actionText})
+    }
+    
+
+    const selector = actions.find(item => item.action === 'c')?.text
+    
+    if (!selector) {
+       
+        return false
+    }
+
+
+    return actions
+
 }

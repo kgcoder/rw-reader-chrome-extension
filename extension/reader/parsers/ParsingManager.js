@@ -127,7 +127,7 @@ export async function loadStaticContentFromUrl(originalUrl, muteErrorMessage = f
 }
 
 
-export async function parseStaticContent(contentString, originalUrl) {
+export async function parseStaticContent(contentString, originalUrl, savedParsingRules) {
     
     const condocMatch = contentString.match(/<condoc\b[^>]*>([\s\S]*?)<\/condoc>/im)
     const collageMatch = contentString.match(/<cdoc\b[^>]*>([\s\S]*?)<\/cdoc>/im)
@@ -157,9 +157,24 @@ export async function parseStaticContent(contentString, originalUrl) {
             return {dataObject, error:!dataObject ? 'Something is wrong with the embedded HDOC' : null}          
         }
 
+        if(savedParsingRules){
+
+            const cleanUrl = originalUrl.split('#')[0]
+            
+            let configString = savedParsingRules
+    
+            const dataObject = await parseHtmlPage(contentString,configString,cleanUrl)
+            return {dataObject,error:!dataObject ? 'Something is wrong with the saved parsing rules' : null}
+        }
+
+
 
         return {dataObject:null,error:'Wrong document format'}
 
+    }else if(savedParsingRules === 'text'){
+        const cleanUrl = originalUrl.split('#')[0]
+        const dataObject = await parsePlainTextPage(contentString, cleanUrl)
+        return {dataObject,error:!dataObject ? 'Something is wrong with the saved parsing rules' : null}
     }else if(!collageMatch && !hdocMatch) {
         return {dataObject:null,error:'Wrong document format'}
     }   
