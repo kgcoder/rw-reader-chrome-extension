@@ -43,6 +43,8 @@ async function onKeyPress(e) {
         if(rules){
             await chrome.storage.local.set({useSavedParsingRules:true})
             window.location.reload()
+        }else{
+            alert('There are no saved parsing rules for this website')
         }
         
 
