@@ -32,7 +32,7 @@ document.onkeydown = onKeyPress
 //chrome.storage.local.clear()
 
 async function onKeyPress(e) {
-      if(e.code === 'KeyP' && e.ctrlKey){
+      if(e.key === ']' && e.ctrlKey){
         
         const result = await chrome.storage.local.get('parsingRulesObject')
         if(!result || !result.parsingRulesObject)return

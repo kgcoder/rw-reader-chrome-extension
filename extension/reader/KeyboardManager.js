@@ -38,7 +38,7 @@ export const checkKey = async (e) => {
             g.pdm.toggleFullScreen()
         }
     }
-    if (e.code === 'KeyT' && e.ctrlKey) {
+    if (e.key === '[' && e.ctrlKey) {
 
         const {value: saved} = await getObjectFromLocalStorage('theme') || "light";
 
