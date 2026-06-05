@@ -4,11 +4,25 @@
     --bg-main: #1e1e1e;
     --header-footer-bg: #393838;
     --borders:#e0e0e0;
+    --top-bars:#252424;
+}
+
+#AllDocumentsContainer.theme-dark{
+  background-color: rgb(60, 60, 60);;
 }
 
 .DocumentColumn.theme-dark{
     background-color: var(--bg-main); /* dark background */
 }
+
+#CurrentDocumentTopBar.theme-dark{
+  background-color: var(--top-bars);
+}
+
+#RightDocumentsTopBar.theme-dark{
+  background-color: var(--top-bars);
+}
+
 
 #multiple-links-popup.theme-dark{
   background-color: var(--bg-main); 
@@ -25,6 +39,56 @@
 .theme-dark div{
     color: var(--text-main);
 }
+
+.theme-dark #CurrentDocumentInfo{
+  background-color: black;
+}
+
+.theme-dark .InfoLinkRowDiv{
+  background-color: rgb(60, 60, 60);
+}
+
+.theme-dark #CurrentDocumentMainCollageCanvas,
+.theme-dark .OneCollageCanvas{
+  background-color: #212121;
+}
+
+
+.theme-dark .DocumentTopBarButtonWrapper,
+.theme-dark .DocumentTopBarButtonWrapper *{
+  color:white;
+}
+
+.theme-dark .CurrentDocumentInfoButtonCountDivIncomplete{
+  color:red;
+}
+
+.theme-dark .selectedIcon *{
+  color:white;
+}
+
+.theme-dark #CurrentDocumentTitleSpan{
+  color:white;
+}
+
+
+.theme-dark #CurrentDocumentExportContainer{
+  background-color: black;
+}
+.theme-dark #RightDocumentExportContainer{
+  background-color: black;
+}
+
+.theme-dark #SourceCodeTextDiv{
+  background-color: rgb(60, 60, 60);
+}
+
+.theme-dark #ExportTextDiv{
+  background-color: rgb(60, 60, 60);
+}
+
+
+
 
 .theme-dark .NoteDiv{
     background-color: var(--bg-main); /* dark background */
@@ -250,7 +314,9 @@
 
 
 .theme-dark pre::-webkit-scrollbar,
+.theme-dark #ExportTextDiv::-webkit-scrollbar,
 .DocumentColumn.theme-dark::-webkit-scrollbar,
+.theme-dark #SourceCodeTextDiv::-webkit-scrollbar,
 .theme-dark .StaticCommentsSection::-webkit-scrollbar,
 .theme-dark .NoteEditingDiv::-webkit-scrollbar {
     width: 15px;
@@ -258,6 +324,8 @@
 }
 
 .DocumentColumn.theme-dark::-webkit-scrollbar-track,
+.theme-dark #ExportTextDiv::-webkit-scrollbar-track,
+.theme-dark #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-dark pre::-webkit-scrollbar-track,
 .theme-dark .StaticCommentsSection::-webkit-scrollbar-track,
 .theme-dark .NoteEditingDiv::-webkit-scrollbar-track {
@@ -265,6 +333,8 @@
 }
 
 .theme-dark pre::-webkit-scrollbar-thumb,
+.theme-dark #ExportTextDiv::-webkit-scrollbar-thumb,
+.theme-dark #SourceCodeTextDiv::-webkit-scrollbar-thumb,
 .DocumentColumn.theme-dark::-webkit-scrollbar-thumb,
 .theme-dark .StaticCommentsSection::-webkit-scrollbar-thumb,
 .theme-dark .NoteEditingDiv::-webkit-scrollbar-thumb {
@@ -279,6 +349,8 @@
 }
 
 .theme-dark pre::-webkit-scrollbar-thumb:hover,
+.theme-dark #ExportTextDiv::-webkit-scrollbar-thumb:hover,
+.theme-dark #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
 .DocumentColumn.theme-dark::-webkit-scrollbar-thumb:hover,
 .theme-dark .StaticCommentsSection::-webkit-scrollbar-thumb:hover,
 .theme-dark .NoteEditingDiv::-webkit-scrollbar-corner {

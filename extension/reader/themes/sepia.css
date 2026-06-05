@@ -11,11 +11,28 @@
     --table-header-bg: #c97b32;
     --table-header-text: #ffffff;
     --table-row-hover: #f0e0c4;
+    --top-bars:#FFEABD;
+}
+
+#AllDocumentsContainer.theme-sepia{
+  background-color: #fcf6e7;
 }
 
 
+.theme-sepia #LinksListContainerDiv{
+  background-color: var(--bg-main);
+}
+
 .DocumentColumn.theme-sepia {
     background-color: var(--bg-main); /* dark background */
+}
+
+#CurrentDocumentTopBar.theme-sepia{
+  background-color: var(--top-bars);
+}
+
+#RightDocumentsTopBar.theme-sepia{
+  background-color: var(--top-bars);
 }
 
 #multiple-links-popup.theme-sepia{
@@ -104,6 +121,32 @@
   
 .theme-sepia div{
     color: var(--text-main);
+}
+
+.theme-sepia #CurrentDocumentInfo{
+  background-color: var(--bg-main);
+}
+
+.theme-sepia .InfoLinkRowDiv{
+  /* background-color: rgb(60, 60, 60); */
+}
+
+.theme-sepia #CurrentDocumentMainCollageCanvas,
+.theme-sepia .OneCollageCanvas{
+  background-color: var(--bg-main);
+}
+
+.theme-sepia .DocumentTopBarButtonWrapper,
+.theme-sepia .DocumentTopBarButtonWrapper *{
+  color:rgb(40, 29, 13);
+}
+
+.theme-sepia .CurrentDocumentInfoButtonCountDivIncomplete{
+  color:red;
+}
+
+.theme-sepia .selectedIcon *{
+  color:white;
 }
   
   /* Paragraphs */

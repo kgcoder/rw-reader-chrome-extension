@@ -6,10 +6,18 @@
     --borders:#e0e0e0;
 }
 
+#AllDocumentsContainer.theme-light{
+  background-color: rgba(233, 233, 233);
+}
 
 .DocumentColumn.theme-light {
-    background-color: var(--bg-main); 
+  background-color: var(--bg-main); 
 }
+
+
+/* .theme-light .CurrentDocumentInfoButtonWrapper{
+  color:yellow;
+} */
 
 #multiple-links-popup.theme-light{
   background-color: var(--bg-main); 
@@ -82,6 +90,25 @@
 .theme-light div{
   color: var(--text-main);
 }
+
+.theme-light #CurrentDocumentMainCollageCanvas,
+.theme-light .OneCollageCanvas{
+  background-color: #ffffff;
+}
+
+.theme-light .DocumentTopBarButtonWrapper,
+.theme-light .DocumentTopBarButtonWrapper *{
+  color:#515152;
+}
+
+.theme-light .CurrentDocumentInfoButtonCountDivIncomplete{
+  color:red;
+}
+
+.theme-light .selectedIcon *{
+  color:white;
+}
+
 
 .theme-light .NotePresentationDiv{
 

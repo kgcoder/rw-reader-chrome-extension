@@ -11,7 +11,7 @@ https://github.com/kgcoder/default-web
 */
 
 import g from './Globals.js'
-import { cleanConnectedDocURL, createOneIconComponent, getDataFromCondocXML, getDesiredConnectionsFromHdocDataJson, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, getTextFromDiv, hideUrlInTheCorner, isDotInsideFrame, isoToHumanReadableDate, removeAllChildren, sanitizeHtml, showToastMessage, showUrlInTheCorner } from './helpers.js'
+import { cleanConnectedDocURL, createOneIconComponent, createOneSVGIconComponent, getDataFromCondocXML, getDesiredConnectionsFromHdocDataJson, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, getTextFromDiv, hideUrlInTheCorner, isDotInsideFrame, isoToHumanReadableDate, removeAllChildren, sanitizeHtml, showToastMessage, showUrlInTheCorner } from './helpers.js'
 import PageInfoManager from './PageInfoManager.js'
 import CollageViewer from './CollageViewer.js'
 import { kColorsForFlinks } from './constants.js'
@@ -141,7 +141,8 @@ class PopupDocumentManager{
       
     
         const closeButton = document.getElementById("CurrentDocumentCloseButton")
-        this.createOneIconComponent(closeButton,iconPaths.ic_close,'Reader-CloseButton')
+        this.createOneSVGIconComponent(closeButton,g.iconsInfo.svgIcons.closeIcon,'Reader-CloseButton')
+
         closeButton.addEventListener('click', (e) => {
             e.stopPropagation()
             window.postMessage({ type: "RELOAD_PAGE" }, "*");
@@ -155,34 +156,41 @@ class PopupDocumentManager{
 
     
         const infoButton = document.getElementById("CurrentDocumentInfoButton")
-        this.createOneIconComponent(infoButton,iconPaths.ic_info,'Reader-InfoButton')
+        this.createOneSVGIconComponent(infoButton,g.iconsInfo.svgIcons.infoIcon,'Reader-InfoButton')
         infoButton.addEventListener('click', this.infoButtonPressed)
         
         const downloadAllButton = document.getElementById("CurrentDocumentDownloadAllDocsButton")
-        this.createOneIconComponent(downloadAllButton,iconPaths.ic_download_all,'Reader-DownloadAllButton')
+
+
+        this.createOneSVGIconComponent(downloadAllButton,g.iconsInfo.svgIcons.downloadAll,'Reader-DownloadAllButton')
         downloadAllButton.addEventListener('click',g.readingManager.downloadAllPages)
     
         const fullScreenButton = document.getElementById("CurrentDocumentFullScreenButton")
-        this.createOneIconComponent(fullScreenButton,iconPaths.ic_fullscreen_close,'Reader-FullscreenButton')
+        this.createOneSVGIconComponent(fullScreenButton,g.iconsInfo.svgIcons.fullscreenOffIcon,'Reader-FullscreenButton')
+
         fullScreenButton.addEventListener('click', this.fullScreenButtonPressed)
         fullScreenButton.style.display = 'none'
     
         const exportButton = document.getElementById("CurrentDocumentExportButton")
-        this.createOneIconComponent(exportButton,iconPaths.ic_export,'Reader-ExportButton')
+        this.createOneSVGIconComponent(exportButton,g.iconsInfo.svgIcons.exportIcon,'Reader-ExportButton')
+
         exportButton.addEventListener('click', this.exportButtonPressed)
         exportButton.style.display = 'none'
 
         const sourceCodeButton = document.getElementById("CurrentDocumentSourceCodeButton")
-        this.createOneIconComponent(sourceCodeButton,iconPaths.ic_source_code,'Reader-SourceCodeButton')
+        this.createOneSVGIconComponent(sourceCodeButton,g.iconsInfo.svgIcons.sourceCode,'Reader-SourceCodeButton')
+
         sourceCodeButton.addEventListener('click', this.sourceCodeButtonPressed)
         
         const centerCollageButton = document.getElementById("CurrentDocumentCenterCollageButton")
-        this.createOneIconComponent(centerCollageButton,iconPaths.ic_frame,'Reader-CenterCollageButton')
+        this.createOneSVGIconComponent(centerCollageButton,g.iconsInfo.svgIcons.frameIcon,'Reader-CenterCollageButton')
+
         centerCollageButton.addEventListener('click',this.leftDocCenterCollagePressed)
         centerCollageButton.style.display = 'none'
 
         const currentDocumentEmbeddingSymbol = document.getElementById("CurrentDocumentEmbeddingSymbol")
-        this.createOneIconComponent(currentDocumentEmbeddingSymbol, iconPaths.ic_exclamation, 'Reader-LeftTitleEmbeddingSymbol')
+        this.createOneSVGIconComponent(currentDocumentEmbeddingSymbol,g.iconsInfo.svgIcons.exclamationIcon)
+
         currentDocumentEmbeddingSymbol.style.display = 'none'
     
 
@@ -328,7 +336,7 @@ class PopupDocumentManager{
         })
     
         const flinksOpenButton = document.getElementById("LinksOpenButton")
-        this.createOneIconComponent(flinksOpenButton,iconPaths.ic_flinks_list_button,'Reader-FlinksOpenButton',30,15)
+        this.createOneSVGIconComponent(flinksOpenButton,g.iconsInfo.svgIcons.flinksButton,'Reader-FlinksOpenButton')
         flinksOpenButton.addEventListener('click', (e) => {
             e.stopPropagation()
             this.toggleFlinksList()
@@ -365,32 +373,37 @@ class PopupDocumentManager{
     
     
         const leftDocumentLeftPanelButton = document.getElementById("CurrentDocumentLeftPanelButton")
-        this.createOneIconComponent(leftDocumentLeftPanelButton,iconPaths.ic_left_panel,'Reader-LeftDocLeftPanelButton')
+        this.createOneSVGIconComponent(leftDocumentLeftPanelButton,g.iconsInfo.svgIcons.leftPanelIcon,'Reader-LeftDocLeftPanelButton')
+
         leftDocumentLeftPanelButton.addEventListener('click', this.leftDocumentLeftPanelButtonPressed)
         leftDocumentLeftPanelButton.style.display = 'none'
     
         const leftDocumentRightPanelButton = document.getElementById("CurrentDocumentRightPanelButton")
-        this.createOneIconComponent(leftDocumentRightPanelButton,iconPaths.ic_right_panel,'Reader-LeftDocRightPanelButton')
+        this.createOneSVGIconComponent(leftDocumentRightPanelButton,g.iconsInfo.svgIcons.rightPanelIcon,'Reader-LeftDocRightPanelButton')
+
         leftDocumentRightPanelButton.addEventListener('click', this.leftDocumentRightPanelButtonPressed)
         leftDocumentRightPanelButton.style.display = 'none'
     
         const rightDocumentSourceCodeButton = document.getElementById("RightDocumentSourceCodeButton")
-        this.createOneIconComponent(rightDocumentSourceCodeButton,iconPaths.ic_source_code,'Reader-RightDocSourceCodeButton')
+        this.createOneSVGIconComponent(rightDocumentSourceCodeButton,g.iconsInfo.svgIcons.sourceCode,'Reader-RightDocSourceCodeButton')
         rightDocumentSourceCodeButton.addEventListener('click',this.rightDocumentSourceCodeButtonPressed)
     
 
         const rightDocumentCenterCollageButton = document.getElementById("RightDocumentCenterCollageButton")
-        this.createOneIconComponent(rightDocumentCenterCollageButton,iconPaths.ic_frame,'Reader-rightDocumentCenterCollageButton')
+        this.createOneSVGIconComponent(rightDocumentCenterCollageButton,g.iconsInfo.svgIcons.frameIcon,'Reader-rightDocumentCenterCollageButton')
+
         rightDocumentCenterCollageButton.addEventListener('click', this.rightDocCenterCollagePressed)
         rightDocumentCenterCollageButton.style.display = 'none'
     
         const rightDocumentLeftPanelButton = document.getElementById("RightDocumentLeftPanelButton")
-        this.createOneIconComponent(rightDocumentLeftPanelButton,iconPaths.ic_left_panel,'Reader-RightDocLeftPanelButton')
+        this.createOneSVGIconComponent(rightDocumentLeftPanelButton,g.iconsInfo.svgIcons.leftPanelIcon,'Reader-RightDocLeftPanelButton')
+
         rightDocumentLeftPanelButton.addEventListener('click',this.rightDocumentLeftPanelButtonPressed)
     
     
         const rightDocumentRightPanelButton = document.getElementById("RightDocumentRightPanelButton")
-        this.createOneIconComponent(rightDocumentRightPanelButton,iconPaths.ic_right_panel,'Reader-RightDocRightPanelButton')
+        this.createOneSVGIconComponent(rightDocumentRightPanelButton,g.iconsInfo.svgIcons.rightPanelIcon,'Reader-RightDocRightPanelButton')
+
         rightDocumentRightPanelButton.addEventListener('click',this.rightDocumentRightPanelButtonPressed)
     
     
@@ -1406,11 +1419,10 @@ class PopupDocumentManager{
         this.isLeftExporting = !this.isLeftExporting
 
         const buttonDiv = document.getElementById("CurrentDocumentExportButton")
-        removeAllChildren(buttonDiv)
-        const iconPaths = g.iconsInfo.iconPaths
+  
+       if(!this.isLeftExporting) buttonDiv.classList.remove('selectedIcon')
+        else buttonDiv.classList.add('selectedIcon')
 
-        const iconPath = this.isLeftExporting ? iconPaths.ic_export_white : iconPaths.ic_export
-        this.createOneIconComponent(buttonDiv,iconPath,'CurrentDocumentExportButton',24)
 
         buttonDiv.style.backgroundColor = this.isLeftExporting ? 'rgb(72, 77, 233)' : 'transparent'
 
@@ -1448,12 +1460,8 @@ class PopupDocumentManager{
         this.isLeftSourceCodeShowing = !this.isLeftSourceCodeShowing
 
         const buttonDiv = document.getElementById("CurrentDocumentSourceCodeButton")
-        removeAllChildren(buttonDiv)
-        const iconPaths = g.iconsInfo.iconPaths
-
-        const iconPath = this.isLeftSourceCodeShowing ? iconPaths.ic_source_code_white : iconPaths.ic_source_code
-        this.createOneIconComponent(buttonDiv,iconPath,'CurrentDocumentSourceCodeButton',24)
-
+ 
+        buttonDiv.style.color = this.isLeftSourceCodeShowing ? 'white' : 'red'
         buttonDiv.style.backgroundColor = this.isLeftSourceCodeShowing ? 'rgb(72, 77, 233)' : 'transparent'
 
 
@@ -1477,12 +1485,8 @@ class PopupDocumentManager{
         this.isRightSourceCodeShowing = !this.isRightSourceCodeShowing
 
         const buttonDiv = document.getElementById("RightDocumentSourceCodeButton")
-        removeAllChildren(buttonDiv)
-        const iconPaths = g.iconsInfo.iconPaths
-
-        const iconPath = this.isRightSourceCodeShowing ? iconPaths.ic_source_code_white : iconPaths.ic_source_code
-        this.createOneIconComponent(buttonDiv,iconPath,'RightDocumentSourceCodeButton',24)
-
+  
+        buttonDiv.style.color = '#0000ff'//this.isRightSourceCodeShowing ? 'white' : undefined
         buttonDiv.style.backgroundColor = this.isRightSourceCodeShowing ? 'rgb(72, 77, 233)' : 'transparent'
 
 
@@ -1582,8 +1586,8 @@ class PopupDocumentManager{
 
         const iconPaths = g.iconsInfo.iconPaths
 
-        const newIcon = g.readingManager.isFullScreen ? iconPaths.ic_fullscreen_close : iconPaths.ic_fullscreen_open
-        this.createOneIconComponent(fullScreenButton,newIcon,'Reader-FullscreenButton')
+        const newIcon = g.readingManager.isFullScreen ? g.iconsInfo.svgIcons.fullscreenOffIcon : g.iconsInfo.svgIcons.fullscreenOnIcon
+        this.createOneSVGIconComponent(fullScreenButton,newIcon,'Reader-FullscreenButton')
 
 
         this.updateLeftDocumentPanels()
@@ -1640,14 +1644,12 @@ class PopupDocumentManager{
         
         buttonDivWrapper.style.backgroundColor = this.isShowingInfo ? 'rgb(72, 77, 233)' : 'transparent'
         
+        if(!this.isShowingInfo) buttonDivWrapper.classList.remove('selectedIcon')
+        else buttonDivWrapper.classList.add('selectedIcon')
     
-        while (buttonDiv.firstChild) {
-            buttonDiv.removeChild(buttonDiv.firstChild)
-        }
-        const iconPath = this.isShowingInfo ? iconPaths.ic_info_white : iconPaths.ic_info
-        this.createOneIconComponent(buttonDiv, iconPath, 'CurrentDocumentInfoButton', 24)
-        
-        
+        const oldCountDiv = document.getElementById("CurrentDocumentInfoButtonCountDiv")
+        if(oldCountDiv)oldCountDiv.remove()
+   
         const newCountDiv = document.createElement('div')
         newCountDiv.id = "CurrentDocumentInfoButtonCountDiv"
         newCountDiv.className = "CurrentDocumentTopButtonCountDiv"
@@ -1719,7 +1721,7 @@ class PopupDocumentManager{
         const docWidth = g.readingManager.docWidth// ( screenWidth - kMiddleGap) / 2
         const rightDocLeft = docWidth + kMiddleGap
 
-        allDocumentsContainer.style.backgroundColor = !g.readingManager.isFullScreen ? 'lightGray' : 'transparent'
+      //  allDocumentsContainer.style.backgroundColor = !g.readingManager.isFullScreen ? 'lightGray' : 'transparent'
         allDocumentsContainer.style.pointerEvents = !g.readingManager.isFullScreen ? 'all' : 'none'
 
         allRightDocumentsContainer.style.width = `${docWidth}px`
@@ -2578,7 +2580,13 @@ class PopupDocumentManager{
 
 
      createOneIconComponent(parent,iconPath,componentId,width = 24,height = 0){
+
         createOneIconComponent(parent,iconPath,componentId,'Reader-OneIconComponent',width,height)
+     }
+
+     createOneSVGIconComponent(parent,svgString,componentId){
+
+        createOneSVGIconComponent(parent,svgString,componentId,'Reader-OneIconComponent')
      }
      
 

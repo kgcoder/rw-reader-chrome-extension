@@ -74,7 +74,7 @@ class CollageViewer{
         this.canvas.width = this.canvasWidth
         this.canvas.height = this.canvasHeight
 
-        this.canvas.style.backgroundColor = themeColors.squareBackground
+        // this.canvas.style.backgroundColor = themeColors.squareBackground
 
 
         

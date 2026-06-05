@@ -25,10 +25,16 @@ export function timestamp() {
 
 export async function setTheme(themeName, shouldSave = false) {
 
+    const allDocumentsContainer = document.getElementById('AllDocumentsContainer')
+
+    const currentDocumentTopBar = document.getElementById('CurrentDocumentTopBar')
+    const currentDocumentTopBarRow = document.getElementById('CurrentDocumentTopBarRow')
+    const rightDocumentsTopBar = document.getElementById('RightDocumentsTopBar')
+
     const columnDivs = document.getElementsByClassName('DocumentColumn')
     const sidePanelDivs = document.getElementsByClassName('DocumentSidePanel')
     const multipleFlinksPopup = document.getElementById('multiple-links-popup')
-    for (const div of [...columnDivs,...sidePanelDivs,multipleFlinksPopup]) {
+    for (const div of [allDocumentsContainer,currentDocumentTopBar, rightDocumentsTopBar, currentDocumentTopBarRow,...columnDivs,...sidePanelDivs,multipleFlinksPopup]) {
         // Remove any existing theme-* class
         div.classList.forEach(cls => {
         if (cls.startsWith('theme-')) {
@@ -70,6 +76,21 @@ export function createOneIconComponent(parent,iconPath,componentId,className,wid
     parent.appendChild(div)
     return div
 }
+
+export function createOneSVGIconComponent(parent,svgString,componentId,className){
+    const div = document.createElement('div')
+
+    
+    if(componentId){
+        div.id = componentId
+
+    }
+    div.className = className
+    div.innerHTML = svgString
+    parent.appendChild(div)
+    return div
+}
+
 
 
 

@@ -471,6 +471,8 @@ class ReadingManager {
          canvas.className = "OneCollageCanvas"
          //canvas.style.width = `${this.docWidth}px`
 
+        //  canvas.style.backgroundColor = 'red'
+
          div.appendChild(canvas)
 
          const leftX = g.readingManager.docWidth + kMiddleGap
