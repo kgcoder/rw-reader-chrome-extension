@@ -1888,4 +1888,7 @@ div.MenuHorizontalLine {
     cursor: pointer;
     text-decoration: none;
     color:black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

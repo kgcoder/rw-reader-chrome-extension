@@ -2065,7 +2065,7 @@ class ReadingManager {
           
                 if(currentlyPressedLink){
                     event.preventDefault()
-                    const text = currentlyPressedLink.innerText
+                    let text = currentlyPressedLink.innerText
                     if(text.length > 30){
                         text = text.slice(0,30).trim() + '...'
                     }
@@ -2203,7 +2203,7 @@ class ReadingManager {
           
                 if(currentlyPressedLink){
                     event.preventDefault()
-                    const text = currentlyPressedLink.innerText
+                    let text = currentlyPressedLink.innerText
                     if(text.length > 30){
                         text = text.slice(0,30).trim() + '...'
                     }
