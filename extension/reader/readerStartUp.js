@@ -50,6 +50,33 @@ window.addEventListener('initReader', async (e) => {
     }
 
 
+    const mainContainer = document.getElementById("AllDocumentsContainer");
+    const container = mainContainer.parentElement
+    
+    //snapping
+    container.addEventListener('scroll',() => {
+        if (g.pdm.isFlinksListOpen) {
+            g.pdm.toggleFlinksList()
+        }
+    })
+
+    container.addEventListener('scrollend', () => {
+        const halfway = container.scrollWidth / 4;
+
+        if (container.scrollLeft > halfway) {
+            container.scrollTo({
+            left: container.scrollWidth,
+            behavior: 'smooth'
+            });
+        } else {
+            container.scrollTo({
+            left: 0,
+            behavior: 'smooth'
+            });
+        }
+    });
+
+
     if(!dataObject){
       setTimeout(() => {
         window.postMessage({ type: "RELOAD_PAGE" }, "*")

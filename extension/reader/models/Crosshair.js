@@ -70,7 +70,7 @@ class Crosshair {
 
       if(g.readingManager.isReading)return
 
-      const mouseAbsX = this.x / g.k + g.viewport.origin.x
+      const mouseAbsX = this.x / g.k + g.viewport.origin.x - g.pdm.getMainLeftOffset()
       const mouseAbsY = this.y / g.k + g.viewport.origin.y
 
       for(let square of selectionManager.squaresWithSelections){

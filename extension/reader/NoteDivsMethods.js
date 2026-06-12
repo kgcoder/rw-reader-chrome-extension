@@ -13,7 +13,7 @@ https://github.com/kgcoder/default-web
 import g from "./Globals.js"
 import { getHeaderInfoFromXML, populateHeaderDiv } from "./HeaderMethods.js"
 import { absolutizeUrls, escapeHTML, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, replaceMediaTagsWithLinksInDiv, scrollToIdInContainer, stickBottomLineRectToTheTopOne } from "./helpers.js"
-import { kMiddleGap } from "./PopupDocumentManager.js"
+import { kMiddleGap, kMinDocWidthForDesktop } from "./PopupDocumentManager.js"
 
 
 
@@ -87,10 +87,10 @@ class NoteDivsManager{
 
 
         const screenWidth = window.innerWidth
-        g.readingManager.docWidth = g.readingManager.isFullScreen && !isRight ? screenWidth : (screenWidth - kMiddleGap) / 2// g.readingManager.docWidth
+        //g.readingManager.docWidth = g.readingManager.isFullScreen && !isRight ? screenWidth : (screenWidth - kMiddleGap) / 2// g.readingManager.docWidth
 
         let maxImageWidth
-        if (g.readingManager.isFullScreen && !isRight) {
+        if (g.readingManager.isFullScreen && !isRight && screenWidth > kMinDocWidthForDesktop) {
             maxImageWidth = g.readingManager.docWidth * 0.6
         } else {
             maxImageWidth = g.readingManager.docWidth - 20 - 30
@@ -105,10 +105,20 @@ class NoteDivsManager{
          
         const iframes = notePresentationDiv.querySelectorAll('iframe')
         
+        // iframes.forEach(iframe => {
+        //     const placeholder = this.createIframePlaceholder(iframe,flinksData);
+        //     iframe.parentNode.replaceChild(placeholder, iframe);
+        // });
+
+        
         iframes.forEach(iframe => {
-            const placeholder = this.createIframePlaceholder(iframe,flinksData);
-            iframe.parentNode.replaceChild(placeholder, iframe);
+            const w = iframe.getAttribute('width')
+            const h = iframe.getAttribute('height')
+            iframe.style.width = '100%'
+            iframe.style.height = 'auto'
+            iframe.style.aspectRatio = (w && h) ? `${w} / ${h}` : '16 / 9'
         });
+
 
         replaceMediaTagsWithLinksInDiv(notePresentationDiv,'audio')
         replaceMediaTagsWithLinksInDiv(notePresentationDiv,'video')
@@ -965,7 +975,8 @@ class NoteDivsManager{
             let width
 
 
-            const padding = window.innerWidth * 0.2 - 10
+           // const padding = window.innerWidth * 0.2 - 10
+            const padding = (g.mainPadding.includes('%') ? parseFloat(g.mainPadding) * window.innerWidth / 100.0 : parseFloat(g.mainPadding)) - 10 
             const rightX = window.innerWidth - padding - 10
 
             if (isFirst && isLast) {

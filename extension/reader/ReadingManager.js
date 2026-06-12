@@ -84,6 +84,20 @@ class ReadingManager {
         
 }
 
+setupFlinksCanvasDPR(){
+    const dpr = window.devicePixelRatio || 1
+    // Get the size of the canvas in CSS pixels.
+    const canvasRect = g.flinksCanvas.getBoundingClientRect()
+   // console.log('canvasRect',canvasRect)
+    g.flinksCanvas.width = canvasRect.width * dpr
+    g.flinksCanvas.height = canvasRect.height * dpr
+
+   // g.flinksCtx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+    g.flinksCtx.scale(dpr, dpr)
+}
+
+
 
      removeFlinksFromMainDiv(){
         const canvases = document.getElementsByClassName('leftDocFlinkCanvas')
@@ -589,6 +603,8 @@ class ReadingManager {
 
                   
         this.removeFlinksFromMiddleCanvas()
+        this.setupFlinksCanvasDPR()
+
         if((this.mainDocType === 'h' && this.isFullScreen) || g.pdm.isShowingInfo || g.pdm.isLeftSourceCodeShowing)return
 
         if (!g.pdm.isOkToShowFlinks()) return

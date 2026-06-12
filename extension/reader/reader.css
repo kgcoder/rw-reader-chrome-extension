@@ -6,12 +6,19 @@ body {
     overflow: hidden;
     background-color: white;
     height: 100%;
+    width: 100%;
     flex: 1;
     padding: 0;
     margin: 0;
-    touch-action: none;
-    overscroll-behavior-x: none;
+    position: fixed;
+    
+    
+}
 
+body {
+    touch-action: auto;
+    overscroll-behavior-x: none;
+    overflow-x: auto;
 
 }
 
@@ -92,7 +99,19 @@ canvas {
     border-bottom-width: 1px;
     border-bottom-color: rgba(37, 38, 39, 0.2);
     box-sizing: border-box;
+    pointer-events: all;
+
 }
+
+#middle-space-div {
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    touch-action: auto;
+    pointer-events: all;
+}
+
+
 
 #LinksListContainerDiv {
     display: none;
@@ -1068,16 +1087,15 @@ code {
 
 #AllDocumentsContainer {
     display: flex;
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     box-sizing: border-box;
 
-    /* background-color: yellow; */
     pointer-events: none;
-    z-index: 142000;
+    z-index: 0;
 }
 
 #OneDocumentContainer {
@@ -1137,6 +1155,8 @@ code {
 
 
     min-height: 100%;
+
+    overflow-x: hidden;
 
     /* overflow: hidden; */
 
@@ -1366,6 +1386,9 @@ a.TopPanelOptionLink:hover {
     padding: 20px;
     z-index: 2;
     box-sizing: border-box;
+    white-space: normal;
+    min-width: 0;
+
 }
 
 .CurrentDocumentTopButtonCountDiv {
@@ -1544,7 +1567,8 @@ a.TopPanelOptionLink:hover {
 .OneCollageCanvas {
     display: flex;
     flex: 1;
-    background-color: blue;
+    touch-action: none;
+
 }
 
 .DocumentTopBarButton {

@@ -20,7 +20,8 @@ import ExportPageManager from './ExportPageManager.js'
 import { loadStaticContentFromUrl } from './parsers/ParsingManager.js'
 import { hideMultipleLinksPopup } from './MultipleLinksPopupManager.js'
 
-export const kMiddleGap = 100
+export const kMiddleGap = 50
+export const kMinDocWidthForDesktop = 430
 export const kLeftDivTop = 60
 export const kRightDocsTabRowHeight = 20
 export const kRightDivTopBarHeight = 20
@@ -40,7 +41,7 @@ window.onresize = () => {
     g.pdm.updateConnectedDocumentsVisibility()
     const collectionDiv = document.getElementById("RightDocumentCollectionContainer")
     collectionDiv.style.width = `${g.readingManager.docWidth}px`
-    const columns = collectionDiv.querySelectorAll('.DocumentColumn')
+    const columns = collectionDiv.querySelectorAll('#AllRightDocumentsContainer .DocumentColumn')
     columns.forEach(columnDiv => {
         columnDiv.style.width = `${g.readingManager.docWidth}px`
     })
@@ -56,6 +57,14 @@ window.onresize = () => {
 
     const canvasTopDiv = document.getElementById('middle-canvas-topDiv')
     canvasTopDiv.style.left = `${g.readingManager.docWidth}px`
+
+    const middleSpaceDiv = document.getElementById("middle-space-div")
+
+    middleSpaceDiv.style.left = `${g.readingManager.docWidth}px`
+    middleSpaceDiv.style.top = '61px'
+    middleSpaceDiv.style.width = `${kMiddleGap}px`
+    middleSpaceDiv.style.bottom = 0
+
     
     if (g.readingManager.mainCollageViewer) {
         g.readingManager.mainCollageViewer.updateCanvasSize(g.readingManager.docWidth, kLeftDivTop, 0)
@@ -285,6 +294,8 @@ class PopupDocumentManager{
     
             const docWidth = g.readingManager.docWidth
     
+            const leftOffset = this.getMainLeftOffset()
+
 
             if (this.isFlinksListOpen) {
                 const flinksListDiv = document.getElementById("LinksListContainerDiv")
@@ -316,20 +327,21 @@ class PopupDocumentManager{
             }
 
     
+            const clickX = pageX - leftOffset
             
-            if(g.readingManager.isFullScreen || pageX < docWidth){
+            if(g.readingManager.isFullScreen || clickX < docWidth){
                 if( pageY > kLeftDivTop){
                     
-                    g.readingManager.handleTouchInMainDoc(pageX,pageY,this.currentLink)
+                    g.readingManager.handleTouchInMainDoc(clickX,pageY,this.currentLink)
                 }
-            }else if(pageX > docWidth + kMiddleGap){
+            }else if(clickX > docWidth + kMiddleGap){
                 const rightTop = 50//kRightDocsTabRowHeight + (this.rightNotesData.length > 1 ? kRightDivTopBarHeight : 0)
                 if(pageY > rightTop){
-                    g.readingManager.handleTouchInRightDoc(pageX,pageY,this.currentLink)
+                    g.readingManager.handleTouchInRightDoc(clickX,pageY,this.currentLink)
                 }
             }else{
                 
-                g.readingManager.handleTouchInMiddleGap(pageX,pageY)
+                g.readingManager.handleTouchInMiddleGap(clickX,pageY)
             }
             
     
@@ -1545,15 +1557,47 @@ class PopupDocumentManager{
     }
 
     updateDocumentWidth() {
+         console.log('window',window)
+
+        const mainContainer = document.getElementById("AllDocumentsContainer");
+        const mainContainerRect = mainContainer.getBoundingClientRect();
+        g.adminBarHeight = mainContainerRect.top
+
+
         const screenWidth = window.innerWidth
-        g.readingManager.docWidth = (screenWidth - kMiddleGap) / 2
+        let docWidth = (screenWidth - kMiddleGap) / 2
+        if(docWidth < kMinDocWidthForDesktop){
+            docWidth = screenWidth - kMiddleGap - 20
+            g.isMobileMode = true
+        }else{
+            g.isMobileMode = false
+        }
+        console.log('docWidth',docWidth)
+        g.readingManager.docWidth = docWidth
+        console.log('g.readingManager.docWidth',g.readingManager.docWidth)
+        const allDocumentsContainer = document.getElementById("AllDocumentsContainer")
+
+        console.log('screenWidth',screenWidth)
+        console.log('window.innerWidth',window.innerWidth)
+        console.log('window.devicePixelRatio',window.devicePixelRatio)
+        console.log('document.documentElement.clientWidth',document.documentElement.clientWidth)
+        console.log('window.visualViewport?.width',window.visualViewport?.width)
+        console.log('screen.width',screen.width)
+        
+
+     //   const allRightDocumentsContainer = document.getElementById("AllRightDocumentsContainer")
+
+        allDocumentsContainer.style.height = `${window.innerHeight - g.adminBarHeight}px`
+        allDocumentsContainer.style.width = `${g.readingManager.isFullScreen ? screenWidth : docWidth * 2 + kMiddleGap}px`
         const oneDocumentContainer = document.getElementById("OneDocumentContainer")
         const currentDocumentDiv = document.getElementById("CurrentDocument")
-        const currentDocumentWidth = g.readingManager.isFullScreen ? window.innerWidth : g.readingManager.docWidth
+        const currentDocumentWidth = g.readingManager.isFullScreen ? screenWidth : g.readingManager.docWidth
         oneDocumentContainer.style.width = `${currentDocumentWidth}px`
 
         oneDocumentContainer.style.borderRightStyle = g.readingManager.isFullScreen ? 'none' : 'solid'
     
+
+    //   allRightDocumentsContainer.style.left = `${docWidth + kMiddleGap}px`
 
         currentDocumentDiv.style.width = `${currentDocumentWidth}px`
 
@@ -1564,10 +1608,14 @@ class PopupDocumentManager{
         const mainPresentationDiv = document.getElementById("CurrentDocumentMainDiv")
 
 
-        const mainPadding = this.isPaddingOn && g.readingManager.isFullScreen ? kBiggerPadding : kDefaultPadding
+        const mainPadding = this.isPaddingOn && g.readingManager.isFullScreen && screenWidth > kMinDocWidthForDesktop ? kBiggerPadding : kDefaultPadding
        
+        g.mainPadding = mainPadding
         mainPresentationDiv.style.paddingLeft = mainPadding
         mainPresentationDiv.style.paddingRight = mainPadding
+        mainPresentationDiv.style.width = `${currentDocumentWidth}px`
+
+
 
         const headerDiv = document.getElementById("CurrentDocumentHeader")
         headerDiv.style.paddingLeft = mainPadding
@@ -1710,19 +1758,19 @@ class PopupDocumentManager{
 
 
     async updateConnectedDocumentsVisibility() {
-        const allDocumentsContainer = document.getElementById("AllDocumentsContainer")
+       // const allDocumentsContainer = document.getElementById("AllDocumentsContainer")
         const allRightDocumentsContainer = document.getElementById("AllRightDocumentsContainer")
         
        // const screenWidth = window.innerWidth
 
          const screenWidth = window.innerWidth
-        g.readingManager.docWidth = (screenWidth - kMiddleGap) / 2// g.readingManager.docWidth
+       // g.readingManager.docWidth = (screenWidth - kMiddleGap) / 2// g.readingManager.docWidth
 
         const docWidth = g.readingManager.docWidth// ( screenWidth - kMiddleGap) / 2
         const rightDocLeft = docWidth + kMiddleGap
 
       //  allDocumentsContainer.style.backgroundColor = !g.readingManager.isFullScreen ? 'lightGray' : 'transparent'
-        allDocumentsContainer.style.pointerEvents = !g.readingManager.isFullScreen ? 'all' : 'none'
+      //  allDocumentsContainer.style.pointerEvents = !g.readingManager.isFullScreen ? 'all' : 'none'
 
         allRightDocumentsContainer.style.width = `${docWidth}px`
         allRightDocumentsContainer.style.left = `${rightDocLeft}px`
@@ -1760,7 +1808,7 @@ class PopupDocumentManager{
 
         g.flinksCanvas.style.left = 0
         g.flinksCanvas.style.top = `${kLeftDivTop + 1}px`
-        g.flinksCanvas.style.width = `${window.innerWidth}px`
+        g.flinksCanvas.style.width = `${g.readingManager.isFullScreen ? window.innerWidth : g.readingManager.docWidth * 2 + kMiddleGap}px`
         g.flinksCanvas.style.height = `${screenHeight - kLeftDivTop - 1}px`
    
         g.flinksCanvas.style.display = 'flex'
@@ -1788,6 +1836,14 @@ class PopupDocumentManager{
         canvasTopDiv.style.zIndex = 21
         canvasTopDiv.style.display = 'flex'
 
+        const middleSpaceDiv = document.getElementById("middle-space-div")
+
+        middleSpaceDiv.style.left = `${g.readingManager.docWidth}px`
+        middleSpaceDiv.style.top = '61px'
+        middleSpaceDiv.style.width = `${kMiddleGap}px`
+        middleSpaceDiv.style.bottom = 0
+        middleSpaceDiv.style.display = 'flex'
+
 
       //  this.showMiddleArrow()
 
@@ -1804,6 +1860,10 @@ class PopupDocumentManager{
 
         const canvasTopDiv = document.getElementById('middle-canvas-topDiv')
         canvasTopDiv.style.display = 'none'
+
+        const middleSpaceDiv = document.getElementById("middle-space-div")
+        middleSpaceDiv.style.display = 'none'
+
 
     }
 
@@ -1869,14 +1929,34 @@ class PopupDocumentManager{
     }
 
     openFlinksList = () => {
+        const kMaxListWidth = 600
+        const isFullscreenList = kMaxListWidth > window.innerWidth 
+        console.log('isFullscreenList',isFullscreenList)
         const iconPaths = g.iconsInfo.iconPaths
         const flinksListContainerDiv = document.getElementById("LinksListContainerDiv")
-        const flinksContainerWidth = 600
+        const flinksContainerWidth = isFullscreenList ? window.innerWidth : kMaxListWidth 
         flinksListContainerDiv.style.top = (kLeftDivTop + 1) + 'px'
-        flinksListContainerDiv.style.left = `${g.readingManager.docWidth + kMiddleGap / 2 - flinksContainerWidth / 2}px`
-        
+        flinksListContainerDiv.style.width = `${isFullscreenList ? window.innerWidth : kMaxListWidth}px`
         flinksListContainerDiv.style.maxHeight = `${window.innerHeight - kLeftDivTop}px`
         
+
+        if(g.isMobileMode){
+            console.log('g.isMobileMode && !isFullscreenList',this.getMainLeftOffset())
+            const leftOffset = this.getMainLeftOffset()
+            if(leftOffset >=0){
+
+               flinksListContainerDiv.style.left = ''
+               flinksListContainerDiv.style.right = '0px'
+            }else{
+                flinksListContainerDiv.style.left = `${-leftOffset}px`
+                flinksListContainerDiv.style.right = ''
+
+            }
+        }else{
+            flinksListContainerDiv.style.left = `${g.readingManager.docWidth + kMiddleGap / 2 - flinksContainerWidth / 2}px`
+            flinksListContainerDiv.style.right = ''
+        }
+
         const topRowContainer = document.getElementById("LinksListTopRow")
         
         
@@ -2685,6 +2765,12 @@ class PopupDocumentManager{
     hideMainDocSpinner() {
       const spinner = document.getElementById('mainDocSpinner');
       spinner.style.display = 'none';
+    }
+
+    getMainLeftOffset(){
+        const allDocumentsContainer = document.getElementById("AllDocumentsContainer")
+        const rect = allDocumentsContainer.getBoundingClientRect();
+        return rect.left
     }
 
 
