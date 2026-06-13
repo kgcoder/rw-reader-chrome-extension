@@ -68,6 +68,7 @@ async function getSavedParsingRulesForLocation(locationString){
 
 async function onLoad() {
     
+    console.log('extension onload')
     currentLocation = window.location.toString()
 
     if (currentLocation.includes('#')) {
@@ -121,8 +122,10 @@ async function onLoad() {
 
 
     const result = await chrome.storage.local.get('justReloaded')
+    console.log('just reloaded result',result)
     const justReloaded = !!result.justReloaded
 
+    console.log('extension just reloaded',justReloaded)
     if (justReloaded) {
         chrome.storage.local.set({ justReloaded: false });
     } else {
@@ -232,6 +235,10 @@ async function saveSkipConfirmation(skipConfirmation) {
 
 async function showReaderOverlay() {
 
+    console.log('showReaderOverlay')
+    let isEmbeddedCdoc = false
+    let isEmbeddedCondoc = false
+
     const useThickLinks = await getLinkThicknessFromStorage()
     skipConfirmation = await getSkipConfirmationFromStorage()
 
@@ -271,6 +278,7 @@ async function showReaderOverlay() {
     let isOnePre = false
     if (!theTitle || !contentEl) {
 
+        console.log('inside if')
         contentString = document.body.innerHTML
         const pres = document.querySelectorAll('pre')
         if(pres && pres.length === 1){
@@ -286,8 +294,34 @@ async function showReaderOverlay() {
         const condocMatch = contentString.match(/<condoc\b[^>]*>([\s\S]*?)<\/condoc>/im)
 
 
+        try {
+            const embeddedCdocScript = document.querySelector('#cdoc-source')
+            const source = JSON.parse(embeddedCdocScript.textContent).source;
+            if(source){
+                isEmbeddedCdoc = true
+                contentString = '<html><body>' + document.body.innerHTML + '</body></html>'
+            }
+        } catch {
+            //do nothing
+        }
 
-        if (!textViewMatch && !collageMatch && !condocMatch) {
+        try {
+            const embeddedCondocScript = document.querySelector('#condoc-source')
+            console.log('condoc script',embeddedCondocScript)
+            const source = JSON.parse(embeddedCondocScript.textContent).source;
+            if(source){
+                isEmbeddedCondoc = true
+                contentString = '<html><body>' + document.body.innerHTML + '</body></html>'
+            }
+        } catch {
+            //do nothing
+        }
+    
+
+        console.log({isEmbeddedCdoc,isEmbeddedCondoc})
+
+
+        if (!textViewMatch && !collageMatch && !condocMatch && !isEmbeddedCdoc && !isEmbeddedCondoc) {
             const result = await chrome.storage.local.get('useSavedParsingRules')
             if(result.useSavedParsingRules){
                 await chrome.storage.local.set({useSavedParsingRules:false})
@@ -303,14 +337,11 @@ async function showReaderOverlay() {
         
 
 
-    } else if (contentEl) {
-        const flinksButton = contentEl.querySelector('.HasFlinksButton,.HasFlinksEl')
-        if (flinksButton) flinksButton.remove()
-        
     }
         
     if(!contentString)contentString = document.documentElement.outerHTML
 
+    console.log('content string in content.js',contentString)
     if(savedParsingRules && savedParsingRules !== 'text'){
         const selectors = getSelectorsFromConfigString(savedParsingRules)
 
@@ -348,10 +379,10 @@ async function showReaderOverlay() {
   <body><div id="my-reader">Loading...</div></body>
 `;
     for (const script of document.scripts) {
-  script.remove();
-}
-document.write = () => {};
-    
+        script.remove();
+    }
+
+    document.write = () => {};
     
 
 
@@ -365,6 +396,8 @@ document.write = () => {};
     script.type = "module";
     script.src = chrome.runtime.getURL('reader/readerStartUp.js');
     script.onload = () => {
+
+        console.log('will load')
         window.dispatchEvent(new CustomEvent('initReader', {detail:{ contentString, url:currentLocation, useThickLinks, savedParsingRules }}));
     };
     document.body.appendChild(script);

@@ -68,6 +68,10 @@ class ExportPageManager{
                 return 'Source code (CDOC)'
             case 7:
                 return 'Source code (CONDOC)'
+            case 8:
+                return 'Source code (generated locally using embedded CDOC data)'
+            case 9:
+                return 'Source code (generated locally using embedded CONDOC data)'
             default:
                 return 'Source code'
         }

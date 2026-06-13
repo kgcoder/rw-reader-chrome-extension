@@ -42,8 +42,14 @@ window.addEventListener('initReader', async (e) => {
     const { url, contentString, useThickLinks, savedParsingRules } = e.detail;
     g.readingManager.flinkStyle = useThickLinks ? 'thick' : 'thin'
     mainDocData = e.detail
+
+
+
+    console.log('passing content string',contentString)
     
     const {dataObject,error} = await parseStaticContent(contentString,url, savedParsingRules)
+
+    console.log('dataObject inside',dataObject)
 
     if(dataObject && !error){
         loadUIAndIcons()
