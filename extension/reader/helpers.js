@@ -31,10 +31,14 @@ export async function setTheme(themeName, shouldSave = false) {
     const currentDocumentTopBarRow = document.getElementById('CurrentDocumentTopBarRow')
     const rightDocumentsTopBar = document.getElementById('RightDocumentsTopBar')
 
+
     const columnDivs = document.getElementsByClassName('DocumentColumn')
     const sidePanelDivs = document.getElementsByClassName('DocumentSidePanel')
     const multipleFlinksPopup = document.getElementById('multiple-links-popup')
-    for (const div of [allDocumentsContainer,currentDocumentTopBar, rightDocumentsTopBar, currentDocumentTopBarRow,...columnDivs,...sidePanelDivs,multipleFlinksPopup]) {
+    
+    const linksListContainerDiv = document.getElementById('LinksListContainerDiv')
+    
+    for (const div of [allDocumentsContainer,currentDocumentTopBar, rightDocumentsTopBar, currentDocumentTopBarRow,linksListContainerDiv,...columnDivs,...sidePanelDivs,multipleFlinksPopup]) {
         // Remove any existing theme-* class
         div.classList.forEach(cls => {
         if (cls.startsWith('theme-')) {
@@ -69,7 +73,9 @@ export function createOneIconComponent(parent,iconPath,componentId,className,wid
         div.id = componentId
 
     }
+
     div.className = className
+    
     div.innerHTML = `
         <img src="${iconPath}" width="${width}px" height="${height}px" />
     `

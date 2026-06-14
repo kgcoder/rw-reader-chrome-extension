@@ -42,6 +42,7 @@ class ExportPageManager{
         const containerHeight =  window.innerHeight - kLeftDivTop
         mainDiv.style.height = containerHeight + 'px'
 
+        console.log('render source')
 
         let text = noteData.xmlString
         
@@ -84,8 +85,6 @@ class ExportPageManager{
         const infoDiv = document.getElementById("CurrentDocumentExportContainer")
         removeAllChildren(infoDiv)
 
-        
-        
         const containerHeight =  window.innerHeight - kLeftDivTop
         infoDiv.style.height = containerHeight + 'px'
         
@@ -275,12 +274,12 @@ class ExportPageManager{
         rightButton.classList.remove("linkInputTypeUnselectedButton")
 
         const sourceCodeTextDiv = document.querySelector("#SourceCodeTextDiv")
-        sourceCodeTextDiv.innerText = g.readingManager.embeddedDocData.xmlString
+        sourceCodeTextDiv.textContent = g.readingManager.embeddedDocData.xmlString
 
         const titleEl = document.querySelector("#SourceCodeTitleDiv")
 
 
-        titleEl.innerText = this.getSourceCodeTitleByDocSybtype(g.readingManager.embeddedDocData.docSubtype)
+        titleEl.textContent = this.getSourceCodeTitleByDocSybtype(g.readingManager.embeddedDocData.docSubtype)
 
 
 

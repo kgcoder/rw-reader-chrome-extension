@@ -64,11 +64,6 @@ class IconsInfo{
             ic_audio: this.pathForImage("./images/documents/ic_audio.png"),
             ic_video: this.pathForImage("./images/documents/ic_video.png"),
         
-            ic_bucket_button: this.pathForImage("./images/reader/ic_bucket_button.png"),
-            ic_download: this.pathForImage("./images/reader/ic_download.png"),
-            ic_sort_triangle: this.pathForImage("./images/reader/ic_sort_triangle.png"),
-            ic_sort_triangle_light: this.pathForImage("./images/reader/ic_sort_triangle_light.png"),
-        
         }
 
     }
@@ -123,18 +118,27 @@ exportIcon:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="h
 <path d="M12.0006 15.4994C12.1863 15.4994 12.3641 15.4259 12.4954 15.2946C12.6266 15.1634 12.7008 14.9855 12.7008 14.7998V7.38926L14.5062 9.19465C14.6368 9.32853 14.8153 9.40466 15.003 9.40597C15.19 9.40662 15.3698 9.33312 15.5024 9.20055C15.6343 9.06798 15.7085 8.88816 15.7072 8.70112C15.7059 8.51408 15.6297 8.33491 15.4959 8.20432L12.4954 5.20459C12.4889 5.19802 12.4804 5.19671 12.4744 5.1908C12.2014 4.93092 11.7716 4.93748 11.5058 5.20459L8.50539 8.20432C8.23762 8.47864 8.24091 8.91704 8.51129 9.18808C8.78234 9.45912 9.22073 9.46174 9.49505 9.19464L11.3004 7.38926V14.7998C11.3004 14.9855 11.3746 15.1634 11.5059 15.2946C11.6371 15.4259 11.8148 15.4994 12.0006 15.4994Z" fill="currentColor"/>
 </svg>
 `,
-flinksButton:`<svg width="31" height="15" viewBox="0 0 31 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="12" height="3" rx="1.5" fill="currentColor"/>
-<rect y="6" width="12" height="3" rx="1.5" fill="currentColor"/>
-<rect y="12" width="12" height="3" rx="1.5" fill="currentColor"/>
-<rect x="19" width="12" height="3" rx="1.5" fill="currentColor"/>
-<rect x="19" y="6" width="12" height="3" rx="1.5" fill="currentColor"/>
-<rect x="19" y="12" width="12" height="3" rx="1.5" fill="currentColor"/>
-<circle cx="15.5" cy="1.5" r="1.5" fill="currentColor"/>
-<circle cx="15.5" cy="7.5" r="1.5" fill="currentColor"/>
-<circle cx="15.5" cy="13.5" r="1.5" fill="currentColor"/>
+flinksButton:`<svg width="25" height="13" viewBox="0 0 25 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="9.67742" height="2.41935" rx="1.20968" fill="currentColor"/>
+<rect y="4.83875" width="9.67742" height="2.41935" rx="1.20968" fill="currentColor"/>
+<rect y="9.67743" width="9.67742" height="2.41935" rx="1.20968" fill="currentColor"/>
+<rect x="15.3226" width="9.67742" height="2.41935" rx="1.20968" fill="currentColor"/>
+<rect x="15.3226" y="4.83875" width="9.67742" height="2.41935" rx="1.20968" fill="currentColor"/>
+<rect x="15.3226" y="9.67743" width="9.67742" height="2.41935" rx="1.20968" fill="currentColor"/>
+<circle cx="12.5" cy="1.20968" r="1.20968" fill="currentColor"/>
+<circle cx="12.5" cy="6.04842" r="1.20968" fill="currentColor"/>
+<circle cx="12.5" cy="10.8871" r="1.20968" fill="currentColor"/>
+</svg>`,
+triangleIcon:`<svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 18L1.6077 7.5L22.3923 7.5L12 18Z" fill="currentColor"/>
 </svg>
-`
+`,
+bucketIcon:`<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M28.9789 12.5H23.75V10.25C23.75 10.0511 23.671 9.86032 23.5303 9.71967C23.3897 9.57902 23.1989 9.5 23 9.5H17C16.8011 9.5 16.6103 9.57902 16.4697 9.71967C16.329 9.86032 16.25 10.0511 16.25 10.25V12.5H11.0211L11 14.375H12.5469L13.4886 29.0938C13.5124 29.4744 13.6804 29.8316 13.9582 30.0929C14.2361 30.3541 14.603 30.4997 14.9844 30.5H25.0156C25.3968 30.4999 25.7636 30.3548 26.0416 30.094C26.3196 29.8333 26.4879 29.4765 26.5123 29.0961L27.4531 14.375H29L28.9789 12.5ZM16.25 27.5L15.8281 15.5H17.375L17.7969 27.5H16.25ZM20.75 27.5H19.25V15.5H20.75V27.5ZM21.875 12.5H18.125V11.1875C18.125 11.1378 18.1448 11.0901 18.1799 11.0549C18.2151 11.0198 18.2628 11 18.3125 11H21.6875C21.7372 11 21.7849 11.0198 21.8201 11.0549C21.8552 11.0901 21.875 11.1378 21.875 11.1875V12.5ZM23.75 27.5H22.2031L22.625 15.5H24.1719L23.75 27.5Z" fill="currentColor"/>
+</svg>`,
+downloadButton: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 1.25C10.3452 1.25 10.625 1.52982 10.625 1.875V12.2411L12.6831 10.1831C12.9271 9.93898 13.3229 9.93898 13.5669 10.1831C13.811 10.4271 13.811 10.8229 13.5669 11.0669L10.4419 14.1919C10.1979 14.436 9.80214 14.436 9.55806 14.1919L6.43306 11.0669C6.18898 10.8229 6.18898 10.4271 6.43306 10.1831C6.67714 9.93898 7.07286 9.93898 7.31694 10.1831L9.375 12.2411V1.875C9.375 1.52982 9.65482 1.25 10 1.25ZM5.3125 7.5C5.06386 7.5 4.8254 7.59877 4.64959 7.77459C4.47377 7.9504 4.375 8.18886 4.375 8.4375V16.5625C4.375 16.8111 4.47377 17.0496 4.64959 17.2254C4.8254 17.4012 5.06386 17.5 5.3125 17.5H14.6875C14.9361 17.5 15.1746 17.4012 15.3504 17.2254C15.5262 17.0496 15.625 16.8111 15.625 16.5625V8.4375C15.625 8.18886 15.5262 7.9504 15.3504 7.77459C15.1746 7.59877 14.9361 7.5 14.6875 7.5H13.125C12.7798 7.5 12.5 7.22018 12.5 6.875C12.5 6.52982 12.7798 6.25 13.125 6.25H14.6875C15.2677 6.25 15.8241 6.48047 16.2343 6.8907C16.6445 7.30094 16.875 7.85734 16.875 8.4375V16.5625C16.875 17.1427 16.6445 17.6991 16.2343 18.1093C15.8241 18.5195 15.2677 18.75 14.6875 18.75H5.3125C4.73234 18.75 4.17594 18.5195 3.7657 18.1093C3.35547 17.6991 3.125 17.1427 3.125 16.5625V8.4375C3.125 7.85734 3.35547 7.30094 3.7657 6.8907C4.17594 6.48047 4.73234 6.25 5.3125 6.25H6.875C7.22018 6.25 7.5 6.52982 7.5 6.875C7.5 7.22018 7.22018 7.5 6.875 7.5H5.3125Z" fill="currentColor"/>
+</svg>`
 
    }
     

@@ -1012,6 +1012,7 @@ code {
     width: 16px;
     height: 16px;
     animation: spin 1s linear infinite;
+    flex-shrink: 0;
 
    
     display: none;
@@ -1337,6 +1338,14 @@ a.TopPanelOptionLink:hover {
     text-overflow: ellipsis;
     min-width: 0;
     /* cursor: default; */
+}
+
+
+#CurrentDocumentOptionalTitleSpan{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
 }
 
 #CurrentDocumentTitleLink,

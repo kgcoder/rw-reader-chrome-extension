@@ -10,7 +10,7 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/default-web
 */
 
-import { createOneIconComponent, formatFileSize, getBoundingRectForGenericElement, getDataFromCondocXML, isoToHumanReadableDate, unescapeHTML } from "./helpers.js"
+import { createOneIconComponent, createOneSVGIconComponent, formatFileSize, getBoundingRectForGenericElement, getDataFromCondocXML, isoToHumanReadableDate, unescapeHTML } from "./helpers.js"
 import g from './Globals.js'
 
 
@@ -125,8 +125,7 @@ class PageInfoManager {
             const downloadButtonDiv = document.createElement('div')
             downloadButtonDiv.className = "InfoLinkDownloadButtonDiv"
             rowDiv.appendChild(downloadButtonDiv)
-            const iconPaths = g.iconsInfo.iconPaths
-            const iconDiv = createOneIconComponent(rowDiv, iconPaths.ic_download, null, 'PageInfo-OneIconComponent')
+            const iconDiv = createOneSVGIconComponent(rowDiv, g.iconsInfo.svgIcons.downloadButton, '', 'PageInfo-OneIconComponent')
             const that = this
             iconDiv.addEventListener('click', async function () {
                 

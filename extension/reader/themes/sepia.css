@@ -54,6 +54,14 @@
 }
 
 
+.theme-sepia .linkInputTypeSelectorButton{
+  background-color: transparent;
+}
+
+.theme-sepia .linkInputTypeSelectedButton{
+  background-color: #484de9;
+  color: white;
+}
 
 
 
@@ -72,7 +80,7 @@
 }
 
 .theme-sepia .RightDocumentTabTitleSelected{
-  
+  color:rgba(37, 38, 39, 0.5);
 }
 
 .theme-sepia .DocumentTopPanel{
@@ -90,6 +98,25 @@
 
 .theme-sepia .TopPanelOptionLink{
     color:var(--heading);
+}
+
+.theme-sepia #middle-canvas-topDiv{
+  background-color: var(--top-bars);
+}
+
+#LinksListContainerDiv.theme-sepia {
+  background-color: var(--bg-main);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--borders);
+}
+
+.theme-sepia .FlinkOneEndContainer{
+  background-color: rgba(255, 255, 255, 0.1);;
+}
+
+.theme-sepia #LinksListModificationMessage {
+  color:var(--text-main);
 }
 
 .theme-sepia .DocumentBottomPanel{
@@ -124,6 +151,17 @@
 }
 
 
+.theme-sepia #CurrentDocumentExportContainer, 
+.theme-sepia #RightDocumentExportContainer{
+  background-color: var(--bg-main);
+}
+
+
+
+
+
+
+
 .theme-sepia .NotePresentationDiv{
 
     font-family: "Georgia", "Times New Roman", serif; /* Classic reading font */
@@ -144,6 +182,17 @@
     color: var(--text-main);
 }
 
+.theme-sepia .ActionButton{
+  color:white;
+}
+
+.theme-sepia .LinksListSortButton {
+    color:#e7b485;
+}
+.theme-sepia .FlinksListSelectedSide *{
+  color:var(--text-main);
+}
+
 .theme-sepia #CurrentDocumentInfo{
   background-color: var(--bg-main);
 }
@@ -160,6 +209,10 @@
 .theme-sepia .DocumentTopBarButtonWrapper,
 .theme-sepia .DocumentTopBarButtonWrapper *{
   color:rgb(40, 29, 13);
+}
+
+.theme-sepia .TopPanelOptionLinkSelected{
+  color:red;
 }
 
 .theme-sepia .CurrentDocumentInfoButtonCountDivIncomplete{
@@ -345,6 +398,7 @@
 
 .theme-sepia pre::-webkit-scrollbar,
 .DocumentColumn.theme-sepia::-webkit-scrollbar,
+.theme-sepia #SourceCodeTextDiv::-webkit-scrollbar,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar,
 .theme-sepia .NoteEditingDiv::-webkit-scrollbar {
     width: 15px;
@@ -353,6 +407,7 @@
 
 .theme-sepia pre::-webkit-scrollbar-track,
 .DocumentColumn.theme-sepia::-webkit-scrollbar-track,
+.theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-track,
 .theme-sepia .NoteEditingDiv::-webkit-scrollbar-track {
     background: #f3e4cb;
@@ -362,6 +417,7 @@
 
 .theme-sepia pre::-webkit-scrollbar-thumb,
 .DocumentColumn.theme-sepia::-webkit-scrollbar-thumb,
+.theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-thumb,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb,
 .theme-sepia .NoteEditingDiv::-webkit-scrollbar-thumb{
     background: #c2a382;
@@ -376,6 +432,7 @@
 
 .theme-sepia pre::-webkit-scrollbar-thumb:hover,
 .DocumentColumn.theme-sepia::-webkit-scrollbar-thumb:hover,
+.theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb:hover,
 .theme-sepia .NoteEditingDiv::-webkit-scrollbar-thumb:hover {
     background: #a07f5e;
@@ -387,6 +444,7 @@
 
 .theme-sepia pre::-webkit-scrollbar-corner,
 .DocumentColumn.theme-sepia::-webkit-scrollbar-corner,
+.theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-corner,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-corner,
 .theme-sepia .NoteEditingDiv::-webkit-scrollbar-corner {
     background: #f3e4cb;

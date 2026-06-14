@@ -35,7 +35,14 @@
     color: var(--text-main);
 }
 
+.theme-light .linkInputTypeSelectorButton{
+  background-color: white;
+}
 
+.theme-light .linkInputTypeSelectedButton{
+  background-color: #484de9;
+  color: white;
+}
 
 
 
@@ -54,6 +61,15 @@
 
 .theme-light .TopPanelOptionLink{
     color:var(--accent);
+}
+
+.theme-light .RightDocumentTabTitleSelected{
+  color:rgba(37, 38, 39, 0.5);
+}
+
+.theme-light #middle-canvas-topDiv *{
+  color: #515152;
+ /* // background-color: var(--top-bars); */
 }
 
 .theme-light .DocumentBottomPanel{
@@ -89,6 +105,21 @@
 
 .theme-light div{
   color: var(--text-main);
+}
+
+.theme-light .ActionButton{
+  color:white;
+}
+
+.theme-light .PageInfo-OneIconComponent {
+  color: #484de9;
+}
+
+.theme-light .LinksListSortButton {
+    color:#c0bfbf;
+}
+.theme-light .FlinksListSelectedSide *{
+  color:var(--text-main);
 }
 
 .theme-light #CurrentDocumentMainCollageCanvas,
