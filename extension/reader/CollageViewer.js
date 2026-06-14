@@ -169,7 +169,11 @@ class CollageViewer{
             const title = this.content.title ?? ''
             const titleSpan = this.getTitleSpan(title)
             if(titleSpan){
-                titleSpan.innerHTML = title
+                if(this.rightDocIndex < 0){
+                    titleSpan.innerText = url
+                }else{
+                    titleSpan.innerText = title
+                }
             }
             
 

@@ -54,6 +54,27 @@
 }
 
 
+
+
+
+.theme-sepia .RightDocumentTab{
+  background-color: #c2a382;
+
+}
+
+
+.theme-sepia .RightDocumentTabSelected{
+  background-color: var(--top-bars);
+}
+
+.theme-sepia .RightDocumentTabTitle{
+
+}
+
+.theme-sepia .RightDocumentTabTitleSelected{
+  
+}
+
 .theme-sepia .DocumentTopPanel{
     background-color: var(--header-footer-bg);
     /* border-top: 1px solid #e0e0e0; */

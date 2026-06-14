@@ -11,6 +11,11 @@
   background-color: rgb(40, 40, 40);
 }
 
+.theme-dark #mainDocSpinner{
+    border: 2px solid rgba(222, 221, 221, 0.1);
+    border-top: 2px solid #ffffff;
+}
+
 .DocumentColumn.theme-dark{
     background-color: var(--bg-main); /* dark background */
 }
@@ -87,8 +92,29 @@
   background-color: rgb(60, 60, 60);
 }
 
+.theme-dark .RightDocumentTab{
+  background-color: var(--header-footer-bg);
+
+}
 
 
+.theme-dark .RightDocumentTabSelected{
+  background-color: var(--top-bars);
+}
+
+.theme-dark .RightDocumentTabTitle{
+  color:#8d8d8d;
+}
+
+.theme-dark .RightDocumentTabTitleSelected{
+  color:#aaaaaa
+
+}
+
+
+.theme-dark #RightDocumentTitleSpan{
+  color:white;
+}
 
 .theme-dark .NoteDiv{
     background-color: var(--bg-main); /* dark background */

@@ -505,8 +505,13 @@ class PopupDocumentManager{
 
         this.mainDocTitle = condocTitle
         this.mainDocType = 'condoc'
+
+
+        const optionalTitle = document.getElementById("CurrentDocumentOptionalTitleSpan")
+        optionalTitle.innerText = this.mainDocTitle
+
         const titleSpan = document.getElementById("CurrentDocumentTitleSpan")
-        titleSpan.innerText = this.mainDocTitle
+        titleSpan.innerText = mainPageUrl
 
         const leftTitleLink = document.getElementById("CurrentDocumentTitleLink")
         leftTitleLink.href = mainPageUrl.split('#')[0]
@@ -599,8 +604,6 @@ class PopupDocumentManager{
         
       
         const canvas = document.getElementById("CurrentDocumentMainCollageCanvas")
-
-        //const titleSpan = document.getElementById("CurrentDocumentTitleSpan")
 
         
         g.readingManager.mainCollageViewer = new CollageViewer(dataObject.xmlString,dataObject.url,-1,'main',canvas,0,kLeftDivTop,window.innerWidth, this.collageLoadedCallback)
@@ -721,6 +724,7 @@ class PopupDocumentManager{
             this.prepareConnectionsForDocument(dataObject)       
         }
 
+        console.log('look title: ',title, isEmbedded)
     
         this.mainDocTitle = title
 
@@ -733,10 +737,25 @@ class PopupDocumentManager{
         
 
   
-
-
+        console.log('this.mainDocType',this.mainDocType)
         const titleSpan = document.getElementById("CurrentDocumentTitleSpan")
-        titleSpan.innerHTML = this.mainDocTitle
+
+        const optionalTitleSpan = document.getElementById("CurrentDocumentOptionalTitleSpan")
+
+        if(isEmbedded){
+
+            optionalTitleSpan.innerText = title
+            titleSpan.innerText = dataObject.url
+        }else{
+            console.log('wtf')
+            titleSpan.innerText = title
+
+        }
+
+        optionalTitleSpan.style.display = isEmbedded ? 'flex' : 'none'
+
+
+
 
 
 
@@ -1758,6 +1777,7 @@ class PopupDocumentManager{
 
 
     async updateConnectedDocumentsVisibility() {
+        console.log('updateConnectedDocumentsVisibility')
        // const allDocumentsContainer = document.getElementById("AllDocumentsContainer")
         const allRightDocumentsContainer = document.getElementById("AllRightDocumentsContainer")
         
@@ -1779,17 +1799,33 @@ class PopupDocumentManager{
         const noteData = g.readingManager.rightNotesData[g.readingManager.selectedRightDocIndex]
 
 
+        const optionalTitleSpan = document.getElementById("RightDocumentOptionalTitleSpan")
         if(!g.readingManager.isFullScreen){
             this.populatePanelsOfOneRightDoc()
 
-            const titleSpan = document.getElementById("RightDocumentTitleSpan")
-            titleSpan.innerText = noteData.title ?? ''
+            if(g.readingManager.rightNotesData.length === 1){
+                optionalTitleSpan.innerText = noteData.title ?? ''
+                optionalTitleSpan.style.display = 'flex'
+
+            }else{
+                optionalTitleSpan.style.display = 'none'
+            }
+
+         
+
         }else{
+
             
             this.hideMiddleCanvas()
 
        
         }
+
+        const titleSpan = document.getElementById("RightDocumentTitleSpan")
+        titleSpan.innerText = noteData.url ?? ''
+
+
+      
 
        
 
