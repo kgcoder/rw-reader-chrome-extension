@@ -466,3 +466,14 @@
     margin-top: 15px;
     font-size: 25px;
 }
+
+
+.theme-dark .swp-leave-comment-btn {
+  color:white;
+  border: 1px solid white;
+}
+
+.theme-dark .swp-reply-btn{
+  color:white;
+  border: 1px solid white;
+}

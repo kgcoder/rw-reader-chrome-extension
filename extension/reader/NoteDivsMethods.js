@@ -441,6 +441,9 @@ class NoteDivsManager{
                 let commentsUrl = ''
                 let commentsTitle = ''
                 let noCommentsMessage = ''
+                let leaveCommentUrl = ''
+                let commentsReplyLabel = ''
+                let commentsLeaveLabel = ''
                 const panelsString = panelsMatch[0]
 
                 const parser = new DOMParser()
@@ -535,6 +538,9 @@ class NoteDivsManager{
                                 commentsUrl = childNode.textContent.trim()
                                 commentsTitle = childNode.getAttribute('title')
                                 noCommentsMessage = childNode.getAttribute('empty')
+                                leaveCommentUrl = childNode.getAttribute('leave-comment-url')
+                                commentsReplyLabel = childNode.getAttribute('reply-label')
+                                commentsLeaveLabel = childNode.getAttribute('leave-comment-label')
                             }
 
                             if(tagName === 'ipage'){
@@ -549,7 +555,7 @@ class NoteDivsManager{
                     
 
                     const side = isLeft === 'true' ? 'left' : 'right'
-                    sidePanelInfo = {url,side, commentsUrl,commentsTitle,noCommentsMessage}
+                    sidePanelInfo = {url,side, commentsUrl,commentsTitle,noCommentsMessage,leaveCommentUrl,commentsReplyLabel,commentsLeaveLabel}
 
 
                 }
@@ -1076,7 +1082,7 @@ class NoteDivsManager{
         if (isAtBottom) {
             // Trigger pagination callback if available and not already loading
             if (!this.isLoadingMore) {
-                g.pdm.getComments(this.commentsDiv,this.commentsUrl,this.commentsTitle,this.noCommentsMessage,this,this.currentPage + 1)
+                g.pdm.getComments(this.commentsDiv,this.commentsUrl,this.commentsTitle,this.noCommentsMessage,this,this.leaveCommentUrl,this.commentsReplyLabel,this.commentsLeaveLabel,this.pageOrigin,this.currentPage + 1)
             }
         }
 

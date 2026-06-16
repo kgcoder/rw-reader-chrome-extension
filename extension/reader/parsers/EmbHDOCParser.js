@@ -108,12 +108,20 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
                 const commentsUrl = comments.url
                 const commentsTitle = comments.title
                 const commentsEmptyMessage = comments.empty
-
+                const leaveCommentUrl = comments['leave-comment-url']
+                const replyLabel = comments['reply-label']
+                const leaveLabel = comments['leave-comment-label']
 
                 if (commentsUrl) {
-                    commentsString = `\n<comments${commentsTitle ? ` title="${commentsTitle}"` : ''}${commentsEmptyMessage ? ` empty="${commentsEmptyMessage}"` : ''}>${commentsUrl}</comments>`    
+                    commentsString = `\n<comments`
+                        + (commentsTitle        ? ` title="${commentsTitle}"`                  : '')
+                        + (commentsEmptyMessage ? ` empty="${commentsEmptyMessage}"`            : '')
+                        + (leaveCommentUrl      ? ` leave-comment-url="${leaveCommentUrl}"`     : '')
+                        + (replyLabel           ? ` reply-label="${replyLabel}"`                : '')
+                        + (leaveLabel           ? ` leave-comment-label="${leaveLabel}"`        : '')
+                        + `>${commentsUrl}</comments>`
                 }
-                
+
             }
 
             if (commentsString || ipageString) {

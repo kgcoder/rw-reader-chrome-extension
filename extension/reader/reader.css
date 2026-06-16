@@ -1906,6 +1906,86 @@ div.MenuHorizontalLine {
 
 .OneCommentContent {}
 
+.swp-leave-comment-btn {
+    display: block;
+    margin: 10px 0 14px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    opacity: 0.75;
+}
+.swp-leave-comment-btn:hover { opacity: 1; }
+
+.swp-reply-btn {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 3px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    opacity: 0.6;
+}
+.swp-reply-btn:hover { opacity: 1; }
+
+.swp-comment-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.swp-comment-popup {
+    position: relative;
+    width: min(480px, 92vw);
+    height: min(520px, 85vh);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.swp-comment-popup-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    background: rgba(0,0,0,0.08);
+    border: none;
+    border-radius: 50%;
+    z-index: 1;
+}
+.swp-comment-popup-close:hover { background: rgba(0,0,0,0.18); }
+
+.swp-comment-popup-iframe {
+    flex: 1;
+    width: 100%;
+    border: none;
+}
+
+.swp-comment-popup-origin-warning {
+    padding: 6px 12px;
+    font-size: 12px;
+    background: #fff8e1;
+    color: #7a5c00;
+    border-bottom: 1px solid #f0d060;
+    flex-shrink: 0;
+}
+
 
 .HeaderDiv {
     display: flex;
