@@ -43,13 +43,9 @@ window.addEventListener('initReader', async (e) => {
     g.readingManager.flinkStyle = useThickLinks ? 'thick' : 'thin'
     mainDocData = e.detail
 
-
-
-    console.log('passing content string',contentString)
     
     const {dataObject,error} = await parseStaticContent(contentString,url, savedParsingRules)
 
-    console.log('dataObject inside',dataObject)
 
     if(dataObject && !error){
         loadUIAndIcons()
@@ -134,8 +130,6 @@ async function useSavedTheme() {
 function dispatchReaderReady(url) {
     if (window.swpReaderReadyFired) return
     window.swpReaderReadyFired = true
-    console.log('dispatch swpReaderReady in extension after doc load')
-
     document.dispatchEvent(new CustomEvent('swpReaderReady', { detail: { url } }))
 }
 

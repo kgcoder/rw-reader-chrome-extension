@@ -578,7 +578,6 @@ setupFlinksCanvasDPR(){
         }
 
         
-        console.log('g.readingManager',g.readingManager)
         const optionalTitleSpan = document.getElementById("RightDocumentOptionalTitleSpan")
         if(g.readingManager.rightNotesData.length === 1){
 
@@ -592,17 +591,11 @@ setupFlinksCanvasDPR(){
 
         const titleSpan = document.getElementById("RightDocumentTitleSpan")
 
-        console.log('noteData',noteData)
 
         let title = noteData.url ?? ''
      
         titleSpan.innerText = title
 
-        console.log('show tab')
-
-  
-
-        
         this.changesInReadingModeExist = true
         
    

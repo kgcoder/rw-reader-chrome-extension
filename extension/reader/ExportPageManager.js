@@ -42,11 +42,7 @@ class ExportPageManager{
         const containerHeight =  window.innerHeight - kLeftDivTop
         mainDiv.style.height = containerHeight + 'px'
 
-        console.log('render source')
-
         let text = noteData.xmlString
-        
-        
 
         let title = this.getSourceCodeTitleByDocSybtype(noteData.docSubtype) 
 

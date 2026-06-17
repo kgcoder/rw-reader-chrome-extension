@@ -49,7 +49,6 @@ export async function loadStaticContentFromUrl(originalUrl, muteErrorMessage = f
         return
     }
 
-    console.log('text to parse',text)
 
 
 
@@ -143,8 +142,6 @@ export async function parseStaticContent(contentString, originalUrl, savedParsin
 
     const htmlMatch = contentString.match(/<html\b[^>]*>([\s\S]*?)<\/html>/im)
 
-    console.log('condoc match',condocMatch)
-
     if (condocMatch) {
         contentString = condocMatch[0]
         const dataObject = parseCondoc(originalUrl, contentString)
@@ -172,14 +169,10 @@ export async function parseStaticContent(contentString, originalUrl, savedParsin
         
         try {
     
-            console.log('unsanitizedHtmlDoc',unsanitizedHtmlDoc)
             const embeddedCdocScript = unsanitizedHtmlDoc.querySelector('#cdoc-source')
-            console.log('found script',embeddedCdocScript)
             const cdocSource = JSON.parse(embeddedCdocScript.textContent).source;
             if(cdocSource){
-                console.log('found cdocSource',cdocSource)
                 const dataObject =  await parseCDOC(originalUrl, cdocSource)
-                console.log('data object',dataObject)
                 if(dataObject)dataObject.docSubtype = 8
                 return {dataObject, error:!dataObject ? 'Something is wrong with the embedded CDOC' : null}          
             }
@@ -190,12 +183,9 @@ export async function parseStaticContent(contentString, originalUrl, savedParsin
 
         try{
             const embeddedCondocScript = unsanitizedHtmlDoc.querySelector('#condoc-source')
-            console.log('found script',embeddedCondocScript)
             const condocSource = JSON.parse(embeddedCondocScript.textContent).source;
             if(condocSource){
-                console.log('found condocSource',condocSource)
                 const dataObject =  await parseCondoc(originalUrl, condocSource)
-                console.log('data object',dataObject)
                 if(dataObject)dataObject.docSubtype = 9
                 return {dataObject, error:!dataObject ? 'Something is wrong with the embedded CONDOC' : null}          
             }
