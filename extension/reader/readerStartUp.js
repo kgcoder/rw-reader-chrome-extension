@@ -96,6 +96,10 @@ window.addEventListener('initReader', async (e) => {
     }
 
 
+    dispatchReaderReady(url)
+
+
+
 });
 
 
@@ -126,4 +130,12 @@ async function useSavedTheme() {
 }
 
 
+
+function dispatchReaderReady(url) {
+    if (window.swpReaderReadyFired) return
+    window.swpReaderReadyFired = true
+    console.log('dispatch swpReaderReady in extension after doc load')
+
+    document.dispatchEvent(new CustomEvent('swpReaderReady', { detail: { url } }))
+}
 
