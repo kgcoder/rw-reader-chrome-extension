@@ -39,7 +39,7 @@ function getPageMetadata() {
 
 
 function updatePageMetadata(response) {
-    const {areLinksThick,skipConfirmation,isShowingReader,isShowingParsingRulesConstructor, currentLocation} = response
+    const {areLinksThick,fetchMode,isShowingReader,isShowingParsingRulesConstructor, currentLocation} = response
 
     const settingsMenu = document.getElementById("settingsMenu")
 
@@ -64,25 +64,40 @@ function updatePageMetadata(response) {
     })
 
 
-     const dontAskWhenFetchingLabel = document.createElement('label')
-    dontAskWhenFetchingLabel.style.display = 'flex'
-    dontAskWhenFetchingLabel.style.alignItems = 'center'
-    dontAskWhenFetchingLabel.style.gap = '8px'
-    dontAskWhenFetchingLabel.style.marginBottom = '8px'
+    const fetchModeSubheader = document.createElement('div')
+    fetchModeSubheader.textContent = 'When fetching pages from other websites'
+    fetchModeSubheader.style.fontWeight = 'bold'
+    fetchModeSubheader.style.marginBottom = '6px'
+    fetchModeSubheader.style.marginTop = '4px'
+    settingsMenu.appendChild(fetchModeSubheader)
 
-    const dontAskWhenFetchingCheckbox = document.createElement('input')
-    dontAskWhenFetchingCheckbox.type = 'checkbox'
-    dontAskWhenFetchingCheckbox.id = 'dont-ask-checkbox'
-    dontAskWhenFetchingCheckbox.checked = skipConfirmation
+    const fetchModeOptions = [
+        { value: 'strict', label: 'Ask for confirmation each time' },
+        { value: 'smart',  label: 'Ask only for private/internal addresses' },
+        { value: 'open',   label: 'Never ask' },
+    ]
 
-    dontAskWhenFetchingLabel.appendChild(dontAskWhenFetchingCheckbox)
-    dontAskWhenFetchingLabel.appendChild(document.createTextNode('Don\'t ask for confirmation when fetching pages from other websites'))
+    for (const { value, label } of fetchModeOptions) {
+        const optionLabel = document.createElement('label')
+        optionLabel.style.display = 'flex'
+        optionLabel.style.alignItems = 'center'
+        optionLabel.style.gap = '8px'
+        optionLabel.style.marginBottom = '6px'
 
-    settingsMenu.appendChild(dontAskWhenFetchingLabel)
+        const radio = document.createElement('input')
+        radio.type = 'radio'
+        radio.name = 'fetch-mode'
+        radio.value = value
+        radio.checked = (fetchMode ?? 'strict') === value
 
-    dontAskWhenFetchingCheckbox.addEventListener('change', () => {
-        sendMessageToPage({ messageName: 'SetFetchConfirmationPreference', skipConfirmation: dontAskWhenFetchingCheckbox.checked })
-    })
+        radio.addEventListener('change', () => {
+            if (radio.checked) sendMessageToPage({ messageName: 'SetFetchMode', fetchMode: value })
+        })
+
+        optionLabel.appendChild(radio)
+        optionLabel.appendChild(document.createTextNode(label))
+        settingsMenu.appendChild(optionLabel)
+    }
 
 
     if(isShowingReader){

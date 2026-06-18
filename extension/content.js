@@ -18,7 +18,7 @@ let hasFlinks = false
 
 let hasEmbeddedHDOC = false
 
-let skipConfirmation = false
+let fetchMode = 'strict'
 
 
 let isShowingReader = false
@@ -154,10 +154,11 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             window.postMessage({ type: "FLINK_THICKNESS_UPDATED", useThickLinks },"*");
         }
 
-        if (messageName === 'SetFetchConfirmationPreference') {
-            const skipConfirmation = message.skipConfirmation
-            saveSkipConfirmation(skipConfirmation)
-            window.postMessage({ type: "UPDATE_SKIP_CONFIRMATION_CONFIG", skip:skipConfirmation },"*");   
+        if (messageName === 'SetFetchMode') {
+            const mode = message.fetchMode
+            saveFetchMode(mode)
+            fetchMode = mode
+            window.postMessage({ type: "UPDATE_FETCH_MODE_CONFIG", mode }, "*")
         }
 
         if (messageName === 'OpenInParsingRulesConstructor') {
@@ -182,21 +183,18 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 async function sendPageMetadata() {
 
     const areLinksThick = await getLinkThicknessFromStorage()
-
-    const skipConfirmation = await getSkipConfirmationFromStorage()
-
-
+    const storedFetchMode = await getFetchModeFromStorage()
 
     chrome.runtime.sendMessage({
-            type: 'pageMetadata',
-            payload: {
-        areLinksThick,
-        skipConfirmation,
-        isShowingReader,
-        isShowingParsingRulesConstructor,
-        currentLocation
-    }
-        });
+        type: 'pageMetadata',
+        payload: {
+            areLinksThick,
+            fetchMode: storedFetchMode,
+            isShowingReader,
+            isShowingParsingRulesConstructor,
+            currentLocation
+        }
+    })
 
 }
 
@@ -216,14 +214,33 @@ async function saveFlinksThickness(isThick) {
 }
 
 
-async function getSkipConfirmationFromStorage() {
-    const result = await chrome.storage.local.get('skipConfirmation')
-    const skip = result.skipConfirmation ?? false
-    return skip
+async function getFetchModeFromStorage() {
+    const result = await chrome.storage.local.get('fetchMode')
+    return result.fetchMode ?? 'strict'
 }
 
-async function saveSkipConfirmation(skipConfirmation) {
-    chrome.storage.local.set({ skipConfirmation })
+async function saveFetchMode(mode) {
+    chrome.storage.local.set({ fetchMode: mode })
+}
+
+
+function addDocumentHostnames(contentString, hdocDataJSON, isCondoc) {
+    function tryAdd(urlStr) {
+        if (!urlStr) return
+        try { documentHostnames.add(new URL(urlStr.trim()).hostname) } catch {}
+    }
+    if (hdocDataJSON) {
+        for (const con of (hdocDataJSON.connections ?? [])) tryAdd(con.url)
+        tryAdd(hdocDataJSON?.panels?.side?.comments?.url)
+        return
+    }
+    for (const m of contentString.matchAll(/<doc\s[^>]*url="([^"]+)"/gi)) tryAdd(m[1])
+    const cm = contentString.match(/<comments[^>]*>([^<]+)<\/comments>/i)
+    if (cm) tryAdd(cm[1])
+    if (isCondoc) {
+        const mm = contentString.match(/<main[^>]*>([^<]+)<\/main>/i)
+        if (mm) tryAdd(mm[1])
+    }
 }
 
 
@@ -236,7 +253,7 @@ async function showReaderOverlay() {
     let isEmbeddedCondoc = false
 
     const useThickLinks = await getLinkThicknessFromStorage()
-    skipConfirmation = await getSkipConfirmationFromStorage()
+    fetchMode = await getFetchModeFromStorage()
 
 
 
@@ -263,6 +280,8 @@ async function showReaderOverlay() {
                     }
                 }
 
+                addDocumentHostnames(null, hdocDataJSON, false)
+
             } catch (e) {
                 console.log(e)
             }
@@ -288,12 +307,16 @@ async function showReaderOverlay() {
         const textViewMatch = contentString.match(/<hdoc\b[^>]*>([\s\S]*?)<\/hdoc>/im)
         const condocMatch = contentString.match(/<condoc\b[^>]*>([\s\S]*?)<\/condoc>/im)
 
+        if (textViewMatch) addDocumentHostnames(textViewMatch[0], null, false)
+        if (collageMatch)  addDocumentHostnames(collageMatch[0],  null, false)
+        if (condocMatch)   addDocumentHostnames(condocMatch[0],   null, true)
 
         try {
             const embeddedCdocScript = document.querySelector('#cdoc-source')
             const source = JSON.parse(embeddedCdocScript.textContent).source;
             if(source){
                 isEmbeddedCdoc = true
+                addDocumentHostnames(source, null, false)
                 contentString = '<html><body>' + document.body.innerHTML + '</body></html>'
             }
         } catch {
@@ -305,6 +328,7 @@ async function showReaderOverlay() {
             const source = JSON.parse(embeddedCondocScript.textContent).source;
             if(source){
                 isEmbeddedCondoc = true
+                addDocumentHostnames(source, null, true)
                 contentString = '<html><body>' + document.body.innerHTML + '</body></html>'
             }
         } catch {
@@ -388,6 +412,7 @@ async function showReaderOverlay() {
     script.onload = () => {
         window.dispatchEvent(new CustomEvent('initReader', {detail:{ contentString, url:currentLocation, useThickLinks, savedParsingRules }}));
     };
+    pendingPortSend = true
     document.body.appendChild(script);
 
 
