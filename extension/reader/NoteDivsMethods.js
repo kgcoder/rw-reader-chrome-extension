@@ -900,7 +900,7 @@ class NoteDivsManager{
 
                 
 
-                if(rect.top != firstRect.top){
+                if(Math.abs(rect.top - firstRect.top) > rect.height/2){                    
                     const lineRect = {left:firstRect.left,top:firstRect.top,height:firstRect.height,width:lastRect.left - firstRect.left + lastRect.width}
                     lineRects.push(lineRect)
                     firstRect = rect
@@ -950,7 +950,7 @@ class NoteDivsManager{
         const mergedLineRects = []
         for(let i = 0;i < lineRects.length;i++){
             const rect = lineRects[i]
-            if( rect.top != lastRectTop){
+            if(Math.abs(rect.top - lastRectTop) > rect.height/2){
 
                 if(i !== 0){
                     mergedLineRects.push({left:lastLeft,top:lastRectTop,width:lastWidth,height:lastHeight})
@@ -969,7 +969,13 @@ class NoteDivsManager{
 
         mergedLineRects.push({left:lastLeft,top:lastRectTop,width:lastWidth,height:lastHeight})
 
-     //   
+  
+
+        const padding = (g.mainPadding.includes('%') ? parseFloat(g.mainPadding) * window.innerWidth / 100.0 : parseFloat(g.mainPadding)) - 10 
+
+        const mainDocRightX = g.readingManager.docWidth
+        const rightX = mainDocRightX + kMiddleGap
+
 
         let finalLineRects = mergedLineRects.filter(rect => rect.width != 0 && rect.height != 0)
         
@@ -981,23 +987,23 @@ class NoteDivsManager{
             let width
 
 
-           // const padding = window.innerWidth * 0.2 - 10
-            const padding = (g.mainPadding.includes('%') ? parseFloat(g.mainPadding) * window.innerWidth / 100.0 : parseFloat(g.mainPadding)) - 10 
-            const rightX = window.innerWidth - padding - 10
+        
+            const leftOffset = g.pdm.getMainLeftOffset()
+
 
             if (isFirst && isLast) {
-                left = rect.left - divX
+                left = rect.left - divX - leftOffset
                 width = rect.width    
             } else if (!isFirst && !isLast) {
                 if (g.readingManager.isFullScreen) {
-                    left = padding
+                    left = padding 
                     width = rightX - left
                 } else {
                     left = 0
                     width = divWidthWithoutScrollBar 
                 }
             }else if(isFirst){
-                left = rect.left - divX
+                left = rect.left - divX - leftOffset
                 if (g.readingManager.isFullScreen) { 
                     width = rightX - left
                 } else {
@@ -1007,16 +1013,14 @@ class NoteDivsManager{
                 if (g.readingManager.isFullScreen) {
                     left = padding
 
-                    width = rect.left - left + rect.width
+                    width = rect.left - left + rect.width 
 
                 } else {
                     left = 0
-                    width = rect.left - divX + rect.width
+                    width = rect.left - divX + rect.width - leftOffset
                     
                 }
             }
-
-
 
 
             const newRect = {
