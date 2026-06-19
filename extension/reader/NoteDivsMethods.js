@@ -900,7 +900,7 @@ class NoteDivsManager{
 
                 
 
-                if(Math.abs(rect.top - firstRect.top) > rect.height/2){                    
+                if(rect.top != firstRect.top){
                     const lineRect = {left:firstRect.left,top:firstRect.top,height:firstRect.height,width:lastRect.left - firstRect.left + lastRect.width}
                     lineRects.push(lineRect)
                     firstRect = rect
@@ -950,7 +950,7 @@ class NoteDivsManager{
         const mergedLineRects = []
         for(let i = 0;i < lineRects.length;i++){
             const rect = lineRects[i]
-            if(Math.abs(rect.top - lastRectTop) > rect.height/2){
+            if( rect.top != lastRectTop){
 
                 if(i !== 0){
                     mergedLineRects.push({left:lastLeft,top:lastRectTop,width:lastWidth,height:lastHeight})
