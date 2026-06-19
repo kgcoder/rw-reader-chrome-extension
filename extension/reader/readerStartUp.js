@@ -53,7 +53,7 @@ window.addEventListener('initReader', async (e) => {
 
 
     const mainContainer = document.getElementById("AllDocumentsContainer");
-    const container = mainContainer.parentElement
+    const container = mainContainer.parentElement.parentElement
     
     //snapping
     container.addEventListener('scroll',() => {
