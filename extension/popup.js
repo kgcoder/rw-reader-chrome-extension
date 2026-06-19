@@ -39,7 +39,7 @@ function getPageMetadata() {
 
 
 function updatePageMetadata(response) {
-    const {areLinksThick,fetchMode,isShowingReader,isShowingParsingRulesConstructor, currentLocation} = response
+    const {areLinksThick,fetchMode,isShowingReader,isShowingParsingRulesConstructor, currentLocation, isUnforcedEmbeddedHDOC} = response
 
     const settingsMenu = document.getElementById("settingsMenu")
 
@@ -99,8 +99,9 @@ function updatePageMetadata(response) {
         settingsMenu.appendChild(optionLabel)
     }
 
-
-    if(isShowingReader){
+    if(isUnforcedEmbeddedHDOC){
+        //show nothing
+    }else if(isShowingReader){
         const rightPageUrlContainer = document.getElementById("right-page-url-container")
         rightPageUrlContainer.style.display = 'flex'
 

@@ -23,6 +23,7 @@ let fetchMode = 'strict'
 
 let isShowingReader = false
 let isShowingParsingRulesConstructor = false
+let isUnforcedEmbeddedHDOC = false
     
     
 document.addEventListener('DOMContentLoaded', onLoad);
@@ -73,50 +74,6 @@ async function onLoad() {
     if (currentLocation.includes('#')) {
         currentLocation = currentLocation.split('#')[0]
     }
-
-
-    let contentEl = document.querySelector('.hdoc-content')
-
-    if (contentEl) {
-
-        const dataScript = document.getElementById("hdoc-data");
-
-        if (dataScript) {
-            try {
-                const rawJSON = dataScript.textContent.trim().replace(/^<!\[CDATA\[/,'').replace(/\]\]$/,'')
-
-                const hdocDataJSON = JSON.parse(rawJSON)  
-
-                const header = hdocDataJSON.header
-                if (header) {
-                    const title = header.h1
-                    if (title && title.trim()) {
-                        hasEmbeddedHDOC = true
-                    }
-                }
-
-                
-                const connections = hdocDataJSON.connections
-                if (connections && connections.length) {
-                    for (const con of connections) {
-                        if (con.flinks && con.flinks.length) {
-                            hasFlinks = true
-                            break
-                        }
-                    }
-                }
-
-            
-                
-
-
-
-            } catch (e) {
-                console.error('JSON parse error',e)
-            }
-        }  
-    }
-
 
 
 
@@ -192,7 +149,8 @@ async function sendPageMetadata() {
             fetchMode: storedFetchMode,
             isShowingReader,
             isShowingParsingRulesConstructor,
-            currentLocation
+            currentLocation,
+            isUnforcedEmbeddedHDOC
         }
     })
 
@@ -271,6 +229,10 @@ async function showReaderOverlay() {
                 const rawJSON = dataScript.textContent.trim().replace(/^<!\[CDATA\[/, '').replace(/\]\]$/, '')
 
                 hdocDataJSON = JSON.parse(rawJSON)
+
+                isUnforcedEmbeddedHDOC = !hdocDataJSON.forced
+
+                if(isUnforcedEmbeddedHDOC)return
 
                 const header = hdocDataJSON.header
                 if (header) {
