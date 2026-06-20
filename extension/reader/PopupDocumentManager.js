@@ -29,8 +29,7 @@ export const kRightDivTopBarHeight = 20
 export const kVerticalPanelInFullscreenWidth = 400
 export const kVerticalPanelWidth = 300
 
-export const kDefaultPadding = '20px'
-export const kBiggerPadding = '20%'
+export const kDefaultPadding = 20
 
 let docWidth
 
@@ -1610,24 +1609,24 @@ class PopupDocumentManager{
         const mainPresentationDiv = document.getElementById("CurrentDocumentMainDiv")
 
 
-        const mainPadding = this.isPaddingOn && g.readingManager.isFullScreen && screenWidth > kMinDocWidthForDesktop ? kBiggerPadding : kDefaultPadding
-       
-        g.mainPadding = mainPadding
-        mainPresentationDiv.style.paddingLeft = mainPadding
-        mainPresentationDiv.style.paddingRight = mainPadding
+
+        const mainPadding = g.pdm.getMainDocumentPadding()
+
+        mainPresentationDiv.style.paddingLeft = `${mainPadding}px`
+        mainPresentationDiv.style.paddingRight = `${mainPadding}px`
         mainPresentationDiv.style.width = `${currentDocumentWidth}px`
 
 
 
         const headerDiv = document.getElementById("CurrentDocumentHeader")
-        headerDiv.style.paddingLeft = mainPadding
-        headerDiv.style.paddingRight = mainPadding
+        headerDiv.style.paddingLeft = `${mainPadding}px`
+        headerDiv.style.paddingRight = `${mainPadding}px`
 
     
 
         const currentDocumentTopBar = document.getElementById("CurrentDocumentTopBar")
         currentDocumentTopBar.style.height = kLeftDivTop + 'px'
-        currentDocumentTopBar.style.paddingLeft = mainPadding
+        currentDocumentTopBar.style.paddingLeft = `${mainPadding}px`
 
         const fullScreenButton = document.getElementById("CurrentDocumentFullScreenButton")
         while(fullScreenButton.firstChild){
@@ -2642,6 +2641,8 @@ class PopupDocumentManager{
 
         this.updateDocumentPanels(allDivs,leftVerticalPanelWidth,rightVerticalPanelWidth,this)
 
+
+
     }
 
 
@@ -2667,6 +2668,8 @@ class PopupDocumentManager{
         }
 
         this.updateDocumentPanels(allDivs,leftVerticalPanelWidth,rightVerticalPanelWidth,noteData)
+
+      
 
     }
 
@@ -2866,6 +2869,15 @@ class PopupDocumentManager{
         return rect.left
     }
 
+
+    getMainDocumentPadding(){
+        const screenWidth = window.innerWidth
+        const mainPadding = this.isPaddingOn && !g.isMobileMode && 
+        g.readingManager.isFullScreen && !this.currentDocLeftPanelShowing && 
+        !this.currentDocRightPanelShowing ? screenWidth * 0.2 : kDefaultPadding
+
+        return mainPadding
+    }
 
    
 }

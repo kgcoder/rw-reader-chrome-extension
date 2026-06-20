@@ -1324,6 +1324,8 @@ a.TopPanelOptionLink:hover {
     flex-shrink: 0;
     padding-left: 20px;
     padding-right: 20px;
+    box-sizing: content-box;
+
 }
 
 .TitleContainer{
@@ -1412,6 +1414,7 @@ a.TopPanelOptionLink:hover {
     box-sizing: border-box;
     white-space: normal;
     min-width: 0;
+    max-width: 100%;
 
 }
 
@@ -1500,6 +1503,7 @@ a.TopPanelOptionLink:hover {
     padding: 20px;
     z-index: 2;
     box-sizing: border-box;
+    max-width: 100%;
 }
 
 #CurrentDocumentTextarea {
@@ -1566,6 +1570,8 @@ a.TopPanelOptionLink:hover {
     padding-right: 20px;
 
     border-bottom: 1px solid lightgray;
+    box-sizing: content-box;
+
 
 }
 

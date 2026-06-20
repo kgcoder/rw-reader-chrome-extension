@@ -10,7 +10,7 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/default-web
 */
 
-import { kLeftDivTop, kMiddleGap, kRightDivTopBarHeight, kRightDocsTabRowHeight } from "./PopupDocumentManager.js"
+import { kDefaultPadding, kLeftDivTop, kMiddleGap, kRightDivTopBarHeight, kRightDocsTabRowHeight, kVerticalPanelWidth } from "./PopupDocumentManager.js"
 import g from "./Globals.js"
 import { addTransparencyToHexColor, escapeRegExp, getIndexAndLengthOfSelection, getPresentationDivFrom, getShortHash, getTextFromDiv, getTextNodesArrayFromDiv, isDotInsideFrame, isSubstringUniqueInText, removeAllChildren, showToastMessage, timestamp } from "./helpers.js";
 import FloatingLink from "./models/FloatingLink.js";
@@ -1548,8 +1548,12 @@ setupFlinksCanvasDPR(){
         const notePresentationDiv = document.getElementById("CurrentDocumentMainDiv")
 
         const textNodesArray = getTextNodesArrayFromDiv(notePresentationDiv)
-
         const divX = g.pdm.getCurrentDocLeftVerticalPanelWidth()
+        const rightPanelWidth = g.pdm.getCurrentDocRightVerticalPanelWidth()
+
+        const padding = g.pdm.getMainDocumentPadding()
+
+        const rightX = window.innerWidth - padding - rightPanelWidth
 
         const currentDocTopOffset = g.pdm.getCurrentDocTopOffset()
 
@@ -1567,7 +1571,7 @@ setupFlinksCanvasDPR(){
 
             for(let flink of flinksData.activeFlinks){
 
-                this.prepareOneLeftLink(flink,noteScrollDiv,textNodesArray,divX,topY,fullTextLength)
+                this.prepareOneLeftLink(flink,noteScrollDiv,textNodesArray,divX,topY,rightX,padding,fullTextLength)
 
             
 
@@ -1579,7 +1583,7 @@ setupFlinksCanvasDPR(){
     }
 
 
-      prepareOneLeftLink(flink,noteScrollDiv,textNodesArray,divX,topY,fullTextLength){
+      prepareOneLeftLink(flink,noteScrollDiv,textNodesArray,divX,topY,rightX,padding,fullTextLength){
         
         const leftEnd = flink.leftEnds[0]
 
@@ -1588,8 +1592,8 @@ setupFlinksCanvasDPR(){
             return
         }
 
-        
-        const leftRects = g.noteDivsManager.calculateHighlightPosition(noteScrollDiv,textNodesArray,leftEnd.index,leftEnd.length,divX,topY)
+    
+        const leftRects = g.noteDivsManager.calculateHighlightPosition(noteScrollDiv,textNodesArray,leftEnd.index,leftEnd.length,divX,topY,padding, rightX)
         
 
         if(leftRects.length){
@@ -1651,7 +1655,7 @@ setupFlinksCanvasDPR(){
         }
  
 
-        const rightRects = g.noteDivsManager.calculateHighlightPosition(rightScrollDiv,textNodesArray,rightEnd.index,rightEnd.length,divX,topY,this.docWidth)
+        const rightRects = g.noteDivsManager.calculateHighlightPosition(rightScrollDiv,textNodesArray,rightEnd.index,rightEnd.length,divX,topY, kDefaultPadding)
 
       
         if(rightRects.length){
@@ -3124,6 +3128,12 @@ setupFlinksCanvasDPR(){
                 const textNodesArray = getTextNodesArrayFromDiv(leftDiv)
         
                 const divX = g.pdm.getCurrentDocLeftVerticalPanelWidth()
+                const rightPanelWidth = g.pdm.getCurrentDocRightVerticalPanelWidth()
+
+                const padding = g.pdm.getMainDocumentPadding()
+
+                const rightX = window.innerWidth - padding - rightPanelWidth
+
         
                 const topPanelHeight = g.pdm.getCurrentDocTopOffset()
         
@@ -3133,7 +3143,7 @@ setupFlinksCanvasDPR(){
                 const fullTextLength = textNodesArray.reduce((total, node) => total + node.data.length, 0);
 
 
-                this.prepareOneLeftLink(floatingLink,noteScrollDiv,textNodesArray,divX,topY,fullTextLength)
+                this.prepareOneLeftLink(floatingLink,noteScrollDiv,textNodesArray,divX,topY,rightX,padding,fullTextLength)
                 
             }
             
@@ -3203,7 +3213,7 @@ setupFlinksCanvasDPR(){
 
        const scrollDiv = document.getElementById("CurrentDocument")
 
-        const leftRects = g.noteDivsManager.calculateHighlightPosition(scrollDiv,textNodesArray,startIndex,length,verticalPanelWidth,divTop)
+        const leftRects = g.noteDivsManager.calculateHighlightPosition(scrollDiv,textNodesArray,startIndex,length,verticalPanelWidth,divTop,kDefaultPadding)
         
 
         if(!leftRects.length)return
@@ -3235,16 +3245,19 @@ setupFlinksCanvasDPR(){
     createRightPartialLink(notePresentationDiv,rightScrollDiv, noteData, range){
         const {startIndex,length} = getIndexAndLengthOfSelection(notePresentationDiv,range)
         
-        const verticalPanelWidth = noteData.currentDocLeftPanelShowing ? kVerticalPanelWidth : 0
+        const leftVerticalPanelWidth = noteData.currentDocLeftPanelShowing ? kVerticalPanelWidth : 0
+        const rightVerticalPanelWidth = noteData.currentDocRightPanelShowing ? kVerticalPanelWidth : 0
 
-        let rightX = this.docWidth + kMiddleGap + verticalPanelWidth
+
+        const divX = this.docWidth + kMiddleGap + leftVerticalPanelWidth
+        const rightX = this.docWidth * 2 + kMiddleGap - rightVerticalPanelWidth
 
         const textNodesArray = getTextNodesArrayFromDiv(notePresentationDiv)
 
         const divTop = kLeftDivTop + g.pdm.getRightDocTopOffset(noteData)
 
 
-        const rightRects = g.noteDivsManager.calculateHighlightPosition(rightScrollDiv,textNodesArray,startIndex,length,rightX,divTop)
+        const rightRects = g.noteDivsManager.calculateHighlightPosition(rightScrollDiv,textNodesArray,startIndex,length,divX,divTop,kDefaultPadding,rightX)
         
 
         if(!rightRects.length)return

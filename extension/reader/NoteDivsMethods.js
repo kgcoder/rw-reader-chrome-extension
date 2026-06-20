@@ -829,9 +829,8 @@ class NoteDivsManager{
     }
 
 
-    calculateHighlightPosition(notePresentationDiv,textNodesArray,startIndex,highlightLength,divX, divY){
+    calculateHighlightPosition(notePresentationDiv,textNodesArray,startIndex,highlightLength,divX, divY, padding, rightX){
    
-
        
         const divWidthWithoutScrollBar = notePresentationDiv.clientWidth
 
@@ -875,11 +874,11 @@ class NoteDivsManager{
                 range.setStart(textNodesArray[i], currentIndex);
                 range.setEnd(textNodesArray[i], currentIndex + 1);
 
-             //   
+              
             
                 const rawRect = range.getBoundingClientRect();
               
-              //  
+           
 
 
                
@@ -940,8 +939,7 @@ class NoteDivsManager{
          
         }
 
-       // 
-       // 
+      
 
         let lastRectTop = -1
         let lastLeft = 0
@@ -970,13 +968,6 @@ class NoteDivsManager{
         mergedLineRects.push({left:lastLeft,top:lastRectTop,width:lastWidth,height:lastHeight})
 
   
-
-        const padding = (g.mainPadding.includes('%') ? parseFloat(g.mainPadding) * window.innerWidth / 100.0 : parseFloat(g.mainPadding)) - 10 
-
-        const mainDocRightX = g.readingManager.docWidth
-        const rightX = window.innerWidth - padding
-
-
         let finalLineRects = mergedLineRects.filter(rect => rect.width != 0 && rect.height != 0)
         
         finalLineRects = finalLineRects.map((rect,index) => {
