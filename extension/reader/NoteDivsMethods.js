@@ -974,7 +974,7 @@ class NoteDivsManager{
         const padding = (g.mainPadding.includes('%') ? parseFloat(g.mainPadding) * window.innerWidth / 100.0 : parseFloat(g.mainPadding)) - 10 
 
         const mainDocRightX = g.readingManager.docWidth
-        const rightX = mainDocRightX + kMiddleGap
+        const rightX = window.innerWidth - padding
 
 
         let finalLineRects = mergedLineRects.filter(rect => rect.width != 0 && rect.height != 0)
