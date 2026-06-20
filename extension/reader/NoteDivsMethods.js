@@ -494,9 +494,8 @@ class NoteDivsManager{
                             
                             const text = childNode.textContent.trim()
                             const linkAddress = childNode.getAttribute('href')
-                            const isStaticLink = childNode.hasAttribute('static') || childNode.hasAttribute('data-static')
 
-                            topPanelLinksInfo.push({text,url:linkAddress,isStaticLink})
+                            topPanelLinksInfo.push({text,url:linkAddress})
 
                         }
 
@@ -580,9 +579,8 @@ class NoteDivsManager{
                             if(tagName === 'a'){
                                 const text = childNode.textContent.trim()
                                 const linkAddress = childNode.getAttribute('href')
-                                const isStaticLink = childNode.hasAttribute('static') || childNode.hasAttribute('data-static')
 
-                                links.push({text,url:linkAddress,isStaticLink})
+                                links.push({text,url:linkAddress})
                             }
 
 

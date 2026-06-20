@@ -1200,17 +1200,7 @@ class PopupDocumentManager{
 
                         sectionDiv.appendChild(linkNode)
 
-                        // linkNode.addEventListener('click', function () {
-                        //     g.wn.openUrl(link.url, link.isStaticLink)
-                        // })
-    
-                        // linkNode.addEventListener('mouseover',function(){
-                        //    // showUrlInTheCorner(link.url)
-                        // })
-
-                        // linkNode.addEventListener('mouseout',function(){
-                        //   //  hideUrlInTheCorner()
-                        // })
+                    
                     }
     
                     
@@ -1312,20 +1302,6 @@ class PopupDocumentManager{
                   linkNode = clone
                   dropdownMenuDiv.appendChild(clone); 
                 }
-
-
-                // linkNode.addEventListener('click', function () {
-                //     g.wn.openUrl(link.url, link.isStaticLink)
-                // })
-
-                // linkNode.addEventListener('mouseover',function(){
-                //    // showUrlInTheCorner(link.url)
-                // })
-
-                // linkNode.addEventListener('mouseout',function(){
-                //    // hideUrlInTheCorner()
-                // })
-
 
             }
 

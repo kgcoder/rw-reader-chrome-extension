@@ -281,8 +281,7 @@ function extractLinkRectanglesFromOffscreen(svgString) {
               minX: bbox.x,
               minY: bbox.y,
               maxX: bbox.x + bbox.width,
-                maxY: bbox.y + bbox.height,
-              isStaticLink: link.hasAttribute('static') || link.hasAttribute('data-static')
+              maxY: bbox.y + bbox.height
             });
           }
         });
