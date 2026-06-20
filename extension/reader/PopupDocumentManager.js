@@ -212,7 +212,7 @@ class PopupDocumentManager{
             if(mainDocDiv.contains(link)){
                 shouldPreventDefault = true
                 this.currentLink = link
-            }else{
+            }else if(!g.readingManager.isFullScreen){
 
                 const noteData = g.readingManager.rightNotesData[g.readingManager.selectedRightDocIndex]
                 if(noteData.docType === 'h'){
