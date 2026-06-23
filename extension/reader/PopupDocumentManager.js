@@ -196,6 +196,12 @@ class PopupDocumentManager{
         centerCollageButton.addEventListener('click',this.leftDocCenterCollagePressed)
         centerCollageButton.style.display = 'none'
 
+        const currentCurrentDocumentCopyButton = document.getElementById("CurrentCurrentDocumentCopyButton")
+        this.createOneSVGIconComponent(currentCurrentDocumentCopyButton,g.iconsInfo.svgIcons.copyIcon)
+        currentCurrentDocumentCopyButton.addEventListener('click', this.copyButtonPressed)
+
+        currentCurrentDocumentCopyButton.style.display = 'none'
+
         const currentDocumentEmbeddingSymbol = document.getElementById("CurrentDocumentEmbeddingSymbol")
         this.createOneSVGIconComponent(currentDocumentEmbeddingSymbol,g.iconsInfo.svgIcons.exclamationIcon)
 
@@ -716,9 +722,16 @@ class PopupDocumentManager{
             showToastMessage('Something is wrong with this page')
             return 
         }
-        const {panels,title} = result
+        const {panels,title, lang, copyInfo} = result
         
+
+        if(copyInfo){
+            const currentCurrentDocumentCopyButton = document.getElementById("CurrentCurrentDocumentCopyButton")
+            currentCurrentDocumentCopyButton.style.display = 'flex'
+        }
       
+        console.log({lang,copyInfo})
+
         if (!isEmbedded) {
             this.prepareConnectionsForDocument(dataObject)       
         }
@@ -737,7 +750,25 @@ class PopupDocumentManager{
 
         const optionalTitleSpan = document.getElementById("CurrentDocumentOptionalTitleSpan")
 
-        if(isEmbedded){
+      
+        if(copyInfo){
+            if(copyInfo.original){
+                optionalTitleSpan.innerText = title
+                titleSpan.innerText = copyInfo.original
+                const leftTitleLink = document.getElementById("CurrentDocumentTitleLink")
+                leftTitleLink.href = copyInfo.original
+                leftTitleLink.target = '_blank'
+                leftTitleLink.classList.add('onHoverUnderlineDecoration')
+                leftTitleLink.style.cursor = 'pointer'
+            }else{
+                titleSpan.innerText = title
+            }
+
+            g.readingManager.mainDocCopyInfo = copyInfo
+
+           // this.populateCopyInfoPopup(copyInfo)
+
+        }else if(isEmbedded){
             optionalTitleSpan.innerText = title
             titleSpan.innerText = dataObject.url
         }else{
@@ -745,7 +776,7 @@ class PopupDocumentManager{
 
         }
 
-        optionalTitleSpan.style.display = isEmbedded ? 'block' : 'none'
+        optionalTitleSpan.style.display = isEmbedded || (copyInfo && copyInfo.original) ? 'block' : 'none'
 
 
 
@@ -826,6 +857,51 @@ class PopupDocumentManager{
 
     }
 
+
+
+    openCopyInfoPopup = (copyInfo) => {
+      
+        const overlay = document.createElement('div')
+        overlay.className = 'swp-comment-popup-overlay'
+
+        const dialog = document.createElement('div')
+        dialog.className = 'open-original-in-new-tab-dialog'
+
+        const msg = document.createElement('p')
+        msg.className = 'open-original-in-new-tab-dialog__message'
+        if(copyInfo.original){
+            msg.textContent = 'This document is a copy of another document: ' + copyInfo.original
+        }else{
+            msg.textContent = 'This document is a copy of another document but the link to the original document was not provided.'
+        }
+
+        const actions = document.createElement('div')
+        actions.className = 'open-original-in-new-tab-dialog__actions'
+
+        if(copyInfo.original){
+            const openBtn = document.createElement('button')
+            openBtn.className = 'open-original-in-new-tab-dialog__btn open-original-in-new-tab-dialog__btn--open'
+            openBtn.textContent = 'Open the original in the new tab'
+            openBtn.addEventListener('click', () => {
+                window.open(copyInfo.original, '_blank')
+                overlay.remove()
+            })
+            actions.appendChild(openBtn)
+
+        }
+
+        const cancelBtn = document.createElement('button')
+        cancelBtn.className = 'open-original-in-new-tab-dialog__btn open-original-in-new-tab-dialog__btn--cancel'
+        cancelBtn.textContent = 'Cancel'
+        cancelBtn.addEventListener('click', () => overlay.remove())
+
+        actions.appendChild(cancelBtn)
+        dialog.appendChild(msg)
+        dialog.appendChild(actions)
+        overlay.appendChild(dialog)
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove() })
+        document.body.appendChild(overlay)
+    }
 
     
     prepareConnectionsForDocument(dataObject = null) {
@@ -1378,6 +1454,16 @@ class PopupDocumentManager{
         
     }
 
+
+    copyButtonPressed = (e) => {
+        e.stopPropagation()
+
+        const copyInfo = g.readingManager.mainDocCopyInfo
+        if(copyInfo){
+            this.openCopyInfoPopup(copyInfo)
+        }
+    }
+
     closeAllExcept(except) {
         
         if(this.isShowingInfo && except !== this.toggleInfo){
@@ -1582,27 +1668,29 @@ class PopupDocumentManager{
             g.readingManager.mainCollageViewer.updateWidth(currentDocumentWidth)
         }
 
+
+        this.updateMainDocumentPadding()
         const mainPresentationDiv = document.getElementById("CurrentDocumentMainDiv")
 
 
 
-        const mainPadding = g.pdm.getMainDocumentPadding()
+        // const mainPadding = g.pdm.getMainDocumentPadding()
 
-        mainPresentationDiv.style.paddingLeft = `${mainPadding}px`
-        mainPresentationDiv.style.paddingRight = `${mainPadding}px`
-        mainPresentationDiv.style.width = `${currentDocumentWidth}px`
+        // mainPresentationDiv.style.paddingLeft = `${mainPadding}px`
+        // mainPresentationDiv.style.paddingRight = `${mainPadding}px`
+         mainPresentationDiv.style.width = `${currentDocumentWidth}px`
 
 
 
-        const headerDiv = document.getElementById("CurrentDocumentHeader")
-        headerDiv.style.paddingLeft = `${mainPadding}px`
-        headerDiv.style.paddingRight = `${mainPadding}px`
+        // const headerDiv = document.getElementById("CurrentDocumentHeader")
+        // headerDiv.style.paddingLeft = `${mainPadding}px`
+        // headerDiv.style.paddingRight = `${mainPadding}px`
 
     
 
-        const currentDocumentTopBar = document.getElementById("CurrentDocumentTopBar")
-        currentDocumentTopBar.style.height = kLeftDivTop + 'px'
-        currentDocumentTopBar.style.paddingLeft = `${mainPadding}px`
+        // const currentDocumentTopBar = document.getElementById("CurrentDocumentTopBar")
+        // currentDocumentTopBar.style.height = kLeftDivTop + 'px'
+        // currentDocumentTopBar.style.paddingLeft = `${mainPadding}px`
 
         const fullScreenButton = document.getElementById("CurrentDocumentFullScreenButton")
         while(fullScreenButton.firstChild){
@@ -2269,7 +2357,11 @@ class PopupDocumentManager{
         } else {
             this.cleanCommentsDiv(commentsDiv, this)
         }
+
+        
+        this.updateMainDocumentPadding()
    
+
         this.updateLeftDocumentPanels()
       
 
@@ -2303,6 +2395,9 @@ class PopupDocumentManager{
         } else {
             this.cleanCommentsDiv(commentsDiv, this)
         }
+
+        this.updateMainDocumentPadding()
+
 
         this.updateLeftDocumentPanels() 
 
@@ -2621,6 +2716,30 @@ class PopupDocumentManager{
 
     }
 
+
+    updateMainDocumentPadding = () => {
+        const mainPresentationDiv = document.getElementById("CurrentDocumentMainDiv")
+
+
+
+        const mainPadding = g.pdm.getMainDocumentPadding()
+
+        mainPresentationDiv.style.paddingLeft = `${mainPadding}px`
+        mainPresentationDiv.style.paddingRight = `${mainPadding}px`
+       // mainPresentationDiv.style.width = `${currentDocumentWidth}px`
+
+
+
+        const headerDiv = document.getElementById("CurrentDocumentHeader")
+        headerDiv.style.paddingLeft = `${mainPadding}px`
+        headerDiv.style.paddingRight = `${mainPadding}px`
+
+    
+
+        const currentDocumentTopBar = document.getElementById("CurrentDocumentTopBar")
+        currentDocumentTopBar.style.height = kLeftDivTop + 'px'
+        currentDocumentTopBar.style.paddingLeft = `${mainPadding}px`
+    }
 
     updateRightDocumentPanels = (noteData) => {
         if(noteData.docType !== 'h')return

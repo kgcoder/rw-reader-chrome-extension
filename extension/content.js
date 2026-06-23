@@ -255,13 +255,20 @@ async function showReaderOverlay() {
     let isOnePre = false
     if (!theTitle || !contentEl) {
 
+        console.log('document',document)
         contentString = document.body.innerHTML
+        contentString = fixSelfClosingTags(contentString)
+
+      
+        console.log('contentString1',contentString)
         const pres = document.querySelectorAll('pre')
         if(pres && pres.length === 1){
 
             const pre = pres[0]
       
             contentString = unescapeHTML(pre.innerHTML)
+            contentString = fixSelfClosingTags(contentString)
+
             isOnePre = true
         }
    
@@ -280,6 +287,8 @@ async function showReaderOverlay() {
                 isEmbeddedCdoc = true
                 addDocumentHostnames(source, null, false)
                 contentString = '<html><body>' + document.body.innerHTML + '</body></html>'
+                contentString = fixSelfClosingTags(contentString)
+
             }
         } catch {
             //do nothing
@@ -292,6 +301,8 @@ async function showReaderOverlay() {
                 isEmbeddedCondoc = true
                 addDocumentHostnames(source, null, true)
                 contentString = '<html><body>' + document.body.innerHTML + '</body></html>'
+                contentString = fixSelfClosingTags(contentString)
+
             }
         } catch {
             //do nothing
@@ -305,7 +316,11 @@ async function showReaderOverlay() {
 
                 savedParsingRules = await getSavedParsingRulesForLocation(currentLocation)
 
-                if(!isOnePre) contentString = document.documentElement.outerHTML
+                if(!isOnePre) {
+                    contentString = document.documentElement.outerHTML
+                    contentString = fixSelfClosingTags(contentString)
+
+                }
 
             }
 
@@ -315,8 +330,16 @@ async function showReaderOverlay() {
 
 
     }
+
+    console.log('content string before',contentString)
         
-    if(!contentString)contentString = document.documentElement.outerHTML
+    if(!contentString){
+        contentString = document.documentElement.outerHTML
+        contentString = fixSelfClosingTags(contentString)
+
+    }
+
+
 
     if(savedParsingRules && savedParsingRules !== 'text'){
         const selectors = getSelectorsFromConfigString(savedParsingRules)
@@ -536,4 +559,13 @@ function getActionsFromConfigString(configString){
 
     return actions
 
+}
+
+function fixSelfClosingTags(str) {
+    const selfClosingTags = ['mapping']
+    for (const tag of selfClosingTags) {
+        str = str.replace(new RegExp(`<\\/${tag}>`, 'gi'), '')
+        str = str.replace(new RegExp(`<${tag}([^>]*)>`, 'gi'), `<${tag}$1/>`)
+    }
+    return str
 }

@@ -43,7 +43,6 @@ window.addEventListener('initReader', async (e) => {
     g.readingManager.flinkStyle = useThickLinks ? 'thick' : 'thin'
     mainDocData = e.detail
 
-    
     const {dataObject,error} = await parseStaticContent(contentString,url, savedParsingRules)
 
 

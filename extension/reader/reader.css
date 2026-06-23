@@ -2046,3 +2046,56 @@ div.MenuHorizontalLine {
 p {
     line-height: 1.4;
 }
+
+
+/* ── Open-original-in-new-tab alert dialog ───────────────────────────────────────── */
+
+.open-original-in-new-tab-dialog {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    padding: 24px 24px 20px;
+    width: min(360px, 92vw);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.open-original-in-new-tab-dialog__message {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #222;
+}
+
+.open-original-in-new-tab-dialog__actions {
+    display: flex;
+    gap: 10px;
+    justify-content: space-around;
+}
+
+.open-original-in-new-tab-dialog__btn {
+    padding: 7px 16px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.open-original-in-new-tab-dialog__btn--open {
+    background: #0073aa;
+    color: #fff;
+}
+
+.open-original-in-new-tab-dialog__btn--open:hover {
+    background: #005a87;
+}
+
+.open-original-in-new-tab-dialog__btn--cancel {
+    background: rgba(0,0,0,0.08);
+    color: #333;
+}
+
+.open-original-in-new-tab-dialog__btn--cancel:hover {
+    background: rgba(0,0,0,0.16);
+}

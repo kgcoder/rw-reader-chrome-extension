@@ -37,7 +37,7 @@ class NoteDivsManager{
         const result = this.getNoteTextFromSource(xmlString, url)
 
         if(!result)return null
-        const {headerInfo:headerInfoFromFile, html: htmlFromFile, isHtml, panels: panelsData, title: titleFromFile,base:baseFromFile, flinksetUrls, isPlainText } = result
+        const {headerInfo:headerInfoFromFile, html: htmlFromFile, isHtml, panels: panelsData, title: titleFromFile,base:baseFromFile, flinksetUrls, isPlainText, lang, copyInfo } = result
         connectedDocUrls = flinksetUrls
 
     
@@ -185,7 +185,7 @@ class NoteDivsManager{
         })
       
 
-        return {isEditable,panels,headerInfo,title,base,connectedDocUrls}
+        return {isEditable,panels,headerInfo,title,base,connectedDocUrls, lang, copyInfo}
 
     }
 
@@ -309,7 +309,7 @@ class NoteDivsManager{
   
         const result = this.parseContentOfHdoc(xmlContent)
         if(!result)return null
-        const {content:contentFromFile,headerInfo:headerInfoFromFile,isHtml,panels,title,base, markdownWithoutTitle, flinksetUrls, isPlainText} = result
+        const {content:contentFromFile,headerInfo:headerInfoFromFile,isHtml,panels,title,base, markdownWithoutTitle, flinksetUrls, isPlainText, lang, copyInfo} = result
         
 
         if(forExport){
@@ -354,7 +354,7 @@ class NoteDivsManager{
 
         // }
         
-        return {headerInfo,html,isHtml,panels,title,base,flinksetUrls,isPlainText}
+        return {headerInfo,html,isHtml,panels,title,base,flinksetUrls,isPlainText, lang, copyInfo}
     }
 
 
@@ -728,6 +728,7 @@ class NoteDivsManager{
             if (panelsInfo) result.panels = panelsInfo
             if (copyInfo) result.copyInfo = copyInfo
 
+            console.log('result',result)
             return result
             
 
