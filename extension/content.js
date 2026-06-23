@@ -403,6 +403,11 @@ async function showReaderOverlay() {
 
 
 
+    const viewportMeta = document.createElement('meta')
+    viewportMeta.name = 'viewport'
+    viewportMeta.content = 'width=device-width, initial-scale=1.0'
+    document.head.appendChild(viewportMeta)
+
     const cssLink = document.createElement('link')
     cssLink.href = chrome.runtime.getURL('reader/reader.css')
     cssLink.rel = "stylesheet"
