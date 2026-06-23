@@ -45,7 +45,7 @@ class NoteDivsManager{
     
         
     if (headerInfoFromFile) {
-        title = headerInfoFromFile.h1Text
+        title = headerInfoFromFile.h1Text.replace(/<[^>]*>/g, '').replace(/[\r\n]+/g, ' ').trim()
         
     }
         base = baseFromFile
