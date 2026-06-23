@@ -39,11 +39,13 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
     let panelsString = ''
     if (panelsJSON) {
         let topPanelString = ''
+        let sidebarPanelString = ''
         let sidePanelString = ''
         let bottomPanelString = ''
 
         
         const topPanelJSON = panelsJSON["top"]
+        const sidebarPanelJSON = panelsJSON["sidebar"]
         const sidePanelJSON = panelsJSON["side"]
         const bottomPanelJSON = panelsJSON["bottom"]
         
@@ -95,10 +97,8 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
         if (sidePanelJSON) {
 
             
-            const isLeft = sidePanelJSON.left
             const ipage = sidePanelJSON.ipage
-            
-            const sideString = isLeft === 'true' ? ' left="true"' : ''
+
             const ipageString = ipage ? `\n<ipage>${ipage}</ipage>` : ''
             
             let commentsString = ''
@@ -114,18 +114,18 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
 
                 if (commentsUrl) {
                     commentsString = `\n<comments`
-                        + (commentsTitle        ? ` title="${commentsTitle}"`                  : '')
-                        + (commentsEmptyMessage ? ` empty="${commentsEmptyMessage}"`            : '')
-                        + (leaveCommentUrl      ? ` leave-comment-url="${leaveCommentUrl}"`     : '')
-                        + (replyLabel           ? ` reply-label="${replyLabel}"`                : '')
-                        + (leaveLabel           ? ` leave-comment-label="${leaveLabel}"`        : '')
+                        + (commentsTitle       ? ` title="${commentsTitle}"`                     : '')
+                        + (commentsEmptyMessage ? ` empty="${commentsEmptyMessage}"`              : '')
+                        + (leaveCommentUrl     ? ` leave-comment-url="${leaveCommentUrl}"`        : '')
+                        + (replyLabel          ? ` reply-label="${replyLabel}"`                   : '')
+                        + (leaveLabel          ? ` leave-comment-label="${leaveLabel}"`           : '')
                         + `>${commentsUrl}</comments>`
                 }
 
             }
 
             if (commentsString || ipageString) {
-                sidePanelString = `<side${sideString}>${commentsString}${ipageString}\n</side>`  
+                sidePanelString = `<side>${commentsString}${ipageString}\n</side>`
             }
  
         }
@@ -169,8 +169,64 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
    
         }
 
-        if (topPanelString || sidePanelString || bottomPanelString) {
-            panelsString = `\n\n<panels>${topPanelString}${sidePanelString}${bottomPanelString}\n</panels>\n\n`     
+        if (sidebarPanelJSON) {
+            const sidebarSide = sidebarPanelJSON.side
+            const sideAttr = (sidebarSide === 'left' || sidebarSide === 'right') ? ` side="${sidebarSide}"` : ''
+
+            let searchString = ''
+            const searchJSON = sidebarPanelJSON.search
+            if (searchJSON && searchJSON.action) {
+                searchString = `\n<search`
+                    + ` action="${escapeXml(searchJSON.action)}"`
+                    + (searchJSON.placeholder ? ` placeholder="${escapeXml(searchJSON.placeholder)}"` : '')
+                    + (searchJSON.target      ? ` target="${escapeXml(searchJSON.target)}"`           : '')
+                    + `/>`
+            }
+
+            let postNavString = ''
+            const postNavJSON = sidebarPanelJSON['post-nav']
+            if (postNavJSON) {
+                const prevJSON = postNavJSON.prev
+                const nextJSON = postNavJSON.next
+                const prevString = (prevJSON && prevJSON.href) ? `\n<prev href="${escapeXml(prevJSON.href)}">${escapeXml(prevJSON.title || '')}</prev>` : ''
+                const nextString = (nextJSON && nextJSON.href) ? `\n<next href="${escapeXml(nextJSON.href)}">${escapeXml(nextJSON.title || '')}</next>` : ''
+                if (prevString || nextString) {
+                    postNavString = `\n<post-nav>${prevString}${nextString}\n</post-nav>`
+                }
+            }
+
+            let recentPostsString = ''
+            const recentPostsJSON = sidebarPanelJSON['recent-posts']
+            if (recentPostsJSON && Array.isArray(recentPostsJSON.posts) && recentPostsJSON.posts.length) {
+                const postsString = recentPostsJSON.posts.map(p => {
+                    if (!p.href) return ''
+                    return `\n<post href="${escapeXml(p.href)}"${p.date ? ` date="${escapeXml(p.date)}"` : ''}>${escapeXml(p.title || '')}</post>`
+                }).filter(Boolean).join('')
+                if (postsString) {
+                    recentPostsString = `\n<recent-posts${recentPostsJSON.title ? ` title="${escapeXml(recentPostsJSON.title)}"` : ''}>${postsString}\n</recent-posts>`
+                }
+            }
+
+            let recentCommentsString = ''
+            const recentCommentsJSON = sidebarPanelJSON['recent-comments']
+            if (recentCommentsJSON && Array.isArray(recentCommentsJSON.comments) && recentCommentsJSON.comments.length) {
+                const commentsStr = recentCommentsJSON.comments.map(c => {
+                    if (!c['post-href'] || !c.author) return ''
+                    return `\n<comment post-href="${escapeXml(c['post-href'])}" author="${escapeXml(c.author)}">${escapeXml(c.excerpt || '')}</comment>`
+                }).filter(Boolean).join('')
+                if (commentsStr) {
+                    recentCommentsString = `\n<recent-comments${recentCommentsJSON.title ? ` title="${escapeXml(recentCommentsJSON.title)}"` : ''}>${commentsStr}\n</recent-comments>`
+                }
+            }
+
+            const sidebarInner = searchString + postNavString + recentPostsString + recentCommentsString
+            if (sidebarInner) {
+                sidebarPanelString = `\n<sidebar${sideAttr}>${sidebarInner}\n</sidebar>`
+            }
+        }
+
+        if (topPanelString || sidebarPanelString || sidePanelString || bottomPanelString) {
+            panelsString = `\n\n<panels>${topPanelString}${sidebarPanelString}${sidePanelString}${bottomPanelString}\n</panels>\n\n`
         }
     }
 
@@ -190,8 +246,8 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
 
         headerInfo.h1Text = unescapeHTML(mainTitle)
 
-        const authorName = headerJSON["author"] ?? ''
-        const publicationDate = headerJSON["date"] ?? ''
+        const authorName = headerJSON["author"] != null ? headerJSON["author"] : ''
+        const publicationDate = headerJSON["date"] != null ? headerJSON["date"] : ''
 
         if (authorName) {
             headerInfo.authorName = unescapeHTML(authorName)
@@ -232,8 +288,10 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
     const base = getBaseFromHtmlDoc(unsanitizedHtmlDoc)
 
     if (!connectionsString) connectionsString = '\n\n'
-        
-    const xmlString = `<hdoc>\n\n<metadata>\n<title>${escapeXml(document.title)}</title>\n${getBaseOuterXML(base)}</metadata>${panelsString}${headerString}<content>${content}</content>${connectionsString}</hdoc>`
+
+    const lang = hdocDataJSON.lang
+    const hdocOpenTag = lang ? `<hdoc lang="${escapeXml(lang)}">` : `<hdoc>`
+    const xmlString = `${hdocOpenTag}\n\n<metadata>\n<title>${escapeXml(document.title)}</title>\n${getBaseOuterXML(base)}</metadata>${panelsString}${headerString}<content>${content}</content>${connectionsString}</hdoc>`
 
     const dataObject = {html:content,headerInfo:headerInfo,base,xmlString,connectedDocsData,type:'text',docType:'h',url:httpPageUrl,docSubtype:2}
 

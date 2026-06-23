@@ -367,10 +367,14 @@ class NoteDivsManager{
         let flinksetUrls = []
         let headerInfo
         let base = ''
-        const docContentMatch = content.trim().match(/^<hdoc\b[^>]*>([\s\S]*?)<\/hdoc>$/im)
+        const docContentMatch = content.trim().match(/^<hdoc\b([^>]*)>([\s\S]*?)<\/hdoc>$/im)
         if(!docContentMatch)return null
 
-        const docContent = docContentMatch[1]
+        const hdocAttrs = docContentMatch[1]
+        const langMatch = hdocAttrs.match(/lang="([^"]*)"/)
+        const lang = langMatch ? langMatch[1] : undefined
+
+        const docContent = docContentMatch[2]
 
 
         const markdownMatch = docContent.match(/<markdown\b[^>]*>([\s\S]*?)<\/markdown>/im)
@@ -524,8 +528,6 @@ class NoteDivsManager{
 
                     let url = ''
 
-                    let isLeft = sidePanel.getAttribute('left')
-
 
                     if([...sidePanel.children].length === 0){
                         url = sidePanel.textContent.trim()
@@ -553,8 +555,7 @@ class NoteDivsManager{
 
                     
 
-                    const side = isLeft === 'true' ? 'left' : 'right'
-                    sidePanelInfo = {url,side, commentsUrl,commentsTitle,noCommentsMessage,leaveCommentUrl,commentsReplyLabel,commentsLeaveLabel}
+                    sidePanelInfo = {url, commentsUrl,commentsTitle,noCommentsMessage,leaveCommentUrl,commentsReplyLabel,commentsLeaveLabel}
 
 
                 }
@@ -604,11 +605,61 @@ class NoteDivsManager{
 
 
                 
-                
-                
+                let sidebarPanelInfo = null
+                const sidebarPanels = rootElement.getElementsByTagName('sidebar')
+                if (sidebarPanels && sidebarPanels.length) {
+                    const sidebarEl = sidebarPanels[0]
+                    const sidebarSide = sidebarEl.getAttribute('side') || 'right'
+
+                    let search = null
+                    const searchEl = sidebarEl.querySelector('search')
+                    if (searchEl) {
+                        search = {
+                            action: searchEl.getAttribute('action'),
+                            placeholder: searchEl.getAttribute('placeholder'),
+                            target: searchEl.getAttribute('target')
+                        }
+                    }
+
+                    let postNav = null
+                    const postNavEl = sidebarEl.querySelector('post-nav')
+                    if (postNavEl) {
+                        const prevEl = postNavEl.querySelector('prev')
+                        const nextEl = postNavEl.querySelector('next')
+                        postNav = {}
+                        if (prevEl) postNav.prev = {href: prevEl.getAttribute('href'), title: prevEl.textContent.trim()}
+                        if (nextEl) postNav.next = {href: nextEl.getAttribute('href'), title: nextEl.textContent.trim()}
+                    }
+
+                    let recentPosts = null
+                    const recentPostsEl = sidebarEl.querySelector('recent-posts')
+                    if (recentPostsEl) {
+                        const posts = [...recentPostsEl.querySelectorAll('post')].map(p => ({
+                            href: p.getAttribute('href'),
+                            date: p.getAttribute('date'),
+                            title: p.textContent.trim()
+                        }))
+                        recentPosts = {title: recentPostsEl.getAttribute('title'), posts}
+                    }
+
+                    let recentComments = null
+                    const recentCommentsEl = sidebarEl.querySelector('recent-comments')
+                    if (recentCommentsEl) {
+                        const comments = [...recentCommentsEl.querySelectorAll('comment')].map(c => ({
+                            postHref: c.getAttribute('post-href'),
+                            author: c.getAttribute('author'),
+                            excerpt: c.textContent.trim()
+                        }))
+                        recentComments = {title: recentCommentsEl.getAttribute('title'), comments}
+                    }
+
+                    sidebarPanelInfo = {side: sidebarSide, search, postNav, recentPosts, recentComments}
+                }
+
                 panelsInfo = {
                     //style:generalPanelStyle,
                     topPanel:topPanelInfo,
+                    sidebarPanel:sidebarPanelInfo,
                     sidePanel:sidePanelInfo,
                     bottomPanel:bottomPanelInfo
                 }
@@ -646,10 +697,36 @@ class NoteDivsManager{
             }
 
 
-            const result = { content: html, title, base, markdownWithoutTitle:'', headerInfo, isHtml: true, flinksetUrls, isPlainText }
-            if (panelsInfo) {
-                result.panels = panelsInfo
+            const copyInfoMatch = xmlContent.match(/<copy-info\b[^>]*>[\s\S]*?<\/copy-info>/im)
+            let copyInfo = null
+            if (copyInfoMatch) {
+                const copyInfoParser = new DOMParser()
+                const copyInfoDoc = copyInfoParser.parseFromString(copyInfoMatch[0], 'application/xml')
+                const copyInfoEl = copyInfoDoc.documentElement
+                const original = copyInfoEl.getAttribute('original')
+                const copiedAt = copyInfoEl.getAttribute('copied-at')
+
+                const via = [...copyInfoEl.getElementsByTagName('via')].map(v => ({
+                    copiedAt: v.getAttribute('copied-at'),
+                    url: v.textContent.trim()
+                }))
+
+                const mediaMappingsEl = copyInfoEl.querySelector('media-mappings')
+                let mediaMappings = null
+                if (mediaMappingsEl) {
+                    mediaMappings = [...mediaMappingsEl.querySelectorAll('mapping')].map(m => ({
+                        from: m.getAttribute('from'),
+                        to: m.getAttribute('to')
+                    }))
+                }
+
+                copyInfo = {original, copiedAt, via, mediaMappings}
             }
+
+            const result = { content: html, title, base, markdownWithoutTitle:'', headerInfo, isHtml: true, flinksetUrls, isPlainText }
+            if (lang) result.lang = lang
+            if (panelsInfo) result.panels = panelsInfo
+            if (copyInfo) result.copyInfo = copyInfo
 
             return result
             
