@@ -728,7 +728,6 @@ class NoteDivsManager{
             if (panelsInfo) result.panels = panelsInfo
             if (copyInfo) result.copyInfo = copyInfo
 
-            console.log('result',result)
             return result
             
 

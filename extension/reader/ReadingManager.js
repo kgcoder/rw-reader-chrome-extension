@@ -448,10 +448,25 @@ setupFlinksCanvasDPR(){
         
          const result = g.noteDivsManager.populateDivWithTextFromDoc(div,noteData.xmlString,noteData.url,true)
          if(result){
-             const {isEditable,title,panels} = result
+             const {isEditable,title,panels,copyInfo,lang} = result
              noteData.isEditable = isEditable
              noteData.title = title
              noteData.panels = panels
+
+
+             if(copyInfo){
+                noteData.copyInfo = copyInfo
+
+                const currentDocumentCopyButton = document.getElementById("RightDocumentCopyButton")
+                currentDocumentCopyButton.style.display = 'flex'
+
+
+
+
+             }
+
+
+
 
          }
          g.noteDivsManager.addEventListenersToNote(div, noteData, rightDocId)
@@ -519,13 +534,6 @@ setupFlinksCanvasDPR(){
 
     showTab = (index) => {
 
-
-        const currentNoteData = this.rightNotesData[this.selectedRightDocIndex]
-        if (currentNoteData.isShowingDropdownMenu) {
-            g.pdm.toggleRightDropDownMenu()   
-        }
-
-
         this.selectedRightDocIndex = index
 
         for(let i = 0; i< this.rightNotesData.length;i++){
@@ -577,24 +585,6 @@ setupFlinksCanvasDPR(){
             g.pdm.populatePanelsOfOneRightDoc()
         }
 
-        
-        const optionalTitleSpan = document.getElementById("RightDocumentOptionalTitleSpan")
-        if(g.readingManager.rightNotesData.length === 1){
-
-            optionalTitleSpan.innerText = noteData.title ?? ''
-           
-            optionalTitleSpan.style.display = 'flex'
-        }else{
-            optionalTitleSpan.style.display = 'none'
-        }
-
-
-        const titleSpan = document.getElementById("RightDocumentTitleSpan")
-
-
-        let title = noteData.url ?? ''
-     
-        titleSpan.innerText = title
 
         this.changesInReadingModeExist = true
         
@@ -1957,17 +1947,14 @@ setupFlinksCanvasDPR(){
 
         if (this.mainDocType === 'h') {
             const mainDocScrollEvent = () => {
-                clearTimeout(this.leftScrollTimeout)
-                this.leftScrollTimeout = setTimeout(() => {
-                    this.addFlinksToLeftDiv() 
-                }, 50);
                 this.changesInReadingModeExist = true
                 this.drawFlinksOnMiddleCanvas()
             }
-            
-    
+
+
             const mainScrollDocDiv = document.getElementById("CurrentDocument")
-            mainScrollDocDiv.addEventListener("scroll",mainDocScrollEvent);
+            mainScrollDocDiv.addEventListener("scroll", mainDocScrollEvent);
+            mainScrollDocDiv.addEventListener("scrollend", () => this.addFlinksToLeftDiv());
 
             g.noteDivsManager.addEventListenersToNote(mainScrollDocDiv, g.readingManager, this.mainDocId)
             
@@ -1982,17 +1969,13 @@ setupFlinksCanvasDPR(){
         const noteData = this.rightNotesData[this.selectedRightDocIndex]
         if(!noteData || noteData.docType !== 'h')return
         const secondDocScrollEvent = () => {
-            clearTimeout(this.rightScrollTimeout)
-                this.rightScrollTimeout = setTimeout(() => {
-                this.addFlinksToRightDiv()
-            }, 50);
-
             this.changesInReadingModeExist = true
-            this.drawFlinksOnMiddleCanvas() 
+            this.drawFlinksOnMiddleCanvas()
         }
         const secondScrollDiv = noteData.scrollDiv
-        
-        secondScrollDiv.addEventListener("scroll",secondDocScrollEvent);
+
+        secondScrollDiv.addEventListener("scroll", secondDocScrollEvent);
+        secondScrollDiv.addEventListener("scrollend", () => this.addFlinksToRightDiv());
     }
 
 

@@ -196,11 +196,11 @@ class PopupDocumentManager{
         centerCollageButton.addEventListener('click',this.leftDocCenterCollagePressed)
         centerCollageButton.style.display = 'none'
 
-        const currentCurrentDocumentCopyButton = document.getElementById("CurrentCurrentDocumentCopyButton")
-        this.createOneSVGIconComponent(currentCurrentDocumentCopyButton,g.iconsInfo.svgIcons.copyIcon)
-        currentCurrentDocumentCopyButton.addEventListener('click', this.copyButtonPressed)
+        const currentDocumentCopyButton = document.getElementById("CurrentDocumentCopyButton")
+        this.createOneSVGIconComponent(currentDocumentCopyButton,g.iconsInfo.svgIcons.copyIcon)
+        currentDocumentCopyButton.addEventListener('click', this.leftCopyButtonPressed)
 
-        currentCurrentDocumentCopyButton.style.display = 'none'
+        currentDocumentCopyButton.style.display = 'none'
 
         const currentDocumentEmbeddingSymbol = document.getElementById("CurrentDocumentEmbeddingSymbol")
         this.createOneSVGIconComponent(currentDocumentEmbeddingSymbol,g.iconsInfo.svgIcons.exclamationIcon)
@@ -424,6 +424,12 @@ class PopupDocumentManager{
         rightDocumentRightPanelButton.addEventListener('click',this.rightDocumentRightPanelButtonPressed)
     
     
+
+        const rightDocumentCopyButton = document.getElementById("RightDocumentCopyButton")
+        this.createOneSVGIconComponent(rightDocumentCopyButton,g.iconsInfo.svgIcons.copyIcon)
+        rightDocumentCopyButton.addEventListener('click', this.rightCopyButtonPressed)
+
+        rightDocumentCopyButton.style.display = 'none'
    
 
   
@@ -474,21 +480,67 @@ class PopupDocumentManager{
     showTab = (index) => {
         g.readingManager.showTab(index)
 
+        const noteData = g.readingManager.rightNotesData[index]
+        if (noteData.isShowingDropdownMenu) {
+            g.pdm.toggleRightDropDownMenu()   
+        }
+
 
         const fullScreenButton = document.getElementById("CurrentDocumentFullScreenButton")
         fullScreenButton.style.display = 'flex'
 
 
         const rightDocumentTitleLink = document.getElementById("RightDocumentTitleLink")
-        const noteData = g.readingManager.rightNotesData[index]
-        rightDocumentTitleLink.href = noteData.url.split('#')[0]
-        rightDocumentTitleLink.title = noteData.url.split('#')[0]
+
+        let url
+
+
+        let originalUrl
+        if(noteData.copyInfo){
+            originalUrl = noteData.copyInfo.original
+        }
+
+        if(originalUrl){
+            url = originalUrl
+        }else{
+            url = noteData.url.split('#')[0]
+        }
+
+
+        rightDocumentTitleLink.href = url
+        rightDocumentTitleLink.title = url
 
         rightDocumentTitleLink.target = '_blank'
 
         const rightDocumentCenterCollageButton = document.getElementById("RightDocumentCenterCollageButton")
         rightDocumentCenterCollageButton.style.display = noteData.docType === 'c' ? 'flex' : 'none'
 
+
+        const rightDocumentCopyButton = document.getElementById("RightDocumentCopyButton")
+        
+        rightDocumentCopyButton.style.display = noteData.copyInfo ? 'flex' :'none'
+        
+    
+
+
+
+        const optionalTitleSpan = document.getElementById("RightDocumentOptionalTitleSpan")
+        if(g.readingManager.rightNotesData.length === 1){
+
+            optionalTitleSpan.innerText = noteData.title ?? ''
+           
+            optionalTitleSpan.style.display = 'flex'
+        }else{
+            optionalTitleSpan.style.display = 'none'
+        }
+
+
+        const titleSpan = document.getElementById("RightDocumentTitleSpan")
+
+
+        let title = originalUrl ? originalUrl : (noteData.url != null ? noteData.url : '')
+     
+        titleSpan.innerText = title
         
 
     }
@@ -726,12 +778,10 @@ class PopupDocumentManager{
         
 
         if(copyInfo){
-            const currentCurrentDocumentCopyButton = document.getElementById("CurrentCurrentDocumentCopyButton")
-            currentCurrentDocumentCopyButton.style.display = 'flex'
+            const currentDocumentCopyButton = document.getElementById("CurrentDocumentCopyButton")
+            currentDocumentCopyButton.style.display = 'flex'
         }
       
-        console.log({lang,copyInfo})
-
         if (!isEmbedded) {
             this.prepareConnectionsForDocument(dataObject)       
         }
@@ -1455,7 +1505,7 @@ class PopupDocumentManager{
     }
 
 
-    copyButtonPressed = (e) => {
+    leftCopyButtonPressed = (e) => {
         e.stopPropagation()
 
         const copyInfo = g.readingManager.mainDocCopyInfo
@@ -1463,6 +1513,19 @@ class PopupDocumentManager{
             this.openCopyInfoPopup(copyInfo)
         }
     }
+
+
+    rightCopyButtonPressed = (e) => {
+        e.stopPropagation()
+
+        const noteData = g.readingManager.rightNotesData[g.readingManager.selectedRightDocIndex]
+        
+        if(noteData.copyInfo){
+            this.openCopyInfoPopup(noteData.copyInfo)
+        }
+    }
+
+
 
     closeAllExcept(except) {
         

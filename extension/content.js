@@ -255,12 +255,9 @@ async function showReaderOverlay() {
     let isOnePre = false
     if (!theTitle || !contentEl) {
 
-        console.log('document',document)
         contentString = document.body.innerHTML
         contentString = fixSelfClosingTags(contentString)
 
-      
-        console.log('contentString1',contentString)
         const pres = document.querySelectorAll('pre')
         if(pres && pres.length === 1){
 
@@ -330,8 +327,6 @@ async function showReaderOverlay() {
 
 
     }
-
-    console.log('content string before',contentString)
         
     if(!contentString){
         contentString = document.documentElement.outerHTML

@@ -1566,7 +1566,7 @@ a.TopPanelOptionLink:hover {
     background-color: rgba(37, 38, 39, 0.1);
     flex-direction: row-reverse;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 10px;
     padding-right: 20px;
 
     border-bottom: 1px solid lightgray;
