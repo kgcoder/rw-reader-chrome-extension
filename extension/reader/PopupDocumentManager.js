@@ -816,7 +816,6 @@ class PopupDocumentManager{
 
             g.readingManager.mainDocCopyInfo = copyInfo
 
-           // this.populateCopyInfoPopup(copyInfo)
 
         }else if(isEmbedded){
             optionalTitleSpan.innerText = title
@@ -1735,25 +1734,7 @@ class PopupDocumentManager{
         this.updateMainDocumentPadding()
         const mainPresentationDiv = document.getElementById("CurrentDocumentMainDiv")
 
-
-
-        // const mainPadding = g.pdm.getMainDocumentPadding()
-
-        // mainPresentationDiv.style.paddingLeft = `${mainPadding}px`
-        // mainPresentationDiv.style.paddingRight = `${mainPadding}px`
          mainPresentationDiv.style.width = `${currentDocumentWidth}px`
-
-
-
-        // const headerDiv = document.getElementById("CurrentDocumentHeader")
-        // headerDiv.style.paddingLeft = `${mainPadding}px`
-        // headerDiv.style.paddingRight = `${mainPadding}px`
-
-    
-
-        // const currentDocumentTopBar = document.getElementById("CurrentDocumentTopBar")
-        // currentDocumentTopBar.style.height = kLeftDivTop + 'px'
-        // currentDocumentTopBar.style.paddingLeft = `${mainPadding}px`
 
         const fullScreenButton = document.getElementById("CurrentDocumentFullScreenButton")
         while(fullScreenButton.firstChild){
@@ -2789,7 +2770,6 @@ class PopupDocumentManager{
 
         mainPresentationDiv.style.paddingLeft = `${mainPadding}px`
         mainPresentationDiv.style.paddingRight = `${mainPadding}px`
-       // mainPresentationDiv.style.width = `${currentDocumentWidth}px`
 
 
 
