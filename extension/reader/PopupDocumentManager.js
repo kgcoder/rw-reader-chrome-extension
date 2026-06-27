@@ -1416,9 +1416,115 @@ class PopupDocumentManager{
     }
 
 
-    populateSidebar(div,sidebarInfo){
-        
+    populateSidebar(div, sidebarInfo) {
+        while (div.firstChild) div.removeChild(div.firstChild)
 
+            console.log('sidebarInfo',JSON.stringify(sidebarInfo,null,2))
+
+        for (const item of sidebarInfo.items) {
+            if (item.type === 'search') {
+                const widget = document.createElement('div')
+                widget.className = 'SideBarWidget'
+
+                const form = document.createElement('div')
+                form.className = 'SideBarSearchForm'
+
+                const input = document.createElement('input')
+                input.type = 'search'
+                input.className = 'SideBarSearchInput'
+                input.placeholder = item.placeholder || 'Search…'
+
+                const button = document.createElement('button')
+                button.className = 'SideBarSearchButton'
+                button.textContent = '→'
+                button.addEventListener('click', () => {
+                    const query = encodeURIComponent(input.value.trim())
+                    if (!query) return
+                    const url = item.action.replace('%s', query)
+                    window.open(url, item.target || '_self')
+                })
+
+                form.appendChild(input)
+                form.appendChild(button)
+                widget.appendChild(form)
+                div.appendChild(widget)
+
+            } else if (item.type === 'links') {
+                const widget = document.createElement('div')
+                widget.className = 'SideBarWidget'
+
+                if (item.title) {
+                    const title = document.createElement('p')
+                    title.className = 'SideBarWidgetTitle'
+                    title.textContent = item.title
+                    widget.appendChild(title)
+                }
+
+                const ul = document.createElement('ul')
+                ul.className = 'SideBarLinks'
+
+                for (const link of item.items) {
+                    const li = document.createElement('li')
+                    const a = document.createElement('a')
+                    a.href = link.href
+                    a.textContent = link.text
+                    if (link.target) a.target = link.target
+                    if (link.rel) a.rel = link.rel
+                    li.appendChild(a)
+                    ul.appendChild(li)
+                }
+
+                widget.appendChild(ul)
+                div.appendChild(widget)
+
+            } else if (item.type === 'recent-comments') {
+                const widget = document.createElement('div')
+                widget.className = 'SideBarWidget'
+
+                if (item.title) {
+                    const title = document.createElement('p')
+                    title.className = 'SideBarWidgetTitle'
+                    title.textContent = item.title
+                    widget.appendChild(title)
+                }
+
+                const format = item.format || '{author} on {post}'
+
+                for (const comment of item.comments) {
+                    const entry = document.createElement('div')
+                    entry.className = 'SideBarCommentItem'
+
+                    const header = document.createElement('span')
+                    header.className = 'SideBarCommentHeader'
+                    for (const part of format.split(/(\{author\}|\{post\})/g)) {
+                        if (part === '{author}') {
+                            const authorSpan = document.createElement('span')
+                            authorSpan.className = 'SideBarCommentAuthor'
+                            authorSpan.textContent = comment.author
+                            header.appendChild(authorSpan)
+                        } else if (part === '{post}') {
+                            const postLink = document.createElement('a')
+                            postLink.href = comment.postHref
+                            postLink.textContent = comment.postTitle
+                            header.appendChild(postLink)
+                        } else if (part) {
+                            header.appendChild(document.createTextNode(part))
+                        }
+                    }
+
+                    entry.appendChild(header)
+                    if (comment.excerpt) {
+                        const excerpt = document.createElement('span')
+                        excerpt.className = 'SideBarCommentExcerpt'
+                        excerpt.textContent = comment.excerpt
+                        entry.appendChild(excerpt)
+                    }
+                    widget.appendChild(entry)
+                }
+
+                div.appendChild(widget)
+            }
+        }
     }
 
 

@@ -205,10 +205,10 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
                     if (item.type === 'recent-comments' && Array.isArray(item.comments) && item.comments.length) {
                         const commentsStr = item.comments.map(c => {
                             if (!c['post-href'] || !c.author) return ''
-                            return `\n<comment post-href="${escapeXml(c['post-href'])}" author="${escapeXml(c.author)}">${escapeXml(c.excerpt || '')}</comment>`
+                            return `\n<comment post-href="${escapeXml(c['post-href'])}"${c['post-title'] ? ` post-title="${escapeXml(c['post-title'])}"` : ''} author="${escapeXml(c.author)}"${c.excerpt ? ` excerpt="${escapeXml(c.excerpt)}"` : ''}/>`
                         }).filter(Boolean).join('')
                         if (!commentsStr) return ''
-                        return `\n<recent-comments${item.title ? ` title="${escapeXml(item.title)}"` : ''}>${commentsStr}\n</recent-comments>`
+                        return `\n<recent-comments${item.title ? ` title="${escapeXml(item.title)}"` : ''}${item.format ? ` format="${escapeXml(item.format)}"` : ''}>${commentsStr}\n</recent-comments>`
                     }
                     return ''
                 }).filter(Boolean).join('')

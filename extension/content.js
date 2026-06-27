@@ -562,10 +562,10 @@ function getActionsFromConfigString(configString){
 }
 
 function fixSelfClosingTags(str) {
-    const selfClosingTags = ['mapping', 'search']
+    const selfClosingTags = ['mapping', 'search', 'comment']
     for (const tag of selfClosingTags) {
         str = str.replace(new RegExp(`<\\/${tag}>`, 'gi'), '')
-        str = str.replace(new RegExp(`<${tag}([^>]*)>`, 'gi'), `<${tag}$1/>`)
+        str = str.replace(new RegExp(`<${tag}\\b([^>]*)>`, 'gi'), `<${tag}$1/>`)
     }
     return str
 }

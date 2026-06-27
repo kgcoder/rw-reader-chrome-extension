@@ -61,9 +61,7 @@ class NoteDivsManager{
         populateHeaderDiv(headerDiv,headerInfo)
 
        
-        console.log('div',div)
         const notePresentationDiv = getPresentationDivFrom(div)
-        console.log('notePresentationDiv',notePresentationDiv)
         if (url && !isPlainText) {
             html = absolutizeUrls(html,base,url)  
         }
@@ -441,6 +439,7 @@ class NoteDivsManager{
         const panelsMatch = xmlContent.match(/<panels\b[^>]*>([\s\S]*?)<\/panels>/im)
         if(panelsMatch){
 
+
                 let topPanelInfo = null
                 let sidePanelInfo = null
                 let bottomPanelInfo = null
@@ -458,6 +457,7 @@ class NoteDivsManager{
 
                 console.log('panelsString',panelsString)
                 const rootElement = xmlDoc.documentElement;
+                console.log('root',rootElement)
 
                // const generalPanelStyle = this.getPanelStyleFromXMLNode(rootElement)
         
@@ -646,10 +646,16 @@ class NoteDivsManager{
                         } else if (tag === 'recent-comments') {
                             const comments = [...child.querySelectorAll('comment')].map(c => ({
                                 postHref: c.getAttribute('post-href'),
+                                postTitle: c.getAttribute('post-title'),
                                 author: c.getAttribute('author'),
-                                excerpt: c.textContent.trim()
+                                excerpt: c.getAttribute('excerpt')
                             }))
-                            sidebarItems.push({type: 'recent-comments', title: child.getAttribute('title'), comments})
+                            sidebarItems.push({
+                                type: 'recent-comments',
+                                title: child.getAttribute('title'),
+                                format: child.getAttribute('format'),
+                                comments
+                            })
                         }
                     }
 
