@@ -33,7 +33,7 @@ window.addEventListener("message", (event) => {
 
             if(!url || !url.trim())return
 
-            g.readingManager.downloadOnePage(url)
+            g.readingManager.downloadOnePage(url, false, true)
 
       }
 });
