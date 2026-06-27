@@ -33,7 +33,6 @@ let savedParsingRules = ''
 let initialCondocTitle = ''
 let condocTitleWasShownOnce = false
 
-
 // List of selectors to try in order
 const selectors = [
     

@@ -21,7 +21,9 @@ let _port = null
 const _portReady = new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
         window.removeEventListener('message', capturePort)
-        reject(new Error('Reader failed to initialize. Please reload the page.'))
+        if(g.readingManager.isReading){
+            reject(new Error('Reader failed to initialize. Please reload the page.'))
+        }
     }, 3000)
 
     function capturePort(e) {
@@ -43,7 +45,7 @@ window.postMessage({ type: 'READER_READY' }, '*')
 const currentRequests = new Set()
 
 
-export function fetchWebPage(url) {
+export function fetchWebPage(url, isUserSpecifiedUrl = false) {
   if(!g.readingManager.mainDocData)return
 
   if (currentRequests.has(url)) return
@@ -93,6 +95,6 @@ export function fetchWebPage(url) {
         }
 
         _port.addEventListener("message", handleResponse)
-        _port.postMessage({ type: "FETCH_WEB_PAGE", url, id })
+        _port.postMessage({ type: "FETCH_WEB_PAGE", url, id, isUserSpecifiedUrl })
     })
 }

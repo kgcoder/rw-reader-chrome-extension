@@ -71,9 +71,15 @@ function registerDocumentHostnames(html) {
 
 // port1 listens for FETCH_WEB_PAGE from NetworkManager.js (private channel — not window)
 port1.onmessage = async ({ data }) => {
-    const { type, url, id } = data
+    const { type, url, id, isUserSpecifiedUrl } = data
     if (type !== 'FETCH_WEB_PAGE') return
     if (!isShowingReader) return
+
+    if(isUserSpecifiedUrl){
+        const confirmed = confirm(`Allow fetching a page from another website?\n${url}`)
+        chrome.runtime.sendMessage({ action: 'fetchWebPage', url, id })
+        return
+    }
 
     let hostname
     try { hostname = new URL(url).hostname } catch { return }

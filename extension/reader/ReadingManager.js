@@ -162,9 +162,9 @@ setupFlinksCanvasDPR(){
 
     }
 
-    downloadOnePage = async (url, hideSpinner = false) => {
+    downloadOnePage = async (url, hideSpinner = false, isUserSpecifiedUrl = false) => {
         if(!hideSpinner)g.pdm.showMainDocSpinner()
-        const dataObject = await loadStaticContentFromUrl(url)
+        const dataObject = await loadStaticContentFromUrl(url, isUserSpecifiedUrl)
 
         if(!dataObject){
             showToastMessage("Something is wrong")
