@@ -61,7 +61,9 @@ class NoteDivsManager{
         populateHeaderDiv(headerDiv,headerInfo)
 
        
+        console.log('div',div)
         const notePresentationDiv = getPresentationDivFrom(div)
+        console.log('notePresentationDiv',notePresentationDiv)
         if (url && !isPlainText) {
             html = absolutizeUrls(html,base,url)  
         }
@@ -436,8 +438,8 @@ class NoteDivsManager{
         }
 
 
-            const panelsMatch = xmlContent.match(/<panels\b[^>]*>([\s\S]*?)<\/panels>/im)
-            if(panelsMatch){
+        const panelsMatch = xmlContent.match(/<panels\b[^>]*>([\s\S]*?)<\/panels>/im)
+        if(panelsMatch){
 
                 let topPanelInfo = null
                 let sidePanelInfo = null
@@ -454,6 +456,7 @@ class NoteDivsManager{
 
                 const xmlDoc = parser.parseFromString(panelsString, 'application/xml');
 
+                console.log('panelsString',panelsString)
                 const rootElement = xmlDoc.documentElement;
 
                // const generalPanelStyle = this.getPanelStyleFromXMLNode(rootElement)
@@ -512,7 +515,7 @@ class NoteDivsManager{
 
                     topPanelInfo = {isMainLinkStatic,mainUrl:mainLinkUrl,logo:topPanelLogoUrl,title:mainTitle,links:topPanelLinksInfo}
                     
-                }
+            }
 
 
                 
@@ -521,13 +524,23 @@ class NoteDivsManager{
 
 
 
+                let postNavPanelInfo = null
+                const postNavPanels = rootElement.getElementsByTagName('post-nav')
+                if (postNavPanels && postNavPanels.length) {
+                    const postNavEl = postNavPanels[0]
+                    const prevEl = postNavEl.querySelector('prev')
+                    const nextEl = postNavEl.querySelector('next')
+                    postNavPanelInfo = {}
+                    if (prevEl) postNavPanelInfo.prev = {href: prevEl.getAttribute('href'), title: prevEl.textContent.trim()}
+                    if (nextEl) postNavPanelInfo.next = {href: nextEl.getAttribute('href'), title: nextEl.textContent.trim()}
+                }
+
                 const sidePanels = rootElement.getElementsByTagName('side')
 
                 if(sidePanels && sidePanels.length){
                     const sidePanel = sidePanels[0]
 
                     let url = ''
-
 
                     if([...sidePanel.children].length === 0){
                         url = sidePanel.textContent.trim()
@@ -555,7 +568,8 @@ class NoteDivsManager{
 
                     
 
-                    sidePanelInfo = {url, commentsUrl,commentsTitle,noCommentsMessage,leaveCommentUrl,commentsReplyLabel,commentsLeaveLabel}
+                    sidePanelInfo = {url, commentsUrl, commentsTitle, noCommentsMessage,
+                                     leaveCommentUrl, commentsReplyLabel, commentsLeaveLabel}
 
 
                 }
@@ -604,61 +618,48 @@ class NoteDivsManager{
                 }
 
 
-                
                 let sidebarPanelInfo = null
                 const sidebarPanels = rootElement.getElementsByTagName('sidebar')
+                console.log('sidebarPanels while parsing',sidebarPanels)
                 if (sidebarPanels && sidebarPanels.length) {
                     const sidebarEl = sidebarPanels[0]
                     const sidebarSide = sidebarEl.getAttribute('side') || 'right'
 
-                    let search = null
-                    const searchEl = sidebarEl.querySelector('search')
-                    if (searchEl) {
-                        search = {
-                            action: searchEl.getAttribute('action'),
-                            placeholder: searchEl.getAttribute('placeholder'),
-                            target: searchEl.getAttribute('target')
+                    const sidebarItems = []
+                    for (const child of sidebarEl.children) {
+                        const tag = child.nodeName.toLowerCase()
+                        if (tag === 'search') {
+                            sidebarItems.push({
+                                type: 'search',
+                                action: child.getAttribute('action'),
+                                placeholder: child.getAttribute('placeholder'),
+                                target: child.getAttribute('target')
+                            })
+                        } else if (tag === 'links') {
+                            const items = [...child.querySelectorAll('a')].map(a => ({
+                                href: a.getAttribute('href'),
+                                text: a.textContent.trim(),
+                                target: a.getAttribute('target'),
+                                rel: a.getAttribute('rel')
+                            }))
+                            sidebarItems.push({type: 'links', title: child.getAttribute('title'), items})
+                        } else if (tag === 'recent-comments') {
+                            const comments = [...child.querySelectorAll('comment')].map(c => ({
+                                postHref: c.getAttribute('post-href'),
+                                author: c.getAttribute('author'),
+                                excerpt: c.textContent.trim()
+                            }))
+                            sidebarItems.push({type: 'recent-comments', title: child.getAttribute('title'), comments})
                         }
                     }
 
-                    let postNav = null
-                    const postNavEl = sidebarEl.querySelector('post-nav')
-                    if (postNavEl) {
-                        const prevEl = postNavEl.querySelector('prev')
-                        const nextEl = postNavEl.querySelector('next')
-                        postNav = {}
-                        if (prevEl) postNav.prev = {href: prevEl.getAttribute('href'), title: prevEl.textContent.trim()}
-                        if (nextEl) postNav.next = {href: nextEl.getAttribute('href'), title: nextEl.textContent.trim()}
-                    }
-
-                    let recentPosts = null
-                    const recentPostsEl = sidebarEl.querySelector('recent-posts')
-                    if (recentPostsEl) {
-                        const posts = [...recentPostsEl.querySelectorAll('post')].map(p => ({
-                            href: p.getAttribute('href'),
-                            date: p.getAttribute('date'),
-                            title: p.textContent.trim()
-                        }))
-                        recentPosts = {title: recentPostsEl.getAttribute('title'), posts}
-                    }
-
-                    let recentComments = null
-                    const recentCommentsEl = sidebarEl.querySelector('recent-comments')
-                    if (recentCommentsEl) {
-                        const comments = [...recentCommentsEl.querySelectorAll('comment')].map(c => ({
-                            postHref: c.getAttribute('post-href'),
-                            author: c.getAttribute('author'),
-                            excerpt: c.textContent.trim()
-                        }))
-                        recentComments = {title: recentCommentsEl.getAttribute('title'), comments}
-                    }
-
-                    sidebarPanelInfo = {side: sidebarSide, search, postNav, recentPosts, recentComments}
+                    sidebarPanelInfo = {side: sidebarSide, items: sidebarItems}
                 }
 
                 panelsInfo = {
                     //style:generalPanelStyle,
                     topPanel:topPanelInfo,
+                    postNavPanel:postNavPanelInfo,
                     sidebarPanel:sidebarPanelInfo,
                     sidePanel:sidePanelInfo,
                     bottomPanel:bottomPanelInfo

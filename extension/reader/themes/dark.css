@@ -143,9 +143,7 @@
     background-color: var(--bg-main); /* dark background */
 }
 
-.theme-dark .NoteEditingDiv{
-    color: var(--text-main);
-}
+
 
 .theme-dark .DocumentTopPanel{
     background-color: #393838;
@@ -405,8 +403,7 @@
 .theme-dark #ExportTextDiv::-webkit-scrollbar,
 .DocumentColumn.theme-dark::-webkit-scrollbar,
 .theme-dark #SourceCodeTextDiv::-webkit-scrollbar,
-.theme-dark .StaticCommentsSection::-webkit-scrollbar,
-.theme-dark .NoteEditingDiv::-webkit-scrollbar {
+.theme-dark .StaticCommentsSection::-webkit-scrollbar{
     width: 15px;
     height: 15px;
 }
@@ -415,8 +412,7 @@
 .theme-dark #ExportTextDiv::-webkit-scrollbar-track,
 .theme-dark #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-dark pre::-webkit-scrollbar-track,
-.theme-dark .StaticCommentsSection::-webkit-scrollbar-track,
-.theme-dark .NoteEditingDiv::-webkit-scrollbar-track {
+.theme-dark .StaticCommentsSection::-webkit-scrollbar-track{
     background: var(--header-footer-bg);
 }
 
@@ -424,8 +420,7 @@
 .theme-dark #ExportTextDiv::-webkit-scrollbar-thumb,
 .theme-dark #SourceCodeTextDiv::-webkit-scrollbar-thumb,
 .DocumentColumn.theme-dark::-webkit-scrollbar-thumb,
-.theme-dark .StaticCommentsSection::-webkit-scrollbar-thumb,
-.theme-dark .NoteEditingDiv::-webkit-scrollbar-thumb {
+.theme-dark .StaticCommentsSection::-webkit-scrollbar-thumb{
     background: #666;
     /* thumb color */
     border: 4px solid transparent;
@@ -440,8 +435,7 @@
 .theme-dark #ExportTextDiv::-webkit-scrollbar-thumb:hover,
 .theme-dark #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
 .DocumentColumn.theme-dark::-webkit-scrollbar-thumb:hover,
-.theme-dark .StaticCommentsSection::-webkit-scrollbar-thumb:hover,
-.theme-dark .NoteEditingDiv::-webkit-scrollbar-corner {
+.theme-dark .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
     background: #888;
     border: 4px solid transparent;
     /* creates the gap */
@@ -451,8 +445,7 @@
 
 .DocumentColumn.theme-dark::-webkit-scrollbar-corner,
 .theme-dark .StaticCommentsSection::-webkit-scrollbar-corner,
-.theme-dark #SourceCodeTextDiv::-webkit-scrollbar-corner,
-.theme-dark .NoteEditingDiv::-webkit-scrollbar {
+.theme-dark #SourceCodeTextDiv::-webkit-scrollbar-corner{
     background: var(--header-footer-bg);
 }
 

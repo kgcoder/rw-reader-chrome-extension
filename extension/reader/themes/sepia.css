@@ -49,9 +49,7 @@
     color: var(--text-main);
 }
 
-.theme-sepia .NoteEditingDiv{
-    color: var(--text-main);
-}
+
 
 
 .theme-sepia .linkInputTypeSelectorButton{
@@ -399,8 +397,7 @@
 .theme-sepia pre::-webkit-scrollbar,
 .DocumentColumn.theme-sepia::-webkit-scrollbar,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar,
-.theme-sepia .StaticCommentsSection::-webkit-scrollbar,
-.theme-sepia .NoteEditingDiv::-webkit-scrollbar {
+.theme-sepia .StaticCommentsSection::-webkit-scrollbar{
     width: 15px;
     height: 15px;
 }
@@ -408,8 +405,7 @@
 .theme-sepia pre::-webkit-scrollbar-track,
 .DocumentColumn.theme-sepia::-webkit-scrollbar-track,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-track,
-.theme-sepia .StaticCommentsSection::-webkit-scrollbar-track,
-.theme-sepia .NoteEditingDiv::-webkit-scrollbar-track {
+.theme-sepia .StaticCommentsSection::-webkit-scrollbar-track{
     background: #f3e4cb;
     /* slightly darker than page background */
 }
@@ -418,8 +414,7 @@
 .theme-sepia pre::-webkit-scrollbar-thumb,
 .DocumentColumn.theme-sepia::-webkit-scrollbar-thumb,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-thumb,
-.theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb,
-.theme-sepia .NoteEditingDiv::-webkit-scrollbar-thumb{
+.theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb{
     background: #c2a382;
     /* thumb color */
     border: 4px solid transparent;
@@ -433,8 +428,7 @@
 .theme-sepia pre::-webkit-scrollbar-thumb:hover,
 .DocumentColumn.theme-sepia::-webkit-scrollbar-thumb:hover,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
-.theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb:hover,
-.theme-sepia .NoteEditingDiv::-webkit-scrollbar-thumb:hover {
+.theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
     background: #a07f5e;
     border: 4px solid transparent;
     /* creates the gap */
@@ -445,8 +439,7 @@
 .theme-sepia pre::-webkit-scrollbar-corner,
 .DocumentColumn.theme-sepia::-webkit-scrollbar-corner,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-corner,
-.theme-sepia .StaticCommentsSection::-webkit-scrollbar-corner,
-.theme-sepia .NoteEditingDiv::-webkit-scrollbar-corner {
+.theme-sepia .StaticCommentsSection::-webkit-scrollbar-corner{
     background: #f3e4cb;
     /* same as track */
 }

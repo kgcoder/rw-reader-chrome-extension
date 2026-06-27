@@ -31,9 +31,6 @@
     background-color: var(--bg-main);
 }
 
-.theme-light .NoteEditingDiv{
-    color: var(--text-main);
-}
 
 .theme-light .linkInputTypeSelectorButton{
   background-color: white;

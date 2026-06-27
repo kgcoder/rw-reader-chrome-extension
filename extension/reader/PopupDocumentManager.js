@@ -762,10 +762,12 @@ class PopupDocumentManager{
 
         this.updateDocumentWidth()
         
+        console.log('html',document.body.innerHTML)
 
         const div = document.getElementById("CurrentDocument")
 
      
+        console.log('current doc div',div)
         
 
         const result = g.noteDivsManager.populateDivWithTextFromDoc(div,dataObject.xmlString,dataObject.url)
@@ -866,9 +868,14 @@ class PopupDocumentManager{
             g.readingManager.mainDocPanels = panels
             this.populatePanels(panels,allDivs,this,false)
 
+
+
+
+
         }    
 
 
+        this.updateSidebarVisibility()
         
         const mainDiv = document.getElementById("AllDocumentsContainer")
         const mainPresentationDiv = document.getElementById("CurrentDocumentMainDiv")
@@ -1066,6 +1073,25 @@ class PopupDocumentManager{
     }
 
 
+    updateSidebarVisibility = () => {
+        const sidebar = document.getElementById("CurrentDocumentSidebar")
+        const bottomBar = document.getElementById("CurrentDocumentBottomBar")
+
+        if(!g.readingManager.mainDocCopyInfo){
+            sidebar.style.display = 'none'
+            bottomBar.style.display = 'none'
+            return
+        }
+
+        if(!g.readingManager.isFullScreen || this.currentDocLeftPanelShowing || this.currentDocRightPanelShowing){
+            sidebar.style.display = 'none'
+            bottomBar.style.display = 'flex'
+        }else{
+            sidebar.style.display = 'flex'
+            bottomBar.style.display = 'none'
+        }
+    }
+
     populatePanels(panelsInfo,allDivs,dataObject,isRight = false){
 
         const {
@@ -1075,6 +1101,22 @@ class PopupDocumentManager{
             sandwichButtonDiv,dropdownMenuDiv
         } = allDivs
 
+        console.log('panelsInfo',panelsInfo)
+
+        if(panelsInfo.sidebarPanel){
+            if(isRight){
+    
+            }else{
+                const currentDocumentSidebar = document.getElementById("CurrentDocumentSidebar")
+                const currentDocumentBottomBar = document.getElementById("CurrentDocumentBottomBar")
+    
+                this.populateSidebar(currentDocumentSidebar, panelsInfo.sidebarPanel)
+                this.populateSidebar(currentDocumentBottomBar, panelsInfo.sidebarPanel)
+
+    
+            }
+
+        }
     
 
       
@@ -1373,6 +1415,11 @@ class PopupDocumentManager{
 
     }
 
+
+    populateSidebar(div,sidebarInfo){
+        
+
+    }
 
 
 
@@ -1730,11 +1777,20 @@ class PopupDocumentManager{
             g.readingManager.mainCollageViewer.updateWidth(currentDocumentWidth)
         }
 
+        const currentDocumentBody = document.getElementById("CurrentDocumentBody")
+
+        if(g.readingManager.isFullScreen && g.readingManager.copyInfo && !this.currentDocLeftPanelShowing && 
+        !this.currentDocRightPanelShowing){
+            currentDocumentBody.style.width = `100%`
+        }else{
+            currentDocumentBody.style.width = '70%'
+        }
 
         this.updateMainDocumentPadding()
         const mainPresentationDiv = document.getElementById("CurrentDocumentMainDiv")
 
-         mainPresentationDiv.style.width = `${currentDocumentWidth}px`
+        
+         mainPresentationDiv.style.width = '100%'
 
         const fullScreenButton = document.getElementById("CurrentDocumentFullScreenButton")
         while(fullScreenButton.firstChild){
@@ -1748,6 +1804,10 @@ class PopupDocumentManager{
 
 
         this.updateLeftDocumentPanels()
+
+
+        this.updateSidebarVisibility()
+
 
         if (g.readingManager.mainDocType === 'h') {
             this.updateDocumentImageWidths(mainPresentationDiv)   
@@ -2408,6 +2468,8 @@ class PopupDocumentManager{
 
         this.updateLeftDocumentPanels()
       
+        this.updateSidebarVisibility()
+
 
         g.readingManager.applyFlinksOnTheLeft()
 
@@ -2444,6 +2506,8 @@ class PopupDocumentManager{
 
 
         this.updateLeftDocumentPanels() 
+
+        this.updateSidebarVisibility()
 
         g.readingManager.applyFlinksOnTheLeft()
 
@@ -3011,7 +3075,7 @@ class PopupDocumentManager{
     getMainDocumentPadding(){
         const screenWidth = window.innerWidth
         const mainPadding = this.isPaddingOn && !g.isMobileMode && 
-        g.readingManager.isFullScreen && !this.currentDocLeftPanelShowing && 
+        g.readingManager.isFullScreen && !g.readingManager.mainDocCopyInfo && !this.currentDocLeftPanelShowing && 
         !this.currentDocRightPanelShowing ? screenWidth * 0.2 : kDefaultPadding
 
         return mainPadding

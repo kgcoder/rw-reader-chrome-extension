@@ -39,12 +39,13 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
     let panelsString = ''
     if (panelsJSON) {
         let topPanelString = ''
+        let postNavPanelString = ''
         let sidebarPanelString = ''
         let sidePanelString = ''
         let bottomPanelString = ''
 
-        
         const topPanelJSON = panelsJSON["top"]
+        const postNavJSON = panelsJSON["post-nav"]
         const sidebarPanelJSON = panelsJSON["sidebar"]
         const sidePanelJSON = panelsJSON["side"]
         const bottomPanelJSON = panelsJSON["bottom"]
@@ -92,6 +93,16 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
                 topPanelString = `\n<top>${siteNameString}${topLinksString}</top>`    
             }
 
+        }
+
+        if (postNavJSON) {
+            const prevJSON = postNavJSON.prev
+            const nextJSON = postNavJSON.next
+            const prevString = (prevJSON && prevJSON.href) ? `\n<prev href="${escapeXml(prevJSON.href)}">${escapeXml(prevJSON.title || '')}</prev>` : ''
+            const nextString = (nextJSON && nextJSON.href) ? `\n<next href="${escapeXml(nextJSON.href)}">${escapeXml(nextJSON.title || '')}</next>` : ''
+            if (prevString || nextString) {
+                postNavPanelString = `\n<post-nav>${prevString}${nextString}\n</post-nav>`
+            }
         }
 
         if (sidePanelJSON) {
@@ -173,60 +184,43 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
             const sidebarSide = sidebarPanelJSON.side
             const sideAttr = (sidebarSide === 'left' || sidebarSide === 'right') ? ` side="${sidebarSide}"` : ''
 
-            let searchString = ''
-            const searchJSON = sidebarPanelJSON.search
-            if (searchJSON && searchJSON.action) {
-                searchString = `\n<search`
-                    + ` action="${escapeXml(searchJSON.action)}"`
-                    + (searchJSON.placeholder ? ` placeholder="${escapeXml(searchJSON.placeholder)}"` : '')
-                    + (searchJSON.target      ? ` target="${escapeXml(searchJSON.target)}"`           : '')
-                    + `/>`
-            }
-
-            let postNavString = ''
-            const postNavJSON = sidebarPanelJSON['post-nav']
-            if (postNavJSON) {
-                const prevJSON = postNavJSON.prev
-                const nextJSON = postNavJSON.next
-                const prevString = (prevJSON && prevJSON.href) ? `\n<prev href="${escapeXml(prevJSON.href)}">${escapeXml(prevJSON.title || '')}</prev>` : ''
-                const nextString = (nextJSON && nextJSON.href) ? `\n<next href="${escapeXml(nextJSON.href)}">${escapeXml(nextJSON.title || '')}</next>` : ''
-                if (prevString || nextString) {
-                    postNavString = `\n<post-nav>${prevString}${nextString}\n</post-nav>`
-                }
-            }
-
-            let recentPostsString = ''
-            const recentPostsJSON = sidebarPanelJSON['recent-posts']
-            if (recentPostsJSON && Array.isArray(recentPostsJSON.posts) && recentPostsJSON.posts.length) {
-                const postsString = recentPostsJSON.posts.map(p => {
-                    if (!p.href) return ''
-                    return `\n<post href="${escapeXml(p.href)}"${p.date ? ` date="${escapeXml(p.date)}"` : ''}>${escapeXml(p.title || '')}</post>`
+            let sidebarInner = ''
+            const sidebarItems = sidebarPanelJSON.items
+            if (Array.isArray(sidebarItems)) {
+                sidebarInner = sidebarItems.map(item => {
+                    if (item.type === 'search' && item.action) {
+                        return `\n<search action="${escapeXml(item.action)}"`
+                            + (item.placeholder ? ` placeholder="${escapeXml(item.placeholder)}"` : '')
+                            + (item.target      ? ` target="${escapeXml(item.target)}"`           : '')
+                            + `/>`
+                    }
+                    if (item.type === 'links' && Array.isArray(item.items) && item.items.length) {
+                        const linksStr = item.items.map(a => {
+                            if (!a.href || !a.text) return ''
+                            return `\n<a href="${escapeXml(a.href)}"${a.target ? ` target="${escapeXml(a.target)}"` : ''}${a.rel ? ` rel="${escapeXml(a.rel)}"` : ''}>${escapeXml(a.text)}</a>`
+                        }).filter(Boolean).join('')
+                        if (!linksStr) return ''
+                        return `\n<links${item.title ? ` title="${escapeXml(item.title)}"` : ''}>${linksStr}\n</links>`
+                    }
+                    if (item.type === 'recent-comments' && Array.isArray(item.comments) && item.comments.length) {
+                        const commentsStr = item.comments.map(c => {
+                            if (!c['post-href'] || !c.author) return ''
+                            return `\n<comment post-href="${escapeXml(c['post-href'])}" author="${escapeXml(c.author)}">${escapeXml(c.excerpt || '')}</comment>`
+                        }).filter(Boolean).join('')
+                        if (!commentsStr) return ''
+                        return `\n<recent-comments${item.title ? ` title="${escapeXml(item.title)}"` : ''}>${commentsStr}\n</recent-comments>`
+                    }
+                    return ''
                 }).filter(Boolean).join('')
-                if (postsString) {
-                    recentPostsString = `\n<recent-posts${recentPostsJSON.title ? ` title="${escapeXml(recentPostsJSON.title)}"` : ''}>${postsString}\n</recent-posts>`
-                }
             }
 
-            let recentCommentsString = ''
-            const recentCommentsJSON = sidebarPanelJSON['recent-comments']
-            if (recentCommentsJSON && Array.isArray(recentCommentsJSON.comments) && recentCommentsJSON.comments.length) {
-                const commentsStr = recentCommentsJSON.comments.map(c => {
-                    if (!c['post-href'] || !c.author) return ''
-                    return `\n<comment post-href="${escapeXml(c['post-href'])}" author="${escapeXml(c.author)}">${escapeXml(c.excerpt || '')}</comment>`
-                }).filter(Boolean).join('')
-                if (commentsStr) {
-                    recentCommentsString = `\n<recent-comments${recentCommentsJSON.title ? ` title="${escapeXml(recentCommentsJSON.title)}"` : ''}>${commentsStr}\n</recent-comments>`
-                }
-            }
-
-            const sidebarInner = searchString + postNavString + recentPostsString + recentCommentsString
             if (sidebarInner) {
                 sidebarPanelString = `\n<sidebar${sideAttr}>${sidebarInner}\n</sidebar>`
             }
         }
 
-        if (topPanelString || sidebarPanelString || sidePanelString || bottomPanelString) {
-            panelsString = `\n\n<panels>${topPanelString}${sidebarPanelString}${sidePanelString}${bottomPanelString}\n</panels>\n\n`
+        if (topPanelString || postNavPanelString || sidebarPanelString || sidePanelString || bottomPanelString) {
+            panelsString = `\n\n<panels>${topPanelString}${postNavPanelString}${sidebarPanelString}${sidePanelString}${bottomPanelString}\n</panels>\n\n`
         }
     }
 

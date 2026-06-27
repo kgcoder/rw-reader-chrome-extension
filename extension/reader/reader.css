@@ -844,17 +844,34 @@ code {
 
 }
 
-.NoteEditingDiv {
+
+#CurrentDocumentInnerRow{
+    display: flex;
+}
+
+#CurrentDocumentBody{
     display: flex;
     flex: 1;
-    background-color: transparent;
-    padding: 20px;
-    resize: none;
-    /* outline-width: 0; */
-    font-family: 'Times New Roman', Times, serif;
+    min-width: 0;
+    flex-direction: column;
 }
 
 
+.SideBar {
+    display: flex;
+    /* min-width: 200px; */
+    /* flex:1; */
+    width:30%;
+    height: 100%;
+    background-color: green;
+
+}
+
+.BottomBar {
+    display: flex;
+    min-height: 300px;
+    background-color: red;
+}
 
 /* .NotePresentationDiv::-webkit-scrollbar {
     display: none;
