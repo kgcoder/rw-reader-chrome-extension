@@ -1440,10 +1440,8 @@ class PopupDocumentManager{
                 input.className = 'SideBarSearchInput'
                 input.placeholder = item.placeholder || 'Search…'
 
-                const button = document.createElement('button')
-                button.className = 'SideBarSearchButton'
-                button.textContent = '→'
-                button.addEventListener('click', () => {
+                input.addEventListener('keydown', (event) => {
+                    if (event.key !== 'Enter') return
                     const query = encodeURIComponent(input.value.trim())
                     if (!query) return
                     const url = item.action.replace('%s', query)
@@ -1451,7 +1449,6 @@ class PopupDocumentManager{
                 })
 
                 form.appendChild(input)
-                form.appendChild(button)
                 widget.appendChild(form)
                 div.appendChild(widget)
 
