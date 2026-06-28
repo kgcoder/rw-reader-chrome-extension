@@ -6,11 +6,11 @@
     --borders:#e0e0e0;
 }
 
-#AllDocumentsContainer.theme-light{
+.theme-light #AllDocumentsContainer{
   background-color: rgba(233, 233, 233);
 }
 
-.DocumentColumn.theme-light {
+.theme-light .DocumentColumn {
   background-color: var(--bg-main); 
 }
 
@@ -19,7 +19,7 @@
   color:yellow;
 } */
 
-#multiple-links-popup.theme-light{
+.theme-light #multiple-links-popup{
   background-color: var(--bg-main); 
 }
 

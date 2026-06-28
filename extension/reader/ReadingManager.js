@@ -304,7 +304,7 @@ setupFlinksCanvasDPR(){
 
         const leftPanelDiv = document.createElement('div')
         leftPanelDiv.id = 'DocumentLeftPanel' + rightDocId
-        leftPanelDiv.className = "DocumentSidePanel theme-" + g.currentTheme
+        leftPanelDiv.className = "DocumentSidePanel"
         leftPanelDiv.style.display = 'none'
 
         mainRowDiv.appendChild(leftPanelDiv)
@@ -312,7 +312,7 @@ setupFlinksCanvasDPR(){
 
         const div = document.createElement('div')
         // div.style.height = `${screenHeight - 2 * verticalMargin - 40}px`
-         div.className = "DocumentColumn theme-" + g.currentTheme
+         div.className = "DocumentColumn"
          div.style.width = `${this.docWidth}px`
 
          const topPanelDiv = document.createElement('div')
@@ -442,7 +442,7 @@ setupFlinksCanvasDPR(){
 
         const rightPanelDiv = document.createElement('div')
         rightPanelDiv.id = 'DocumentRightPanel' + rightDocId
-        rightPanelDiv.className = "DocumentSidePanel theme-" + g.currentTheme
+        rightPanelDiv.className = "DocumentSidePanel"
         rightPanelDiv.style.display = 'none'
 
         mainRowDiv.appendChild(rightPanelDiv)

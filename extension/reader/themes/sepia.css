@@ -14,7 +14,7 @@
     --top-bars:#FFEABD;
 }
 
-#AllDocumentsContainer.theme-sepia{
+.theme-sepia #AllDocumentsContainer{
   background-color: #fcf6e7;
 }
 
@@ -23,19 +23,19 @@
   background-color: var(--bg-main);
 }
 
-.DocumentColumn.theme-sepia {
+.theme-sepia .DocumentColumn {
     background-color: var(--bg-main); /* dark background */
 }
 
-#CurrentDocumentTopBar.theme-sepia{
+.theme-sepia #CurrentDocumentTopBar{
   background-color: var(--top-bars);
 }
 
-#RightDocumentsTopBar.theme-sepia{
+.theme-sepia #RightDocumentsTopBar{
   background-color: var(--top-bars);
 }
 
-#multiple-links-popup.theme-sepia{
+.theme-sepia #multiple-links-popup{
   background-color: var(--bg-main); 
 }
 
@@ -102,7 +102,7 @@
   background-color: var(--top-bars);
 }
 
-#LinksListContainerDiv.theme-sepia {
+.theme-sepia #LinksListContainerDiv{
   background-color: var(--bg-main);
   border-width: 1px;
   border-style: solid;

@@ -7,7 +7,7 @@
     --top-bars:#252424;
 }
 
-#AllDocumentsContainer.theme-dark{
+.theme-dark #AllDocumentsContainer{
   background-color: rgb(40, 40, 40);
 }
 
@@ -16,20 +16,20 @@
     border-top: 2px solid #ffffff;
 }
 
-.DocumentColumn.theme-dark{
+.theme-dark .DocumentColumn{
     background-color: var(--bg-main); /* dark background */
 }
 
-#CurrentDocumentTopBar.theme-dark{
+.theme-dark #CurrentDocumentTopBar{
   background-color: var(--top-bars);
 }
 
-#RightDocumentsTopBar.theme-dark{
+.theme-dark #RightDocumentsTopBar{
   background-color: var(--top-bars);
 }
 
 
-#multiple-links-popup.theme-dark{
+.theme-dark #multiple-links-popup{
   background-color: var(--bg-main); 
 }
 
@@ -163,7 +163,7 @@
   
 }
 
-#LinksListContainerDiv.theme-dark {
+.theme-dark #LinksListContainerDiv {
   background-color: var(--bg-main);
   /* //box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); */
   border-width: 1px;

@@ -25,31 +25,16 @@ export function timestamp() {
 
 export async function setTheme(themeName, shouldSave = false) {
 
-    const allDocumentsContainer = document.getElementById('AllDocumentsContainer')
-
-    const currentDocumentTopBar = document.getElementById('CurrentDocumentTopBar')
-    const currentDocumentTopBarRow = document.getElementById('CurrentDocumentTopBarRow')
-    const rightDocumentsTopBar = document.getElementById('RightDocumentsTopBar')
-
-
-    const columnDivs = document.getElementsByClassName('DocumentColumn')
-    const sidePanelDivs = document.getElementsByClassName('DocumentSidePanel')
-    const multipleFlinksPopup = document.getElementById('multiple-links-popup')
-    
-    const linksListContainerDiv = document.getElementById('LinksListContainerDiv')
-    
-    for (const div of [allDocumentsContainer,currentDocumentTopBar, rightDocumentsTopBar, currentDocumentTopBarRow,linksListContainerDiv,...columnDivs,...sidePanelDivs,multipleFlinksPopup]) {
-        // Remove any existing theme-* class
-        div.classList.forEach(cls => {
-        if (cls.startsWith('theme-')) {
-            div.classList.remove(cls);
+    const rootEl = document.getElementById("ui-root")
+  
+    rootEl.classList.forEach(cls => {
+         if (cls.startsWith('theme-')) {
+            rootEl.classList.remove(cls);
         }
-        });
-
-        // Add the new theme class
-        div.classList.add('theme-' + themeName); // e.g. "theme-dark"
-        g.currentTheme = themeName
-    }
+    })
+    // Add the new theme class
+    rootEl.classList.add('theme-' + themeName); // e.g. "theme-dark"
+    g.currentTheme = themeName
     
     if (shouldSave) {
         saveObjectInLocalStorage('theme',themeName)
