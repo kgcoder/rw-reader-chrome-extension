@@ -399,7 +399,7 @@
 }
 
 .theme-sepia pre::-webkit-scrollbar,
-.DocumentColumn.theme-sepia::-webkit-scrollbar,
+.theme-sepia .DocumentColumn::-webkit-scrollbar,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar{
     width: 15px;
@@ -407,7 +407,7 @@
 }
 
 .theme-sepia pre::-webkit-scrollbar-track,
-.DocumentColumn.theme-sepia::-webkit-scrollbar-track,
+.theme-sepia .DocumentColumn::-webkit-scrollbar-track,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-track{
     background: #f3e4cb;
@@ -416,7 +416,7 @@
 
 
 .theme-sepia pre::-webkit-scrollbar-thumb,
-.DocumentColumn.theme-sepia::-webkit-scrollbar-thumb,
+.theme-sepia .DocumentColumn::-webkit-scrollbar-thumb,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-thumb,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb{
     background: #c2a382;
@@ -430,7 +430,7 @@
 }
 
 .theme-sepia pre::-webkit-scrollbar-thumb:hover,
-.DocumentColumn.theme-sepia::-webkit-scrollbar-thumb:hover,
+.theme-sepia .DocumentColumn::-webkit-scrollbar-thumb:hover,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
     background: #a07f5e;
@@ -441,7 +441,7 @@
 }
 
 .theme-sepia pre::-webkit-scrollbar-corner,
-.DocumentColumn.theme-sepia::-webkit-scrollbar-corner,
+.theme-sepia .DocumentColumn::-webkit-scrollbar-corner,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-corner,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-corner{
     background: #f3e4cb;

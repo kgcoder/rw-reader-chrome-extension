@@ -405,14 +405,14 @@
 
 .theme-dark pre::-webkit-scrollbar,
 .theme-dark #ExportTextDiv::-webkit-scrollbar,
-.DocumentColumn.theme-dark::-webkit-scrollbar,
+.theme-dark .DocumentColumn::-webkit-scrollbar,
 .theme-dark #SourceCodeTextDiv::-webkit-scrollbar,
 .theme-dark .StaticCommentsSection::-webkit-scrollbar{
     width: 15px;
     height: 15px;
 }
 
-.DocumentColumn.theme-dark::-webkit-scrollbar-track,
+.theme-dark .DocumentColumn::-webkit-scrollbar-track,
 .theme-dark #ExportTextDiv::-webkit-scrollbar-track,
 .theme-dark #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-dark pre::-webkit-scrollbar-track,
@@ -423,7 +423,7 @@
 .theme-dark pre::-webkit-scrollbar-thumb,
 .theme-dark #ExportTextDiv::-webkit-scrollbar-thumb,
 .theme-dark #SourceCodeTextDiv::-webkit-scrollbar-thumb,
-.DocumentColumn.theme-dark::-webkit-scrollbar-thumb,
+.theme-dark .DocumentColumn::-webkit-scrollbar-thumb,
 .theme-dark .StaticCommentsSection::-webkit-scrollbar-thumb{
     background: #666;
     /* thumb color */
@@ -438,7 +438,7 @@
 .theme-dark pre::-webkit-scrollbar-thumb:hover,
 .theme-dark #ExportTextDiv::-webkit-scrollbar-thumb:hover,
 .theme-dark #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
-.DocumentColumn.theme-dark::-webkit-scrollbar-thumb:hover,
+.theme-dark .DocumentColumn::-webkit-scrollbar-thumb:hover,
 .theme-dark .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
     background: #888;
     border: 4px solid transparent;
@@ -447,7 +447,7 @@
     border-radius: 10px;
 }
 
-.DocumentColumn.theme-dark::-webkit-scrollbar-corner,
+.theme-dark .DocumentColumn::-webkit-scrollbar-corner,
 .theme-dark .StaticCommentsSection::-webkit-scrollbar-corner,
 .theme-dark #SourceCodeTextDiv::-webkit-scrollbar-corner{
     background: var(--header-footer-bg);
