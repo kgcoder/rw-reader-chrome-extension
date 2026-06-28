@@ -1455,8 +1455,7 @@ a.TopPanelOptionLink:hover {
     min-width: 0;
 }
 
-#CurrentDocumentTitleSpan,
-#RightDocumentTitleSpan {
+.DocumentTitleSpan {
     display: block;
     margin-right: 20px;
     

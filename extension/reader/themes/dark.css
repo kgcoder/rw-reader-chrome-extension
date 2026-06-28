@@ -95,7 +95,7 @@
   color:white;
 }
 
-.theme-dark #CurrentDocumentTitleSpan{
+.theme-dark .DocumentTitleSpan{
   color:white;
 }
 
@@ -134,10 +134,6 @@
 
 }
 
-
-.theme-dark #RightDocumentTitleSpan{
-  color:white;
-}
 
 .theme-dark .NoteDiv{
     background-color: var(--bg-main); /* dark background */
