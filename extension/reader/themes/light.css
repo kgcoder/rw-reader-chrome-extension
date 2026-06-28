@@ -148,6 +148,10 @@
 
 }
 
+.theme-light .PostNavBarSide * {
+  color: var(--accent);
+}
+
 
 .theme-light ol,ul{
     padding-inline-start: 10px;

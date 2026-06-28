@@ -762,13 +762,10 @@ class PopupDocumentManager{
 
         this.updateDocumentWidth()
         
-        console.log('html',document.body.innerHTML)
 
         const div = document.getElementById("CurrentDocument")
 
-     
-        console.log('current doc div',div)
-        
+             
 
         const result = g.noteDivsManager.populateDivWithTextFromDoc(div,dataObject.xmlString,dataObject.url)
         if (!result) {
@@ -854,14 +851,19 @@ class PopupDocumentManager{
             const bottomMessageDiv = document.getElementById("CurrentDocumentBottomPanelBottomMessage")
             const dropdownMenuDiv = document.getElementById("CurrentDocumentDropDownMenu") 
             const sandwichButtonDiv = document.getElementById("LeftSandwichButton")
-
+            const documentSidebar = document.getElementById("CurrentDocumentSidebar")
+            const documentBottomBar = document.getElementById("CurrentDocumentBottomBar")
+    
+            const postNavBar = document.getElementById("CurrentDocumentPostNavBar")
 
       
             const allDivs = {
                 documentLeftPanelButton,documentRightPanelButton,
                 topPanelDiv,topPanelLogoLink,topPanelLogoImage,topPanelTitleSpan,
                 bottomPanelDiv,bottomPanelRowDiv,topPanelOptionsRow,leftPanelDiv,rightPanelDiv,bottomMessageDiv,
-                dropdownMenuDiv,sandwichButtonDiv
+                dropdownMenuDiv,sandwichButtonDiv,
+                documentSidebar, documentBottomBar,
+                postNavBar
                 
             }
 
@@ -1022,9 +1024,10 @@ class PopupDocumentManager{
 
 
     populatePanelsOfOneRightDoc(){
-        
+
         if(!g.readingManager.rightNotesData.length)return
         const noteData = g.readingManager.rightNotesData[g.readingManager.selectedRightDocIndex]
+
         if(noteData.docType !== 'h' || !noteData.panels){
             const rightDocumentLeftPanelButton = document.getElementById("RightDocumentLeftPanelButton")
             const rightDocumentRightPanelButton = document.getElementById("RightDocumentRightPanelButton")
@@ -1062,11 +1065,17 @@ class PopupDocumentManager{
         const sandwichButtonDiv = document.getElementById("SandwichButton" + docId)
         const dropdownMenuDiv = document.getElementById("DocumentDropDownMenu" + docId)
 
+        const documentBottomBar = document.getElementById("RightDocumentBottomBar" + docId)
+
+        const postNavBar = document.getElementById("RightDocumentPostNavBar" + docId)
+
         const allDivs = {
             documentLeftPanelButton,documentRightPanelButton,
             topPanelDiv,topPanelLogoLink,topPanelLogoImage,topPanelTitleSpan,
             bottomPanelDiv,bottomPanelRowDiv,topPanelOptionsRow,leftPanelDiv,rightPanelDiv,bottomMessageDiv,
-            sandwichButtonDiv,dropdownMenuDiv
+            sandwichButtonDiv,dropdownMenuDiv,
+            documentSidebar:null, documentBottomBar,
+            postNavBar
         }
 
         this.populatePanels(noteData.panels,allDivs,noteData,true)
@@ -1098,24 +1107,23 @@ class PopupDocumentManager{
             documentLeftPanelButton,documentRightPanelButton,
             topPanelDiv,topPanelLogoLink,topPanelLogoImage,topPanelTitleSpan,
             bottomPanelDiv,bottomPanelRowDiv,topPanelOptionsRow,leftPanelDiv,rightPanelDiv,bottomMessageDiv,
-            sandwichButtonDiv,dropdownMenuDiv
+            sandwichButtonDiv,dropdownMenuDiv,
+            documentSidebar, documentBottomBar,
+            postNavBar
         } = allDivs
 
-        console.log('panelsInfo',panelsInfo)
 
         if(panelsInfo.sidebarPanel){
-            if(isRight){
-    
-            }else{
-                const currentDocumentSidebar = document.getElementById("CurrentDocumentSidebar")
-                const currentDocumentBottomBar = document.getElementById("CurrentDocumentBottomBar")
-    
-                this.populateSidebar(currentDocumentSidebar, panelsInfo.sidebarPanel)
-                this.populateSidebar(currentDocumentBottomBar, panelsInfo.sidebarPanel)
-
-    
+            if(documentSidebar){
+                this.populateSidebar(documentSidebar, panelsInfo.sidebarPanel)
             }
+            if(documentBottomBar){
+                this.populateSidebar(documentBottomBar, panelsInfo.sidebarPanel)
+            }
+        }
 
+        if(panelsInfo.postNavPanel){
+            this.populatePostNavPanel(postNavBar, panelsInfo.postNavPanel)
         }
     
 
@@ -1417,9 +1425,7 @@ class PopupDocumentManager{
 
 
     populateSidebar(div, sidebarInfo) {
-        while (div.firstChild) div.removeChild(div.firstChild)
-
-            console.log('sidebarInfo',JSON.stringify(sidebarInfo,null,2))
+        removeAllChildren(div)
 
         for (const item of sidebarInfo.items) {
             if (item.type === 'search') {
@@ -1528,6 +1534,53 @@ class PopupDocumentManager{
     }
 
 
+    populatePostNavPanel(div, postNavPanelInfo) {
+        removeAllChildren(div)
+
+        const leftDiv = document.createElement('div')
+        leftDiv.className = 'PostNavBarSide'
+        leftDiv.style.justifyContent = 'flex-start'
+        div.appendChild(leftDiv)
+
+        const rightDiv = document.createElement('div')
+        rightDiv.className = 'PostNavBarSide'
+        rightDiv.style.justifyContent = 'flex-end'
+
+        div.appendChild(rightDiv)
+
+
+        if(postNavPanelInfo.prev){
+            const leftArrowIconDiv = document.createElement('div')
+            leftArrowIconDiv.style.width = '24px'
+            leftArrowIconDiv.style.height = '24px'
+            this.createOneSVGIconComponent(leftArrowIconDiv,g.iconsInfo.svgIcons.arrowLeft)
+            leftDiv.appendChild(leftArrowIconDiv)
+
+            const leftLink = document.createElement('a')
+            leftLink.href = postNavPanelInfo.prev.href
+            leftLink.innerText = postNavPanelInfo.prev.title
+            leftDiv.appendChild(leftLink)
+        }
+
+        if(postNavPanelInfo.next){
+
+            const rightLink = document.createElement('a')
+            rightLink.href = postNavPanelInfo.next.href
+            rightLink.innerText = postNavPanelInfo.next.title
+            rightDiv.appendChild(rightLink)
+
+            const rightArrowIconDiv = document.createElement('div')
+            rightArrowIconDiv.style.width = '24px'
+            rightArrowIconDiv.style.height = '24px'
+            this.createOneSVGIconComponent(rightArrowIconDiv,g.iconsInfo.svgIcons.arrowRight)
+            rightDiv.appendChild(rightArrowIconDiv)
+            
+            
+        }
+
+
+
+    }
 
 
     addLinksToTopPanel(linksData,topTextColor,allDivs,dataObject,isRight){

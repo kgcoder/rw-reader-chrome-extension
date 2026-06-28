@@ -107,7 +107,6 @@ const headerSelectors = [
 
 window.addEventListener('initParsingRulesConstructor', async (e) => {
 
-    console.log('initParsingRulesConstructor')
     const contentSelectorInput = document.getElementById("contentSelector")
     const titleSelectorInput = document.getElementById("titleSelector")
     const removeSelectorsTextarea = document.getElementById("removeSelectors")

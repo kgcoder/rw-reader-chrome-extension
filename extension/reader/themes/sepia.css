@@ -170,6 +170,10 @@
 
 }
 
+.theme-sepia .PostNavBarSide * {
+  color: var(--accent);
+}
+
 
 .theme-sepia ol,ul{
     padding-inline-start: 10px;

@@ -232,6 +232,10 @@
     color: var(--text-main);
     padding: 2rem;
 }
+
+.theme-dark .PostNavBarSide * {
+  color: var(--accent);
+}
   
   /* Lists */
   .theme-dark ol, ul {

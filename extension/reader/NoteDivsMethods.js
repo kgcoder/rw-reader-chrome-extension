@@ -455,9 +455,7 @@ class NoteDivsManager{
 
                 const xmlDoc = parser.parseFromString(panelsString, 'application/xml');
 
-                console.log('panelsString',panelsString)
                 const rootElement = xmlDoc.documentElement;
-                console.log('root',rootElement)
 
                // const generalPanelStyle = this.getPanelStyleFromXMLNode(rootElement)
         
@@ -620,7 +618,6 @@ class NoteDivsManager{
 
                 let sidebarPanelInfo = null
                 const sidebarPanels = rootElement.getElementsByTagName('sidebar')
-                console.log('sidebarPanels while parsing',sidebarPanels)
                 if (sidebarPanels && sidebarPanels.length) {
                     const sidebarEl = sidebarPanels[0]
                     const sidebarSide = sidebarEl.getAttribute('side') || 'right'
