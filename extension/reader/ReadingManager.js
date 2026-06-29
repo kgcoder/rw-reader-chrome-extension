@@ -2850,6 +2850,7 @@ setupFlinksCanvasDPR(){
 
     getIndicesForLinkInText(text,originalStartIndex,originalHash,originalHIndex,originalHLength,leftHLetter,rightHLetter){
         if (originalHLength.length > text.length) return null
+        if(!leftHLetter || !rightHLetter)return null
 
         let newStartHIndex = 0
 
