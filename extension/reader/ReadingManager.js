@@ -1547,7 +1547,12 @@ setupFlinksCanvasDPR(){
         const notePresentationDiv = document.getElementById("CurrentDocumentMainDiv")
 
         const textNodesArray = getTextNodesArrayFromDiv(notePresentationDiv)
-        const divX = g.pdm.getCurrentDocLeftVerticalPanelWidth()
+        let divX = g.pdm.getCurrentDocLeftVerticalPanelWidth()
+        if(divX < 0.01 && g.readingManager.isFullScreen){
+            if(g.readingManager.mainDocPanels && g.readingManager.mainDocPanels.sidebarPanel){
+                divX = window.innerWidth * 0.2
+            }
+        }
         const rightPanelWidth = g.pdm.getCurrentDocRightVerticalPanelWidth()
 
         const padding = g.pdm.getMainDocumentPadding()
