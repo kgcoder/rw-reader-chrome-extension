@@ -909,4 +909,23 @@ export async function copyDataToClipboard(dataString){
                 //console.error('Both clipboard methods failed:', fallbackErr);
             }
         }
+}
+
+
+export function parseCopyInfoFromElement(copyInfoEl) {
+    const original = copyInfoEl.getAttribute('original')
+    const copiedAt = copyInfoEl.getAttribute('copied-at')
+    const via = [...copyInfoEl.getElementsByTagName('via')].map(v => ({
+        copiedAt: v.getAttribute('copied-at'),
+        url: v.textContent.trim()
+    }))
+    const mediaMappingsEl = copyInfoEl.querySelector('media-mappings')
+    let mediaMappings = null
+    if (mediaMappingsEl) {
+        mediaMappings = [...mediaMappingsEl.querySelectorAll('mapping')].map(m => ({
+            from: m.getAttribute('from'),
+            to: m.getAttribute('to')
+        }))
     }
+    return { original, copiedAt, via, mediaMappings }
+}

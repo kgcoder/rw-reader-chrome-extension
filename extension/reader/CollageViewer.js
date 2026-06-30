@@ -161,7 +161,6 @@ class CollageViewer{
     async loadContent(xmlString,url, callback){
         this.content = await loadCollageContentFromFile(xmlString, url, this.docId)
 
-        if(callback)callback()
 
       //  const {url,width,height} = this.content.info
         if(this.content){
@@ -175,9 +174,30 @@ class CollageViewer{
                     titleSpan.innerText = title
                 }
             }
+
+             if (this.content.copyInfo && this.rightDocIndex >= 0) {
+                const noteData = g.readingManager.rightNotesData[this.rightDocIndex]
+                noteData.copyInfo = this.content.copyInfo
+                if (g.readingManager.selectedRightDocIndex === this.rightDocIndex) {
+                    const rightDocumentCopyButton = document.getElementById("RightDocumentCopyButton")
+                    if (rightDocumentCopyButton) rightDocumentCopyButton.style.display = 'flex'
+                    if (this.content.copyInfo.original) {
+                        const rightDocumentTitleLink = document.getElementById("RightDocumentTitleLink")
+                        if (rightDocumentTitleLink) {
+                            rightDocumentTitleLink.href = this.content.copyInfo.original
+                            rightDocumentTitleLink.title = this.content.copyInfo.original
+                        }
+                        const titleSpan2 = document.getElementById("RightDocumentTitleSpan")
+                        if (titleSpan2) titleSpan2.innerText = this.content.copyInfo.original
+                    }
+                }
+            }
             
 
         }
+
+        if(callback)callback()
+
 
 
        

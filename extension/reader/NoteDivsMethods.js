@@ -12,7 +12,7 @@ https://github.com/kgcoder/default-web
 
 import g from "./Globals.js"
 import { getHeaderInfoFromXML, populateHeaderDiv } from "./HeaderMethods.js"
-import { absolutizeUrls, escapeHTML, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, replaceMediaTagsWithLinksInDiv, scrollToIdInContainer, stickBottomLineRectToTheTopOne } from "./helpers.js"
+import { absolutizeUrls, escapeHTML, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, parseCopyInfoFromElement, replaceMediaTagsWithLinksInDiv, scrollToIdInContainer, stickBottomLineRectToTheTopOne } from "./helpers.js"
 import { kMiddleGap, kMinDocWidthForDesktop } from "./PopupDocumentManager.js"
 
 
@@ -706,25 +706,7 @@ class NoteDivsManager{
             if (copyInfoMatch) {
                 const copyInfoParser = new DOMParser()
                 const copyInfoDoc = copyInfoParser.parseFromString(copyInfoMatch[0], 'application/xml')
-                const copyInfoEl = copyInfoDoc.documentElement
-                const original = copyInfoEl.getAttribute('original')
-                const copiedAt = copyInfoEl.getAttribute('copied-at')
-
-                const via = [...copyInfoEl.getElementsByTagName('via')].map(v => ({
-                    copiedAt: v.getAttribute('copied-at'),
-                    url: v.textContent.trim()
-                }))
-
-                const mediaMappingsEl = copyInfoEl.querySelector('media-mappings')
-                let mediaMappings = null
-                if (mediaMappingsEl) {
-                    mediaMappings = [...mediaMappingsEl.querySelectorAll('mapping')].map(m => ({
-                        from: m.getAttribute('from'),
-                        to: m.getAttribute('to')
-                    }))
-                }
-
-                copyInfo = {original, copiedAt, via, mediaMappings}
+                copyInfo = parseCopyInfoFromElement(copyInfoDoc.documentElement)
             }
 
             const result = { content: html, title, base, markdownWithoutTitle:'', headerInfo, isHtml: true, flinksetUrls, isPlainText }
