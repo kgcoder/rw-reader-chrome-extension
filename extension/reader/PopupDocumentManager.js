@@ -14,7 +14,7 @@ import g from './Globals.js'
 import { cleanConnectedDocURL, createOneIconComponent, createOneSVGIconComponent, getDataFromCondocXML, getDesiredConnectionsFromHdocDataJson, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, getTextFromDiv, hideUrlInTheCorner, isDotInsideFrame, isoToHumanReadableDate, removeAllChildren, sanitizeHtml, showToastMessage, showUrlInTheCorner } from './helpers.js'
 import PageInfoManager from './PageInfoManager.js'
 import CollageViewer from './CollageViewer.js'
-import { kColorsForFlinks } from './constants.js'
+import { kColorsForFlinks, kSidebarWidthToScreenWidthRatio } from './constants.js'
 import { fetchWebPage } from './NetworkManager.js'
 import ExportPageManager from './ExportPageManager.js'
 import { loadStaticContentFromUrl } from './parsers/ParsingManager.js'
@@ -331,8 +331,14 @@ class PopupDocumentManager{
             
             }
 
-    
-            const clickX = pageX - leftOffset
+            const leftVerticalPanelWidth = this.getCurrentDocLeftVerticalPanelWidth()
+
+            let leftSidebarWidth = 0
+
+            if(leftVerticalPanelWidth < 0.01 && g.readingManager.isFullScreen && !g.isMobileMode && g.readingManager.mainDocPanels && g.readingManager.mainDocPanels.sidebarPanel && g.readingManager.mainDocPanels.sidebarPanel.side === 'left'){
+                leftSidebarWidth = window.innerWidth * kSidebarWidthToScreenWidthRatio
+            }
+            const clickX = pageX - leftOffset - leftVerticalPanelWidth - leftSidebarWidth
             
             if(g.readingManager.isFullScreen || clickX < docWidth){
                 if( pageY > kLeftDivTop){
