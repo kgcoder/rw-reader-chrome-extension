@@ -13,7 +13,7 @@ https://github.com/kgcoder/default-web
 import { loadCollageContentFromFile } from './CollageDataLoader.js'
 import { themeColors } from './constants.js'
 import g from './Globals.js'
-import { hideUrlInTheCorner, interpolate, isDotInsideFrame, showUrlInTheCorner, timestamp } from './helpers.js'
+import { hideUrlInTheCorner, interpolate, isDotInsideFrame, mapUrlWithMappings, showUrlInTheCorner, timestamp } from './helpers.js'
 import Crosshair from './models/Crosshair.js'
 import Viewport from './models/Viewport.js'
 import { kLeftDivTop } from './PopupDocumentManager.js'
@@ -175,6 +175,17 @@ class CollageViewer{
                 }
             }
 
+            if(this.content.copyInfo && this.content.copyInfo.mediaMappings){
+                for(const image of this.content.images){
+                    const newUrl = mapUrlWithMappings(image.url, this.content.copyInfo.mediaMappings)
+                    if(newUrl !== image.url){
+                        image.url = newUrl
+                        image.image.src = newUrl
+                    }
+                }
+            }
+            
+
              if (this.content.copyInfo && this.rightDocIndex >= 0) {
                 const noteData = g.readingManager.rightNotesData[this.rightDocIndex]
                 noteData.copyInfo = this.content.copyInfo
@@ -190,7 +201,11 @@ class CollageViewer{
                         const titleSpan2 = document.getElementById("RightDocumentTitleSpan")
                         if (titleSpan2) titleSpan2.innerText = this.content.copyInfo.original
                     }
+
+                 
                 }
+
+
             }
             
 

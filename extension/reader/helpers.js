@@ -281,6 +281,35 @@ export function replaceMediaTagsWithLinksInDiv(div, tagName) {
 }
 
 
+export function mapUrlWithMappings(url, mediaMappings) {
+    for (const m of mediaMappings) {
+        if (url.startsWith(m.from)) {
+            return m.to + url.slice(m.from.length)
+        }
+    }
+    return url
+}
+
+export function applyMediaMappings(container, mediaMappings) {
+    if (!mediaMappings || mediaMappings.length === 0) return
+
+    function mapUrl(url) { return mapUrlWithMappings(url, mediaMappings) }
+
+    function mapSrcset(srcset) {
+        return srcset.split(',').map(entry => {
+            const parts = entry.trim().split(/\s+/)
+            parts[0] = mapUrl(parts[0])
+            return parts.join(' ')
+        }).join(', ')
+    }
+
+    container.querySelectorAll('img, source, audio, video').forEach(el => {
+        if (el.hasAttribute('src')) el.setAttribute('src', mapUrl(el.getAttribute('src')))
+        if (el.hasAttribute('srcset')) el.setAttribute('srcset', mapSrcset(el.getAttribute('srcset')))
+    })
+}
+
+
 export function getTextColumnWidth() {
     let textColumnWidth
     if(g.readingManager.isFullScreen){
