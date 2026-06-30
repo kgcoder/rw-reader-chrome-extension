@@ -1565,6 +1565,7 @@ class PopupDocumentManager{
 
     populatePostNavPanel(div, postNavPanelInfo) {
         removeAllChildren(div)
+        if(!postNavPanelInfo)return
 
         const leftDiv = document.createElement('div')
         leftDiv.className = 'PostNavBarSide'
@@ -1606,6 +1607,8 @@ class PopupDocumentManager{
             
             
         }
+
+        div.style.display = postNavPanelInfo.prev || postNavPanelInfo.next ? 'flex' : 'none'
 
 
 
