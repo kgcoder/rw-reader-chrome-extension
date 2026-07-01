@@ -285,7 +285,9 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
 
     const lang = hdocDataJSON.lang
     const hdocOpenTag = lang ? `<hdoc lang="${escapeXml(lang)}">` : `<hdoc>`
-    const xmlString = `${hdocOpenTag}\n\n<metadata>\n<title>${escapeXml(document.title)}</title>\n${getBaseOuterXML(base)}</metadata>${panelsString}${headerString}<content>${content}</content>${connectionsString}</hdoc>`
+    const republishingPolicy = hdocDataJSON["republishing-policy"]
+    const republishingPolicyString = republishingPolicy ? `<republishing-policy>${escapeXml(republishingPolicy)}</republishing-policy>\n` : ''
+    const xmlString = `${hdocOpenTag}\n\n<metadata>\n<title>${escapeXml(document.title)}</title>\n${republishingPolicyString}${getBaseOuterXML(base)}</metadata>${panelsString}${headerString}<content>${content}</content>${connectionsString}</hdoc>`
 
     const dataObject = {html:content,headerInfo:headerInfo,base,xmlString,connectedDocsData,type:'text',docType:'h',url:httpPageUrl,docSubtype:2}
 
