@@ -2527,6 +2527,10 @@ class PopupDocumentManager{
                 leftDiv.className = "FlinkPointCircle"
                 leftDiv.style.backgroundColor = flinksData.color
                 row.appendChild(leftDiv)
+                leftDiv.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    g.readingManager.moveLeftCollageToCenterTheDot(flink, kLeftDivTop)
+                })
             }
             
             const middleLineContainerDiv = document.createElement('div')
@@ -2558,6 +2562,10 @@ class PopupDocumentManager{
                 rightDiv.className = "FlinkPointCircle"
                 rightDiv.style.backgroundColor = flinksData.color
                 row.appendChild(rightDiv)
+                rightDiv.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    g.readingManager.moveRightCollageToCenterTheDot(flink, kLeftDivTop)
+                })
             }
 
             const smallFixButtonContainer = document.createElement('div')

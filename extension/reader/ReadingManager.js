@@ -2597,6 +2597,25 @@ setupFlinksCanvasDPR(){
     }
 
 
+    moveLeftCollageToCenterTheDot(flink,topPanelHeight){
+        const topOffset = g.adminBarHeight
+        const {rightTop,rightBottom} = flink
+        const leftEnd = flink.leftEnds[0]
+        const {x,y,radius} = leftEnd
+        const centerY = (window.innerHeight - topOffset - topPanelHeight) / 2
+        this.mainCollageViewer.movePointToCenter(x,y,radius,centerY)
+    }
+
+
+    moveRightCollageToCenterTheDot(flink,topPanelHeight){
+        const topOffset = g.adminBarHeight
+        const rightEnd = flink.rightEnds[0]
+        const {x,y,radius} = rightEnd
+        const centerY = (window.innerHeight - topOffset - topPanelHeight) / 2
+        const noteData = this.rightNotesData[this.selectedRightDocIndex]
+        noteData.collageViewer.movePointToCenter(x,y,radius,centerY)
+    }
+
 
 
     scrollMainDocInPositionForPoint(flink,rightY, topPanelHeight){
