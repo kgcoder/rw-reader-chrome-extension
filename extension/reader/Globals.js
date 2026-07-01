@@ -36,4 +36,6 @@ export default Globals
  5. cdoc
  6. sdoc (doesn't exist yet)
  7. condoc
+ 8. embedded cdoc
+ 9. embedded condoc
 */
