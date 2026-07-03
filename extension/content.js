@@ -256,19 +256,17 @@ async function showReaderOverlay() {
     if (!theTitle || !contentEl) {
 
         contentString = document.body.innerHTML
-        contentString = fixSelfClosingTags(contentString)
 
         const pres = document.querySelectorAll('pre')
         if(pres && pres.length === 1){
 
             const pre = pres[0]
       
-            contentString = unescapeHTML(pre.innerHTML)
-            contentString = fixSelfClosingTags(contentString)
-
-            isOnePre = true
-        }
-   
+            contentString = unescapeHTML(pre.innerHTML) 
+                isOnePre = true
+            }
+        contentString = fixSelfClosingTags(contentString)
+                
         const collageMatch = contentString.match(/<cdoc\b[^>]*>([\s\S]*?)<\/cdoc>/im)
         const textViewMatch = contentString.match(/<hdoc\b[^>]*>([\s\S]*?)<\/hdoc>/im)
         const condocMatch = contentString.match(/<condoc\b[^>]*>([\s\S]*?)<\/condoc>/im)
@@ -565,7 +563,7 @@ function fixSelfClosingTags(str) {
     const selfClosingTags = ['mapping', 'search', 'comment']
     for (const tag of selfClosingTags) {
         str = str.replace(new RegExp(`<\\/${tag}>`, 'gi'), '')
-        str = str.replace(new RegExp(`<${tag}\\b([^>]*)>`, 'gi'), `<${tag}$1/>`)
+        str = str.replace(new RegExp(`<${tag}\\b([^>]*)(?<!/)>`, 'gi'), `<${tag}$1/>`)
     }
     return str
 }
