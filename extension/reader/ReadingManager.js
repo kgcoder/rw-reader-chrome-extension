@@ -1348,7 +1348,7 @@ setupFlinksCanvasDPR(){
     }
 
     copyOriginalFlinks(flinksData) {
-          flinksData.activeFlinks = flinksData.flinks.map(flink => flink.getExportString()).map(string => FloatingLink.fromExportString(string))
+          flinksData.activeFlinks = flinksData.flinks.map(flink => flink.getExportString()).map(string => FloatingLink.fromExportString(string.trim()))
             flinksData.activeFlinks.forEach(flink => {
                 flink.color = flinksData.color
                 flink.color05 = addTransparencyToHexColor(flinksData.color,0.5)
