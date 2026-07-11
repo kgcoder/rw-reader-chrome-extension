@@ -712,15 +712,20 @@ class PopupDocumentManager{
 
         if (!g.readingManager.mainCollageViewer?.content) return
         
+        const titleSpan = document.getElementById("CurrentDocumentTitleSpan")
+        const optionalTitleSpan = document.getElementById("CurrentDocumentOptionalTitleSpan")
+
         const collageContent = g.readingManager.mainCollageViewer.content
+        if(collageContent){
+            optionalTitleSpan.innerText = collageContent.title
+            optionalTitleSpan.style.display = 'block'
+            titleSpan.style.display = 'none'
+        }
         if (collageContent && collageContent.copyInfo) {
             const copyInfo = collageContent.copyInfo
             const currentDocumentCopyButton = document.getElementById("CurrentDocumentCopyButton")
             currentDocumentCopyButton.style.display = 'flex'
             if (copyInfo.original) {
-                const titleSpan = document.getElementById("CurrentDocumentTitleSpan")
-                const optionalTitleSpan = document.getElementById("CurrentDocumentOptionalTitleSpan")
-                optionalTitleSpan.innerText = collageContent.title
                 titleSpan.innerText = copyInfo.original
                 const leftTitleLink = document.getElementById("CurrentDocumentTitleLink")
                 leftTitleLink.href = copyInfo.original
@@ -728,6 +733,7 @@ class PopupDocumentManager{
                 leftTitleLink.classList.add('onHoverUnderlineDecoration')
                 leftTitleLink.style.cursor = 'pointer'
                 optionalTitleSpan.style.display = 'block'
+                titleSpan.style.display = 'block'
             }
             g.readingManager.mainDocCopyInfo = copyInfo
         }
@@ -835,7 +841,8 @@ class PopupDocumentManager{
                 leftTitleLink.classList.add('onHoverUnderlineDecoration')
                 leftTitleLink.style.cursor = 'pointer'
             }else{
-                titleSpan.innerText = title
+                optionalTitleSpan.innerText = title
+                titleSpan.style.display = 'none'
             }
 
             g.readingManager.mainDocCopyInfo = copyInfo
@@ -845,15 +852,13 @@ class PopupDocumentManager{
             optionalTitleSpan.innerText = title
             titleSpan.innerText = dataObject.url
         }else{
-            titleSpan.innerText = title
+            optionalTitleSpan.innerText = title
+            optionalTitleSpan.style.display = 'block'
+            titleSpan.style.display = 'none'
 
         }
 
-        optionalTitleSpan.style.display = isEmbedded || (copyInfo && copyInfo.original) ? 'block' : 'none'
-
-
-
-
+        optionalTitleSpan.style.display = 'block'
 
 
 
