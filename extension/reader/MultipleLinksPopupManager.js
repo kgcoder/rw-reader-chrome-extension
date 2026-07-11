@@ -10,7 +10,7 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/default-web
 */
 
-import { removeAllChildren } from "./helpers.js"
+import { removeAllChildren, sanitizeUrl } from "./helpers.js"
 import g from './Globals.js'
 
 
@@ -55,7 +55,14 @@ export function showMultipleLinksPopup(pageX,pageY, touchedLinks, noteData = nul
             })
 
         }else if(link.type === 'hyperlink'){
-            row.innerHTML = `<a href="${link.url}"${link.target ? ' target="' + link.target + '"' : ''}>${link.text}</a>`
+            row.innerText = link.text
+            const safeUrl = sanitizeUrl(link.url)
+            if(safeUrl){
+                row.href = safeUrl
+            }
+            if(link.target){
+                row.setAttribute('target', link.target)
+            }
         }
     }
 

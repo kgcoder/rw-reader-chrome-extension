@@ -12,7 +12,7 @@ https://github.com/kgcoder/default-web
 
 import g from "./Globals.js"
 import { getHeaderInfoFromXML, populateHeaderDiv } from "./HeaderMethods.js"
-import { absolutizeUrls, applyMediaMappings, escapeHTML, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, parseCopyInfoFromElement, replaceMediaTagsWithLinksInDiv, scrollToIdInContainer, stickBottomLineRectToTheTopOne } from "./helpers.js"
+import { absolutizeUrls, applyMediaMappings, escapeHTML, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, parseCopyInfoFromElement, replaceMediaTagsWithLinksInDiv, sanitizeHtml, sanitizeUrl, scrollToIdInContainer, stickBottomLineRectToTheTopOne, stripHtmlTags } from "./helpers.js"
 import { kMiddleGap, kMinDocWidthForDesktop } from "./PopupDocumentManager.js"
 
 
@@ -22,7 +22,7 @@ class NoteDivsManager{
     isLoadingMore = false
 
 
-     populateDivWithTextFromDoc(div, xmlString, url = '', isRight = false) {
+    populateDivWithTextFromDoc(div, xmlString, url = '', isRight = false) {
         let title = ''
         let base = ''
     //   let markdown = ''
@@ -45,12 +45,12 @@ class NoteDivsManager{
     
         
     if (headerInfoFromFile) {
-        title = headerInfoFromFile.h1Text.replace(/<[^>]*>/g, '').replace(/[\r\n]+/g, ' ').trim()
-        
+        title = headerInfoFromFile.h1Text || ''
+
     }
         base = baseFromFile
        // markdown = md
-        html = htmlFromFile
+        html = isPlainText ? htmlFromFile : sanitizeHtml(htmlFromFile)
         isEditable = !isHtml
         panels = panelsData
         headerInfo = headerInfoFromFile
@@ -81,11 +81,15 @@ class NoteDivsManager{
             applyMediaMappings(notePresentationDiv, copyInfo.mediaMappings)
         }
 
+
+     
+
+
+
         const images = notePresentationDiv.getElementsByTagName('img')
 
 
         const screenWidth = window.innerWidth
-        //g.readingManager.docWidth = g.readingManager.isFullScreen && !isRight ? screenWidth : (screenWidth - kMiddleGap) / 2// g.readingManager.docWidth
 
         let maxImageWidth
         if (g.readingManager.isFullScreen && !isRight && screenWidth > kMinDocWidthForDesktop) {
@@ -100,14 +104,7 @@ class NoteDivsManager{
             flinksData = g.readingManager.connections.find(data => data.url === url)
         }
          
-         
         const iframes = notePresentationDiv.querySelectorAll('iframe')
-        
-        // iframes.forEach(iframe => {
-        //     const placeholder = this.createIframePlaceholder(iframe,flinksData);
-        //     iframe.parentNode.replaceChild(placeholder, iframe);
-        // });
-
         
         iframes.forEach(iframe => {
             const w = iframe.getAttribute('width')
@@ -116,14 +113,13 @@ class NoteDivsManager{
             iframe.style.height = 'auto'
             iframe.style.aspectRatio = (w && h) ? `${w} / ${h}` : '16 / 9'
         });
-
+         
 
         replaceMediaTagsWithLinksInDiv(notePresentationDiv,'audio')
         replaceMediaTagsWithLinksInDiv(notePresentationDiv,'video')
          
          
          
-
 
          
             
@@ -381,7 +377,7 @@ class NoteDivsManager{
             let markdown = markdownMatch[1]
             const chunks = splitMarkdown(markdown)
             const markdownWithoutTitle = chunks.markdownWithoutTitle
-            title = chunks.title
+            title = stripHtmlTags(chunks.title)
             
             return {content:markdown,markdownWithoutTitle,title,isHtml:false, flinksetUrls}
         }
@@ -410,11 +406,11 @@ class NoteDivsManager{
             const rootElement = metadataDoc.documentElement;
             const titleEl = rootElement.querySelector('title')
             if (titleEl) {
-                title = titleEl.textContent
+                title = stripHtmlTags(titleEl.textContent)
             }
             const baseEl = rootElement.querySelector('base')
             if (baseEl) {
-                base = baseEl.getAttribute('href')
+                base = sanitizeUrl(baseEl.getAttribute('href'))
             }
 
 
@@ -472,8 +468,8 @@ class NoteDivsManager{
                         const tagName = childNode.nodeName.toLowerCase()
                         
                         if(tagName === 'logo'){
-                            const logoImageUrl = childNode.getAttribute('src')
-                            const logoHRef = childNode.getAttribute('href')
+                            const logoImageUrl = sanitizeUrl(childNode.getAttribute('src'))
+                            const logoHRef = sanitizeUrl(childNode.getAttribute('href'))
                             
                             isMainLinkStatic = (childNode.hasAttribute('static') && childNode.getAttribute('static') !== 'false') ||
                             (childNode.hasAttribute('data-static') &&  childNode.getAttribute('data-static') !== 'false')    
@@ -483,8 +479,8 @@ class NoteDivsManager{
 
 
                         }else if(tagName === 'site-name'){
-                            const title = childNode.textContent.trim()
-                            const titleHRef = childNode.getAttribute('href')
+                            const title = stripHtmlTags(childNode.textContent)
+                            const titleHRef = sanitizeUrl(childNode.getAttribute('href'))
 
                             isMainLinkStatic = (childNode.hasAttribute('static') && childNode.getAttribute('static') !== 'false') ||
                             (childNode.hasAttribute('data-static') &&  childNode.getAttribute('data-static') !== 'false')    
@@ -495,9 +491,9 @@ class NoteDivsManager{
 
 
                         }else if(tagName === 'a'){
-                            
-                            const text = childNode.textContent.trim()
-                            const linkAddress = childNode.getAttribute('href')
+
+                            const text = stripHtmlTags(childNode.textContent)
+                            const linkAddress = sanitizeUrl(childNode.getAttribute('href'))
 
                             topPanelLinksInfo.push({text,url:linkAddress})
 
@@ -528,8 +524,8 @@ class NoteDivsManager{
                     const prevEl = postNavEl.querySelector('prev')
                     const nextEl = postNavEl.querySelector('next')
                     postNavPanelInfo = {}
-                    if (prevEl) postNavPanelInfo.prev = {href: prevEl.getAttribute('href'), title: prevEl.textContent.trim()}
-                    if (nextEl) postNavPanelInfo.next = {href: nextEl.getAttribute('href'), title: nextEl.textContent.trim()}
+                    if (prevEl) postNavPanelInfo.prev = {href: sanitizeUrl(prevEl.getAttribute('href')), title: stripHtmlTags(prevEl.textContent)}
+                    if (nextEl) postNavPanelInfo.next = {href: sanitizeUrl(nextEl.getAttribute('href')), title: stripHtmlTags(nextEl.textContent)}
                 }
 
                 const sidePanels = rootElement.getElementsByTagName('side')
@@ -540,22 +536,22 @@ class NoteDivsManager{
                     let url = ''
 
                     if([...sidePanel.children].length === 0){
-                        url = sidePanel.textContent.trim()
+                        url = sanitizeUrl(sidePanel.textContent)
                     }else{
                         for(const childNode of sidePanel.childNodes){
                             if (childNode.nodeType !== Node.ELEMENT_NODE) continue
                             const tagName = childNode.nodeName.toLowerCase()
                             if(tagName === 'comments'){
-                                commentsUrl = childNode.textContent.trim()
-                                commentsTitle = childNode.getAttribute('title')
-                                noCommentsMessage = childNode.getAttribute('empty')
-                                leaveCommentUrl = childNode.getAttribute('leave-comment-url')
-                                commentsReplyLabel = childNode.getAttribute('reply-label')
-                                commentsLeaveLabel = childNode.getAttribute('leave-comment-label')
+                                commentsUrl = sanitizeUrl(childNode.textContent)
+                                commentsTitle = stripHtmlTags(childNode.getAttribute('title'))
+                                noCommentsMessage = stripHtmlTags(childNode.getAttribute('empty'))
+                                leaveCommentUrl = sanitizeUrl(childNode.getAttribute('leave-comment-url'))
+                                commentsReplyLabel = stripHtmlTags(childNode.getAttribute('reply-label'))
+                                commentsLeaveLabel = stripHtmlTags(childNode.getAttribute('leave-comment-label'))
                             }
 
                             if(tagName === 'ipage'){
-                                url = childNode.textContent.trim()
+                                url = sanitizeUrl(childNode.textContent)
                             }
 
                         }
@@ -581,7 +577,7 @@ class NoteDivsManager{
                     for(const section of sections){
                         
 
-                        const sectionTitle = section.getAttribute('title')
+                        const sectionTitle = stripHtmlTags(section.getAttribute('title'))
 
                         const links = []
                         for(const childNode of section.childNodes){
@@ -589,8 +585,8 @@ class NoteDivsManager{
                             const tagName = childNode.nodeName.toLowerCase()
 
                             if(tagName === 'a'){
-                                const text = childNode.textContent.trim()
-                                const linkAddress = childNode.getAttribute('href')
+                                const text = stripHtmlTags(childNode.textContent)
+                                const linkAddress = sanitizeUrl(childNode.getAttribute('href'))
 
                                 links.push({text,url:linkAddress})
                             }
@@ -606,7 +602,7 @@ class NoteDivsManager{
                   //  const bottomPanelStyle = this.getPanelStyleFromXMLNode(bottomPanel)
 
                     const test = bottomPanel.getElementsByTagName('bottom-message')
-                    const bottomMessage = test && test.length ? test[0].textContent.trim() : ''
+                    const bottomMessage = test && test.length ? stripHtmlTags(test[0].textContent) : ''
 
                     bottomPanelInfo = {sections:sectionsArray,bottomMessage}
 
@@ -627,29 +623,29 @@ class NoteDivsManager{
                         if (tag === 'search') {
                             sidebarItems.push({
                                 type: 'search',
-                                action: child.getAttribute('action'),
-                                placeholder: child.getAttribute('placeholder'),
-                                target: child.getAttribute('target')
+                                action: sanitizeUrl(child.getAttribute('action')),
+                                placeholder: stripHtmlTags(child.getAttribute('placeholder')),
+                                target: stripHtmlTags(child.getAttribute('target'))
                             })
                         } else if (tag === 'links') {
                             const items = [...child.querySelectorAll('a')].map(a => ({
-                                href: a.getAttribute('href'),
-                                text: a.textContent.trim(),
-                                target: a.getAttribute('target'),
-                                rel: a.getAttribute('rel')
+                                href: sanitizeUrl(a.getAttribute('href')),
+                                text: stripHtmlTags(a.textContent),
+                                target: stripHtmlTags(a.getAttribute('target')),
+                                rel: stripHtmlTags(a.getAttribute('rel'))
                             }))
-                            sidebarItems.push({type: 'links', title: child.getAttribute('title'), items})
+                            sidebarItems.push({type: 'links', title: stripHtmlTags(child.getAttribute('title')), items})
                         } else if (tag === 'recent-comments') {
                             const comments = [...child.querySelectorAll('comment')].map(c => ({
-                                postHref: c.getAttribute('post-href'),
-                                postTitle: c.getAttribute('post-title'),
-                                author: c.getAttribute('author'),
-                                excerpt: c.getAttribute('excerpt')
+                                postHref: sanitizeUrl(c.getAttribute('post-href')),
+                                postTitle: stripHtmlTags(c.getAttribute('post-title')),
+                                author: stripHtmlTags(c.getAttribute('author')),
+                                excerpt: stripHtmlTags(c.getAttribute('excerpt'))
                             }))
                             sidebarItems.push({
                                 type: 'recent-comments',
-                                title: child.getAttribute('title'),
-                                format: child.getAttribute('format'),
+                                title: stripHtmlTags(child.getAttribute('title')),
+                                format: stripHtmlTags(child.getAttribute('format')),
                                 comments
                             })
                         }
@@ -688,9 +684,9 @@ class NoteDivsManager{
     
                     for (let i = 0; i < flinkSets.length; i++) {
                         const flinkSet = flinkSets[i];
-                        const flinkSetUrl = flinkSet.getAttribute('url')  
+                        const flinkSetUrl = sanitizeUrl(flinkSet.getAttribute('url'))
                         if (flinkSetUrl) {
-                            flinksetUrls.push(flinkSetUrl)    
+                            flinksetUrls.push(flinkSetUrl)
                         }
                     }
                     
@@ -712,7 +708,6 @@ class NoteDivsManager{
             if (lang) result.lang = lang
             if (panelsInfo) result.panels = panelsInfo
             if (copyInfo) result.copyInfo = copyInfo
-
             return result
             
 

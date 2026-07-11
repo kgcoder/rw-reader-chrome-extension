@@ -130,6 +130,26 @@ export function unescapeHTML(html) {
         .body.textContent;
 }
 
+export function stripHtmlTags(text) {
+    if (typeof text !== 'string') return ''
+    return text.replace(/<[^>]*>/g, '').replace(/[\r\n]+/g, ' ').trim()
+}
+
+export function sanitizeUrl(url) {
+    if (typeof url !== 'string') return ''
+    const trimmed = url.trim()
+    if (!trimmed) return ''
+    if (/[<>"]/.test(trimmed)) return ''
+    let parsed
+    try {
+        parsed = new URL(trimmed, 'https://relative-base.invalid/')
+    } catch (e) {
+        return ''
+    }
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return ''
+    return trimmed
+}
+
 export function getBaseFromHtmlDoc(unsanitizedHtmlDoc) {
     const baseEl = unsanitizedHtmlDoc.querySelector('base[href]');
     const baseHref = baseEl ? baseEl.getAttribute('href') : null;
@@ -834,15 +854,15 @@ export function getDataFromCondocXML(condocXML) {
     const rootElement = xmlDoc.documentElement;
     const mainEl = rootElement.querySelector('main')
     if (mainEl) {
-        mainPageUrl = mainEl.textContent
+        mainPageUrl = sanitizeUrl(mainEl.textContent)
     }
     const titleEl = rootElement.querySelector('title')
     if (titleEl) {
-        condocTitle = titleEl.textContent
+        condocTitle = stripHtmlTags(titleEl.textContent)
     }
     const descriptionEl = rootElement.querySelector('description')
     if (descriptionEl) {
-        condocDescription = descriptionEl.textContent
+        condocDescription = stripHtmlTags(descriptionEl.textContent)
     }
 
 
@@ -864,8 +884,8 @@ export function getXMlAndDataArrayFromJSONConnections(mainDataJSON) {
         connectionsString = connectionsFromJSON.map(item => {
             const url = item.url
             if (!url) return ''
-            const title = item.title ?? ''
-            const hash = item.hash ?? ''
+            const title = item.title != null ? item.title : ''
+            const hash = item.hash != null ? item.hash : ''
             
 
             const flinksFromJSON = item.flinks
@@ -878,8 +898,11 @@ export function getXMlAndDataArrayFromJSONConnections(mainDataJSON) {
                 if(flinksString)flinksString = '\n' + flinksString + '\n'
             }
 
-    
-            connectedDocsData.push({url,title,hash,flinks})
+
+            const cleanUrl = sanitizeUrl(url)
+            if (cleanUrl) {
+                connectedDocsData.push({url:cleanUrl,title:stripHtmlTags(title),hash,flinks})
+            }
 
             return `<doc url="${escapeXml(url)}"${title ? ` title="${escapeXml(title)}"` : ''}${hash ? ` hash="${hash}"` : ''}>${flinksString}</doc>`
 
@@ -942,19 +965,19 @@ export async function copyDataToClipboard(dataString){
 
 
 export function parseCopyInfoFromElement(copyInfoEl) {
-    const original = copyInfoEl.getAttribute('original')
-    const copiedAt = copyInfoEl.getAttribute('copied-at')
+    const original = sanitizeUrl(copyInfoEl.getAttribute('original'))
+    const copiedAt = stripHtmlTags(copyInfoEl.getAttribute('copied-at'))
     const via = [...copyInfoEl.getElementsByTagName('via')].map(v => ({
-        copiedAt: v.getAttribute('copied-at'),
-        url: v.textContent.trim()
+        copiedAt: stripHtmlTags(v.getAttribute('copied-at')),
+        url: sanitizeUrl(v.textContent)
     }))
     const mediaMappingsEl = copyInfoEl.querySelector('media-mappings')
     let mediaMappings = null
     if (mediaMappingsEl) {
         mediaMappings = [...mediaMappingsEl.querySelectorAll('mapping')].map(m => ({
             from: m.getAttribute('from'),
-            to: m.getAttribute('to')
-        }))
+            to: sanitizeUrl(m.getAttribute('to'))
+        })).filter(m => m.from && m.to)
     }
     return { original, copiedAt, via, mediaMappings }
 }

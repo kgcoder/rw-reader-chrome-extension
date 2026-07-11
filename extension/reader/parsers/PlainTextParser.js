@@ -11,8 +11,7 @@ https://github.com/kgcoder/default-web
 */
 
 import { getXMLFromHeaderInfo } from "../HeaderMethods.js"
-import { escapeXml, getProtocolAndDomainFromUrl, showToastMessage } from "../helpers.js"
-
+import { escapeXml, getProtocolAndDomainFromUrl, showToastMessage, stripHtmlTags } from "../helpers.js"
 
 export async function parsePlainTextPage(content,cleanUrl) {
   
@@ -43,7 +42,9 @@ export async function parsePlainTextPage(content,cleanUrl) {
     headerString = headerString ? `\n\n${headerString}\n\n` : '\n\n'
 
     
-    const xmlString = `<hdoc>\n\n<metadata>\n<title>${escapeXml(headerInfo.h1Text ?? '')}</title>\n</metadata>\n\n<panels>\n<top>\n<site-name href="${protocol}://${domain}">${domain}</site-name>\n</top>\n</panels>${headerString}<content type="text">${content}</content>\n\n</hdoc>`
+    const xmlString = `<hdoc>\n\n<metadata>\n<title>${escapeXml(headerInfo.h1Text != null ? headerInfo.h1Text : '')}</title>\n</metadata>\n\n<panels>\n<top>\n<site-name href="${protocol}://${domain}">${domain}</site-name>\n</top>\n</panels>${headerString}<content type="text">${content}</content>\n\n</hdoc>`
+
+    if (headerInfo.h1Text) headerInfo.h1Text = stripHtmlTags(headerInfo.h1Text)
 
     const dataObject = {html:content,headerInfo,xmlString,connectedDocsData:[],type:'text',url:finalUrl,docSubtype:3,docType:'h',isPlainText:true}
 

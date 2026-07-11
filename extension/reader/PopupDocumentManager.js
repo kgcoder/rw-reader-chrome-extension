@@ -11,7 +11,7 @@ https://github.com/kgcoder/default-web
 */
 
 import g from './Globals.js'
-import { cleanConnectedDocURL, createOneIconComponent, createOneSVGIconComponent, getDataFromCondocXML, getDesiredConnectionsFromHdocDataJson, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, getTextFromDiv, hideUrlInTheCorner, isDotInsideFrame, isoToHumanReadableDate, removeAllChildren, sanitizeHtml, showToastMessage, showUrlInTheCorner } from './helpers.js'
+import { cleanConnectedDocURL, createOneIconComponent, createOneSVGIconComponent, getDataFromCondocXML, getDesiredConnectionsFromHdocDataJson, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, getTextFromDiv, hideUrlInTheCorner, isDotInsideFrame, isoToHumanReadableDate, removeAllChildren, sanitizeHtml, sanitizeUrl, showToastMessage, showUrlInTheCorner, stripHtmlTags } from './helpers.js'
 import PageInfoManager from './PageInfoManager.js'
 import CollageViewer from './CollageViewer.js'
 import { kColorsForFlinks, kSidebarWidthToScreenWidthRatio } from './constants.js'
@@ -2939,16 +2939,38 @@ class PopupDocumentManager{
         oneCommentDiv.className = 'OneCommentContainerDiv'
         oneCommentDiv.style.marginLeft = `${20 * indentationLevel}px`
 
-        const avatarString = author_avatar_urls && author_avatar_urls['48'] ? `<img src="${author_avatar_urls['48']}" class="OneCommentAvatar"/>` : ''
-        oneCommentDiv.innerHTML = `<div class="OneCommentTopRow">
-            ${avatarString}
-            <div class="OneCommentNameColumn">
-                <span class="OneCommentAuthorName">${author_name}</span>
-                <span class="OneCommentDate">${isoToHumanReadableDate(date)}</span>
-            </div>
-        </div>
-        <div class="OneCommentContent">${html}</div>
-        `
+        const topRowDiv = document.createElement('div')
+        topRowDiv.className = 'OneCommentTopRow'
+
+        const avatarUrl = author_avatar_urls ? sanitizeUrl(author_avatar_urls['48']) : ''
+        if (avatarUrl) {
+            const avatarImg = document.createElement('img')
+            avatarImg.className = 'OneCommentAvatar'
+            avatarImg.src = avatarUrl
+            topRowDiv.appendChild(avatarImg)
+        }
+
+        const nameColumnDiv = document.createElement('div')
+        nameColumnDiv.className = 'OneCommentNameColumn'
+
+        const authorNameSpan = document.createElement('span')
+        authorNameSpan.className = 'OneCommentAuthorName'
+        authorNameSpan.textContent = stripHtmlTags(author_name)
+
+        const dateSpan = document.createElement('span')
+        dateSpan.className = 'OneCommentDate'
+        dateSpan.textContent = isoToHumanReadableDate(date)
+
+        nameColumnDiv.appendChild(authorNameSpan)
+        nameColumnDiv.appendChild(dateSpan)
+        topRowDiv.appendChild(nameColumnDiv)
+
+        const contentDiv = document.createElement('div')
+        contentDiv.className = 'OneCommentContent'
+        contentDiv.innerHTML = html
+
+        oneCommentDiv.appendChild(topRowDiv)
+        oneCommentDiv.appendChild(contentDiv)
 
         if (commentReplyUrl && replyLabel && openPopupFn) {
             const replyBtn = document.createElement('button')
