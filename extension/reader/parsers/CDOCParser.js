@@ -10,7 +10,7 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/default-web
 */
 
-import { getFirstElementOfArray, parseCopyInfoFromElement, sanitizeUrl, stripHtmlTags } from "../helpers.js";
+import { getFirstElementOfArray, parseCopyInfoFromElement, sanitizeCdocSvg, sanitizeUrl, stripHtmlTags } from "../helpers.js";
 import FloatingLink from "../models/FloatingLink.js";
 import ImageView from "../models/ImageView.js";
 import Line from "../models/Line.js";
@@ -170,10 +170,14 @@ export async function parseCDOC(url,contentString){
    
    const serializer = new XMLSerializer();
    const serializedSvg = serializer.serializeToString(svgElement);
-   const linkRects = await extractLinkRectanglesFromOffscreen(serializedSvg)
+
+   const staticSvg = sanitizeCdocSvg(serializedSvg)
+   if (!staticSvg) return null
+
+   const linkRects = await extractLinkRectanglesFromOffscreen(staticSvg)
 
 
-    const svgBlob = new Blob([serializedSvg], { type: 'image/svg+xml' });
+    const svgBlob = new Blob([staticSvg], { type: 'image/svg+xml' });
     const svgUrl = URL.createObjectURL(svgBlob);
 
 // Create an Image object
@@ -273,8 +277,31 @@ function extractLinkRectanglesFromOffscreen(svgString) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(svgString, "image/svg+xml");
         const svgElement = doc.querySelector("svg");
+        if (!svgElement) {
+          offscreenDiv.remove();
+          resolve([]);
+          return;
+        }
+
+        //The svg is already sanitized, but this copy goes into the live DOM,
+        //so also make sure nothing in it can trigger a network request:
+        //getBBox() only needs geometry attributes, not loaded resources.
+        const externalFuncIRI = /url\s*\(\s*['"]?(?!#)/i;
+        const allElements = [svgElement, ...svgElement.querySelectorAll("*")];
+        for (const el of allElements) {
+          if (el.tagName === "image") {
+            el.removeAttribute("href");
+            el.removeAttribute("xlink:href");
+          }
+          for (const attr of [...el.attributes]) {
+            if (externalFuncIRI.test(attr.value)) {
+              el.removeAttribute(attr.name);
+            }
+          }
+        }
+
         offscreenDiv.appendChild(svgElement);
-  
+
       // Wait for the SVG to render
       setTimeout(() => {
         const rectangles = [];
@@ -299,3 +326,4 @@ function extractLinkRectanglesFromOffscreen(svgString) {
       }, 100); // Allow some time for rendering (adjust as needed)
     });
   }
+  

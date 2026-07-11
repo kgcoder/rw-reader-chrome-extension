@@ -97,26 +97,38 @@ Example:
 
 ### Allowed Content
 
-* Any valid SVG element is allowed.
-* CDOCs may contain:
+A CDOC's SVG is restricted to a **static subset of SVG**. The allowed elements are:
 
-  * Images
-  * Text
-  * Shapes
-  * Paths
-  * Groups
-  * Any other valid SVG constructs
+`svg`, `g`, `path`, `circle`, `rect`, `ellipse`, `line`, `polyline`, `polygon`, `text`, `tspan`, `title`, `desc`, `a`, `image`
 
-### Script Restrictions
+* CDOCs may contain images, text, shapes, paths, groups, and links.
+* Compliant clients MUST remove any element not in this list before rendering the document.
 
-* **Scripts are forbidden.**
-  No `<script>` tags or event-driven JavaScript are allowed.
-* Inline event handlers (e.g., `onclick="…"`) are also forbidden.
+### Prohibited Features
 
-### CSS and Classes
+CDOCs are static documents. The following are forbidden because they are non-static or unsafe:
 
-* Inline styles are allowed.
-* Use of classes is allowed, but future versions of this spec may impose restrictions to ensure interoperability and consistent rendering across clients.
+* **Scripts and event handlers.** No `<script>` tags, no event-driven JavaScript, no inline event handler attributes (e.g., `onclick="…"`, `onload="…"`).
+* **`<foreignObject>`.** Embedded HTML content is not allowed.
+* **Animation.** CDOCs MUST NOT animate. All animation elements are forbidden: `<animate>`, `<set>`, `<animateTransform>`, `<animateMotion>`, `<animateColor>`, `<mpath>`.
+* **Filters.** Filter elements (`<filter>`, `<fe*>`) are not allowed.
+* **Style sheets and style attributes.** `<style>` elements and `style="…"` attributes are not allowed (CSS can reference external resources and makes rendering unpredictable across clients).
+* **`<use>`, `<symbol>`, `<defs>`.** Not allowed in this version. A future version of the spec may reintroduce them restricted to same-document `#fragment` references.
+
+### Styling
+
+* Styling is expressed through **SVG presentation attributes** only (`fill`, `stroke`, `stroke-width`, `opacity`, `font-size`, `font-family`, `text-anchor`, `transform`, …).
+* Attribute values MUST NOT reference external resources: no `url(...)` values, except same-document references of the form `url(#id)`.
+
+### External References
+
+* Only `<image href="…">` may reference an external resource (the images that make up the collage).
+* `<a href="…">` links to other documents.
+* All other external references are prohibited.
+
+### Classes
+
+* The `class` attribute is allowed, but since style sheets are prohibited it carries no styling meaning; clients MAY ignore it.
 
 ---
 

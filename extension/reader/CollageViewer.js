@@ -13,7 +13,7 @@ https://github.com/kgcoder/default-web
 import { loadCollageContentFromFile } from './CollageDataLoader.js'
 import { themeColors } from './constants.js'
 import g from './Globals.js'
-import { hideUrlInTheCorner, interpolate, isDotInsideFrame, mapUrlWithMappings, showUrlInTheCorner, timestamp } from './helpers.js'
+import { hideUrlInTheCorner, interpolate, isDotInsideFrame, mapUrlWithMappings, sanitizeUrl, showUrlInTheCorner, timestamp } from './helpers.js'
 import Crosshair from './models/Crosshair.js'
 import Viewport from './models/Viewport.js'
 import { kLeftDivTop } from './PopupDocumentManager.js'
@@ -1083,8 +1083,10 @@ class CollageViewer{
                 case 'link':{
                     const link = selectedObj
                     hideUrlInTheCorner()
-                    window.open(link.linkAddress)
-            
+                    const linkUrl = sanitizeUrl(link.linkAddress)
+                    if (linkUrl) {
+                        window.open(linkUrl)
+                    }
 
                     break
                 }

@@ -496,7 +496,24 @@ export function sanitizeHtml(htmlString, additionalForbiddenTags = []) {
 
 }
 
-
+//Enforces the CDOC static dialect: geometry, text, images and links only.
+//No scripts, event handlers, animation, filters, style sheets/attributes, foreignObject or use/symbol/defs.
+export function sanitizeCdocSvg(svgString) {
+    if (typeof svgString !== 'string' || !svgString) return ''
+    const sanitized = DOMPurify.sanitize(svgString, {
+        NAMESPACE: 'http://www.w3.org/2000/svg',
+        ALLOWED_TAGS: ['svg', 'g', 'path', 'circle', 'rect', 'ellipse', 'line',
+            'polyline', 'polygon', 'text', 'tspan', 'title', 'desc', 'a', 'image'],
+        ALLOWED_ATTR: ['xmlns', 'xmlns:xlink', 'width', 'height', 'viewbox',
+            'preserveaspectratio', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy',
+            'r', 'rx', 'ry', 'd', 'points', 'fill', 'stroke', 'stroke-width',
+            'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'opacity',
+            'fill-opacity', 'stroke-opacity', 'transform', 'font-size',
+            'font-family', 'font-weight', 'font-style', 'text-anchor', 'dx', 'dy',
+            'id', 'class', 'href', 'xlink:href', 'target', 'vector-effect'],
+    })
+    return sanitized != null ? sanitized : ''
+}
 
 export function removeTitleFromContent(htmlString, titleText, titleSelector) {
 
