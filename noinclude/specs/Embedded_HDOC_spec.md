@@ -54,6 +54,7 @@ Example:
 <script type="application/json" id="hdoc-data">
 {
   "lang": "en",
+  "forced": true,
   "removal-selectors": ".some-class,.other-class",
   "header": {
     "h1": "The Title",
@@ -69,6 +70,7 @@ Example:
 #### Fields:
 
 * **lang** (optional): IETF language tag (e.g. `"en"`, `"ar"`) identifying the primary language of the document. Clients use this to set text direction (LTR/RTL) and other locale-sensitive rendering.
+* **forced** (optional): Boolean. When `true`, HDOC-aware clients should always render the page as an HDOC, including when it is opened directly as the main document. When absent or `false`, the client shows the original HTML page to direct visitors and uses the embedded HDOC only when the page is loaded as a connected document.
 * **removal-selectors** (optional): CSS selectors to remove unwanted elements from the content.
 * **header** (optional):
 
