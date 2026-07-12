@@ -158,7 +158,7 @@ setupFlinksCanvasDPR(){
         }
         g.pdm.hideMainDocSpinner()
             
-        showToastMessage('All documents are loaded')
+        showToastMessage('All connected documents are loaded')
 
     }
 
