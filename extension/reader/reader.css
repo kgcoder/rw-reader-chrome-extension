@@ -196,7 +196,7 @@ canvas {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    cursor: default;
+    cursor: pointer;
 }
 
 .FlinkOneEndContainerBroken {
@@ -225,6 +225,7 @@ canvas {
     width: 20px;
     height: 20px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .DeleteFlinkButton {

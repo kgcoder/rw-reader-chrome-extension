@@ -1991,6 +1991,134 @@ setupFlinksCanvasDPR(){
     }
 
 
+    isFlinkUnderMouseInMainDoc(pageX,pageY){
+        if(g.pdm.isShowingInfo || g.pdm.isLeftSourceCodeShowing)return
+        
+        const topPanelHeight = g.pdm.getCurrentDocTopOffset()
+        
+        const x = pageX - g.pdm.getCurrentDocLeftVerticalPanelWidth()
+        const y = pageY - kLeftDivTop - topPanelHeight
+        if(this.mainDocType === 'c'){
+            for(let flinksData of this.connections){
+                if(!flinksData.activeFlinks)continue
+                for(let flink of flinksData.activeFlinks){
+                    const leftEnd = flink.leftEnds[0]
+                    const {x:dotAbsX,y:dotAbsY,radius} = leftEnd
+                    const collageViewer = this.mainCollageViewer
+                     const relCoordinates = collageViewer.getRelativePoint(dotAbsX,dotAbsY) 
+                    if(!relCoordinates)continue
+                    const {xRel, yRel} = relCoordinates
+                    const distance = Math.sqrt(Math.pow(xRel - x, 2) + Math.pow(yRel - y, 2))
+                    if(distance < Math.min(radius * collageViewer.k,10)){
+                        return true
+                     
+                    }
+
+                }
+            
+            }
+        }else if(this.mainDocType === 'h'){
+            const mainScrollDocDiv = document.getElementById("CurrentDocument")
+            const x = pageX - g.pdm.getCurrentDocLeftVerticalPanelWidth()
+            const y = pageY - kLeftDivTop - topPanelHeight + mainScrollDocDiv.scrollTop
+        
+            let touchedFlinks = []
+            for(let flinksData of this.connections){
+                if(!flinksData.activeFlinks)continue
+                for(let flink of flinksData.activeFlinks){
+                    if(flink.leftEndOutOfBounds)continue
+                        if(!flink.leftRects)continue
+                        for(let rect of flink.leftRects){
+                            if(isDotInsideFrame(x,y,{minX:rect.left,minY:rect.top,maxX:rect.left + rect.width,maxY:rect.top + rect.height})){
+                               return true
+                        
+                            }
+                        }
+    
+                    
+                }
+    
+           
+    
+            }
+
+        
+        
+
+
+        }
+
+        return false
+    }
+
+
+
+     isFlinkUnderMouseInRightDoc(pageX,pageY){
+        if(this.isFullScreen)return false
+        const noteData = this.rightNotesData[this.selectedRightDocIndex]
+
+        const topPanelHeight = g.pdm.getRightDocTopOffset(noteData)
+
+        const flinksData = this.currentConnection
+
+        if(noteData.docType === 'c'){
+
+            if(!flinksData || !flinksData.activeFlinks)return false
+
+            const noteLeftX = this.docWidth + kMiddleGap
+        
+            const x = pageX - noteLeftX
+            const y = pageY - topPanelHeight - kLeftDivTop
+
+
+            for(let flink of flinksData.activeFlinks){
+                const rightEnd = flink.rightEnds[0]
+                const {x:dotAbsX,y:dotAbsY,radius} = rightEnd
+                const collageViewer = noteData.collageViewer
+                 const relCoordinates = collageViewer.getRelativePoint(dotAbsX,dotAbsY) 
+                if(!relCoordinates)return false
+                const {xRel, yRel} = relCoordinates
+                const distance = Math.sqrt(Math.pow(xRel - x,2) + Math.pow(yRel - y,2))
+                if(distance < Math.min(radius * collageViewer.k,10)){
+                    return true
+                }
+
+            }
+        }else if(noteData.docType === 'h'){
+            const secondDiv = noteData.scrollDiv
+            const scrollTop = secondDiv.scrollTop
+
+
+
+            const flinks = flinksData.activeFlinks
+            if(!flinks)return false
+
+            const leftPanelWidth = noteData.currentDocLeftPanelShowing ? kVerticalPanelWidth : 0
+    
+            const noteLeftX = this.docWidth + kMiddleGap + leftPanelWidth
+        
+            const x = pageX - noteLeftX
+            const y = pageY - topPanelHeight - kLeftDivTop + scrollTop
+    
+    
+            for(let flink of flinks){
+                if (flink.rightEndOutOfBounds) continue
+                for(let rect of flink.rightRects){
+
+                    if(isDotInsideFrame(x,y,{minX:rect.left,minY:rect.top,maxX:rect.left + rect.width,maxY:rect.top + rect.height})){
+                        return true
+                    }
+                }
+            }
+
+        }
+
+        return false
+
+    }
+
+
+
 
     async handleTouchInMainDoc(pageX,pageY,currentlyPressedLink){
 
@@ -2143,6 +2271,7 @@ setupFlinksCanvasDPR(){
     }
 
 
+  
 
 
     handleTouchInRightDoc(pageX,pageY,currentlyPressedLink){

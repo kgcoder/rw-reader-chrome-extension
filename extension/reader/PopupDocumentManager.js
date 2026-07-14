@@ -286,6 +286,50 @@ class PopupDocumentManager{
             this.movementEvent = e
 
 
+            const {pageX,pageY} = e
+
+            const docWidth = g.readingManager.docWidth
+    
+            const leftOffset = this.getMainLeftOffset()
+
+            const leftVerticalPanelWidth = this.getCurrentDocLeftVerticalPanelWidth()
+
+            let leftSidebarWidth = 0
+
+            if(leftVerticalPanelWidth < 0.01 && g.readingManager.isFullScreen && !g.isMobileMode && g.readingManager.mainDocPanels && g.readingManager.mainDocPanels.sidebarPanel && g.readingManager.mainDocPanels.sidebarPanel.side === 'left'){
+                leftSidebarWidth = window.innerWidth * kSidebarWidthToScreenWidthRatio
+            }
+            const relativeX = pageX - leftOffset - leftVerticalPanelWidth - leftSidebarWidth
+            
+            if(g.readingManager.isFullScreen || relativeX < docWidth){
+                if( pageY > kLeftDivTop){
+                    const showPointer = g.readingManager.isFlinkUnderMouseInMainDoc(relativeX,pageY)
+                    
+                    if(g.readingManager.mainCollageViewer){
+                        g.readingManager.mainCollageViewer.showPointerForFlink = showPointer
+                    }else{
+                        allDocumentsContainer.style.cursor = showPointer ? 'pointer' : 'default'
+                    }
+                    
+                }
+            }else if(relativeX > docWidth + kMiddleGap){
+                const rightTop = 50
+                if(pageY > rightTop){
+                    const showPointer = g.readingManager.isFlinkUnderMouseInRightDoc(relativeX,pageY)
+                    
+                    const noteData = g.readingManager.rightNotesData[g.readingManager.selectedRightDocIndex]
+                    if(noteData.collageViewer){
+                        noteData.collageViewer.showPointerForFlink = showPointer
+
+                    }else{
+                        allDocumentsContainer.style.cursor = showPointer ? 'pointer' : 'default'
+                    }
+                }
+            }
+
+
+
+
         });
 
 
