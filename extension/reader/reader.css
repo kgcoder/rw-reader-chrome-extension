@@ -30,6 +30,7 @@ body {
 
     font-family: Arial, Helvetica, sans-serif !important;
     line-height: 1.55;
+    -webkit-overflow-scrolling: touch;
 }
 
 
@@ -164,11 +165,13 @@ canvas {
     display: flex;
     /* flex:1; */
     flex-direction: column;
+    box-sizing: border-box;
     padding-top: 5px;
     padding-right: 30px;
     padding-left: 30px;
     padding-bottom: 30px;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 
 
 }
@@ -176,6 +179,7 @@ canvas {
 .FlinksListOneRow {
     display: flex;
     height: 40px;
+    flex-shrink: 0;
     margin-bottom: 15px;
     align-items: center;
 }
@@ -641,35 +645,7 @@ code {
 
 }
 
-#confirmationDialogueContainer {
-    /* display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    border-radius: 8px;
-    flex-direction: column;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 20px;
-    background-color: white;
-    z-index: 130500; */
 
-}
-
-#fileTypeSelectorContainer {
-    display: none;
-    /* height: 300px; */
-    /* margin-top: 10px; */
-    /* background-color: yellow; */
-    margin-bottom: 20px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    /* flex-shrink: 0; */
-    overflow-y: scroll;
-    height: 144px
-}
 
 .CommonDialogueContainer {
     display: none;
@@ -836,6 +812,7 @@ code {
     flex-direction: column;
     /* background-color: 'transparent'; */
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     /* font-family: 'Times New Roman', Times, serif; */
 
     background-color: transparent;
@@ -1280,6 +1257,7 @@ code {
     /* border-radius: 20px; */
 
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
 
 
@@ -1995,6 +1973,7 @@ div.MenuHorizontalLine {
     flex: 1;
     flex-direction: column;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 .OneCommentContainerDiv {

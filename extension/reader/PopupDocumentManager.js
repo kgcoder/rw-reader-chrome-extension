@@ -2667,11 +2667,27 @@ class PopupDocumentManager{
 
         }
 
-
+        this.limitFlinksScrollDivHeight(flinksListContainerDiv, flinksScrollDiv)
 
         this.isFlinksListOpen = true
 
 
+    }
+
+
+    // Old WebKit lays out flex children against the container's unclamped
+    // content height when the container is only constrained by max-height,
+    // so the scroll div must be capped explicitly to keep the rows inside.
+    limitFlinksScrollDivHeight = (containerDiv, scrollDiv) => {
+        const availableHeight = window.innerHeight - kLeftDivTop - 1 - g.adminBarHeight
+        let otherRowsHeight = 0
+        for (const child of containerDiv.children) {
+            if (child === scrollDiv) continue
+            const style = window.getComputedStyle(child)
+            if (style.display === 'none') continue
+            otherRowsHeight += child.offsetHeight + parseFloat(style.marginTop) + parseFloat(style.marginBottom)
+        }
+        scrollDiv.style.maxHeight = `${Math.max(0, availableHeight - otherRowsHeight)}px`
     }
 
     fixBrokenFlinks = (e) => {

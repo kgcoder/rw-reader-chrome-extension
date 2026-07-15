@@ -57,6 +57,7 @@
 
     overflow-x: auto;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     white-space: pre;
     /* flex-grow: 0; */
 
@@ -89,6 +90,8 @@
 
     overflow-x: auto;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
     /* flex-grow: 0; */
 
 
