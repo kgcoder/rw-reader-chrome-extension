@@ -998,3 +998,17 @@ export function parseCopyInfoFromElement(copyInfoEl) {
     }
     return { original, copiedAt, via, mediaMappings }
 }
+
+
+export function addScrollEndListener(element, callback) {
+    if ('onscrollend' in window) {
+        element.addEventListener('scrollend', callback);
+    } else {
+        // Older Safari (pre-18.4) never fires 'scrollend'
+        let scrollEndTimer = null;
+        element.addEventListener('scroll', () => {
+            if (scrollEndTimer) clearTimeout(scrollEndTimer);
+            scrollEndTimer = setTimeout(callback, 150);
+        }, { passive: true });
+    }
+}
