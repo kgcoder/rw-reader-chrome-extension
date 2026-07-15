@@ -2690,7 +2690,7 @@ setupFlinksCanvasDPR(){
 
         const currentRightY = kLeftDivTop + rightTopPanelHeight - rightScrollDiv.scrollTop + (rightTop + flink.topIndentHeight + rightBottom) / 2
 
-        const leftY = (window.innerHeight - topPanelHeight) / 2
+        const leftY = kLeftDivTop + g.adminBarHeight + (window.innerHeight - kLeftDivTop - g.adminBarHeight) / 2
 
         const neededRightScrollTop =  -leftY + rightScrollDiv.scrollTop + currentRightY
 
@@ -2814,7 +2814,7 @@ setupFlinksCanvasDPR(){
         const topPanelHeight = g.pdm.getCurrentDocTopOffset()
 
 
-        const rightY = (window.innerHeight - kLeftDivTop) / 2
+        const rightY = kLeftDivTop + g.adminBarHeight + (window.innerHeight - kLeftDivTop - g.adminBarHeight) / 2
 
         const currentLeftY = kLeftDivTop + topPanelHeight - leftScrollDiv.scrollTop + (leftTop - flink.bottomIndentHeight + leftBottom) / 2
 
