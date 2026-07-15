@@ -2365,7 +2365,10 @@ class PopupDocumentManager{
         flinksListContainerDiv.style.maxHeight = `${window.innerHeight - kLeftDivTop }px`
         
 
-        if(g.isMobileMode){
+        if(g.isMobileMode && isFullscreenList){
+            flinksListContainerDiv.style.left = '0px'
+            flinksListContainerDiv.style.right = '0px'
+        }else if(g.isMobileMode){
             const leftOffset = this.getMainLeftOffset()
             if(leftOffset >=0){
 
