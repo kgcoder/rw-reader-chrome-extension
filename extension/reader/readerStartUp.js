@@ -51,9 +51,9 @@ window.addEventListener('initReader', async (e) => {
     }
 
 
-    const mainContainer = document.getElementById("AllDocumentsContainer");
-    const container = mainContainer.parentElement.parentElement
     
+
+    const container = document.body
     //snapping
     container.addEventListener('scroll',() => {
         if (g.pdm.isFlinksListOpen) {
