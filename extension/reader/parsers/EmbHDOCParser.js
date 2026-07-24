@@ -40,12 +40,14 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
         let topPanelString = ''
         let postNavPanelString = ''
         let sidebarPanelString = ''
+        let commentsPanelString = ''
         let sidePanelString = ''
         let bottomPanelString = ''
 
         const topPanelJSON = panelsJSON["top"]
         const postNavJSON = panelsJSON["post-nav"]
         const sidebarPanelJSON = panelsJSON["sidebar"]
+        const commentsJSON = panelsJSON["comments"]
         const sidePanelJSON = panelsJSON["side"]
         const bottomPanelJSON = panelsJSON["bottom"]
         
@@ -104,40 +106,37 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
             }
         }
 
-        if (sidePanelJSON) {
+        const buildCommentsElementString = (comments) => {
+            if (!comments) return ''
+            const commentsUrl = comments.url
+            const commentsTitle = comments.title
+            const commentsEmptyMessage = comments.empty
+            const leaveCommentUrl = comments['leave-comment-url']
+            const replyLabel = comments['reply-label']
+            const leaveLabel = comments['leave-comment-label']
 
-            
-            const ipage = sidePanelJSON.ipage
+            if (!commentsUrl) return ''
 
-            const ipageString = ipage ? `\n<ipage>${escapeXml(ipage)}</ipage>` : ''
-            
-            let commentsString = ''
+            return `<comments`
+                + (commentsTitle       ? ` title="${escapeXml(commentsTitle)}"`                     : '')
+                + (commentsEmptyMessage ? ` empty="${escapeXml(commentsEmptyMessage)}"`              : '')
+                + (leaveCommentUrl     ? ` leave-comment-url="${escapeXml(leaveCommentUrl)}"`        : '')
+                + (replyLabel          ? ` reply-label="${escapeXml(replyLabel)}"`                   : '')
+                + (leaveLabel          ? ` leave-comment-label="${escapeXml(leaveLabel)}"`           : '')
+                + `>${escapeXml(commentsUrl)}</comments>`
+        }
 
-            const comments = sidePanelJSON.comments
-            if (comments) {
-                const commentsUrl = comments.url
-                const commentsTitle = comments.title
-                const commentsEmptyMessage = comments.empty
-                const leaveCommentUrl = comments['leave-comment-url']
-                const replyLabel = comments['reply-label']
-                const leaveLabel = comments['leave-comment-label']
-
-                if (commentsUrl) {
-                    commentsString = `\n<comments`
-                        + (commentsTitle       ? ` title="${escapeXml(commentsTitle)}"`                     : '')
-                        + (commentsEmptyMessage ? ` empty="${escapeXml(commentsEmptyMessage)}"`              : '')
-                        + (leaveCommentUrl     ? ` leave-comment-url="${escapeXml(leaveCommentUrl)}"`        : '')
-                        + (replyLabel          ? ` reply-label="${escapeXml(replyLabel)}"`                   : '')
-                        + (leaveLabel          ? ` leave-comment-label="${escapeXml(leaveLabel)}"`           : '')
-                        + `>${escapeXml(commentsUrl)}</comments>`
-                }
-
+        if (commentsJSON) {
+            const commentsElementString = buildCommentsElementString(commentsJSON)
+            if (commentsElementString) {
+                commentsPanelString = `\n${commentsElementString}`
             }
-
-            if (commentsString || ipageString) {
-                sidePanelString = `<side>${commentsString}${ipageString}\n</side>`
+        } else if (sidePanelJSON && sidePanelJSON.comments) {
+            // Legacy fallback: older documents nest <comments> inside a <side> panel. `ipage` is no longer supported.
+            const commentsElementString = buildCommentsElementString(sidePanelJSON.comments)
+            if (commentsElementString) {
+                sidePanelString = `<side>\n${commentsElementString}\n</side>`
             }
- 
         }
 
         if (bottomPanelJSON) {
@@ -218,8 +217,8 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
             }
         }
 
-        if (topPanelString || postNavPanelString || sidebarPanelString || sidePanelString || bottomPanelString) {
-            panelsString = `\n\n<panels>${topPanelString}${postNavPanelString}${sidebarPanelString}${sidePanelString}${bottomPanelString}\n</panels>\n\n`
+        if (topPanelString || postNavPanelString || sidebarPanelString || commentsPanelString || sidePanelString || bottomPanelString) {
+            panelsString = `\n\n<panels>${topPanelString}${postNavPanelString}${sidebarPanelString}${commentsPanelString}${sidePanelString}${bottomPanelString}\n</panels>\n\n`
         }
     }
 

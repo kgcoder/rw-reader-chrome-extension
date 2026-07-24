@@ -528,43 +528,57 @@ class NoteDivsManager{
                     if (nextEl) postNavPanelInfo.next = {href: sanitizeUrl(nextEl.getAttribute('href')), title: stripHtmlTags(nextEl.textContent)}
                 }
 
-                const sidePanels = rootElement.getElementsByTagName('side')
+                let url = ''
 
-                if(sidePanels && sidePanels.length){
-                    const sidePanel = sidePanels[0]
+                let directCommentsPanel = null
+                for(const childNode of rootElement.childNodes){
+                    if (childNode.nodeType !== Node.ELEMENT_NODE) continue
+                    if(childNode.nodeName.toLowerCase() === 'comments'){
+                        directCommentsPanel = childNode
+                        break
+                    }
+                }
 
-                    let url = ''
+                if(directCommentsPanel){
+                    commentsUrl = sanitizeUrl(directCommentsPanel.textContent)
+                    commentsTitle = stripHtmlTags(directCommentsPanel.getAttribute('title'))
+                    noCommentsMessage = stripHtmlTags(directCommentsPanel.getAttribute('empty'))
+                    leaveCommentUrl = sanitizeUrl(directCommentsPanel.getAttribute('leave-comment-url'))
+                    commentsReplyLabel = stripHtmlTags(directCommentsPanel.getAttribute('reply-label'))
+                    commentsLeaveLabel = stripHtmlTags(directCommentsPanel.getAttribute('leave-comment-label'))
 
-                    if([...sidePanel.children].length === 0){
-                        url = sanitizeUrl(sidePanel.textContent)
-                    }else{
-                        for(const childNode of sidePanel.childNodes){
-                            if (childNode.nodeType !== Node.ELEMENT_NODE) continue
-                            const tagName = childNode.nodeName.toLowerCase()
-                            if(tagName === 'comments'){
-                                commentsUrl = sanitizeUrl(childNode.textContent)
-                                commentsTitle = stripHtmlTags(childNode.getAttribute('title'))
-                                noCommentsMessage = stripHtmlTags(childNode.getAttribute('empty'))
-                                leaveCommentUrl = sanitizeUrl(childNode.getAttribute('leave-comment-url'))
-                                commentsReplyLabel = stripHtmlTags(childNode.getAttribute('reply-label'))
-                                commentsLeaveLabel = stripHtmlTags(childNode.getAttribute('leave-comment-label'))
-                            }
+                    sidePanelInfo = {url, commentsUrl, commentsTitle, noCommentsMessage,
+                                     leaveCommentUrl, commentsReplyLabel, commentsLeaveLabel}
+                }else{
+                    // Legacy fallback: older documents nest <comments> inside a <side> panel.
+                    const sidePanels = rootElement.getElementsByTagName('side')
 
-                            if(tagName === 'ipage'){
-                                url = sanitizeUrl(childNode.textContent)
+                    if(sidePanels && sidePanels.length){
+                        const sidePanel = sidePanels[0]
+
+                        if([...sidePanel.children].length === 0){
+                            url = sanitizeUrl(sidePanel.textContent)
+                        }else{
+                            for(const childNode of sidePanel.childNodes){
+                                if (childNode.nodeType !== Node.ELEMENT_NODE) continue
+                                const tagName = childNode.nodeName.toLowerCase()
+                                if(tagName === 'comments'){
+                                    commentsUrl = sanitizeUrl(childNode.textContent)
+                                    commentsTitle = stripHtmlTags(childNode.getAttribute('title'))
+                                    noCommentsMessage = stripHtmlTags(childNode.getAttribute('empty'))
+                                    leaveCommentUrl = sanitizeUrl(childNode.getAttribute('leave-comment-url'))
+                                    commentsReplyLabel = stripHtmlTags(childNode.getAttribute('reply-label'))
+                                    commentsLeaveLabel = stripHtmlTags(childNode.getAttribute('leave-comment-label'))
+                                }
                             }
 
                         }
 
+                        sidePanelInfo = {url, commentsUrl, commentsTitle, noCommentsMessage,
+                                         leaveCommentUrl, commentsReplyLabel, commentsLeaveLabel}
+
+
                     }
-
-
-                    
-
-                    sidePanelInfo = {url, commentsUrl, commentsTitle, noCommentsMessage,
-                                     leaveCommentUrl, commentsReplyLabel, commentsLeaveLabel}
-
-
                 }
 
 

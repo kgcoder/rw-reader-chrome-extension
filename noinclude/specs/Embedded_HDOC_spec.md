@@ -77,7 +77,7 @@ Example:
   * `h1`: Page title
   * `author`: Author name
   * `date`: Publication date
-* **panels** (optional): Defines top, sidebar, side, and bottom panels for standardized UI (see HDOC panels spec).
+* **panels** (optional): Defines top, sidebar, comments, and bottom panels for standardized UI (see HDOC panels spec). Also accepts the deprecated `side` field (see §2.3) for backward compatibility.
 * **connections** (optional): Array of connection objects (see specification at `specs/connections.md`).
 * **republishing-policy** (optional): Republishing policy for the document. Allowed values: `"allow"` or `"do-not-republish"`. When present, the client inserts `<republishing-policy>{value}</republishing-policy>` inside the `<metadata>` block of the reconstructed HDOC XML. When absent, no tag is included (implicitly allowed). See the HDOC specification (section 3.2) for full semantics.
 
@@ -128,16 +128,13 @@ Example:
       }
     ]
   },
-  "side": {
-    "ipage": "https://example.com/interactive-page",
-    "comments": {
-      "url": "http://example.com/json-comments/?post=19",
-      "title": "Comments",
-      "empty": "No comments yet",
-      "leave-comment-url": "http://example.com/sw-comment-form/?post=19",
-      "reply-label": "Reply",
-      "leave-comment-label": "Leave a comment"
-    }
+  "comments": {
+    "url": "http://example.com/json-comments/?post=19",
+    "title": "Comments",
+    "empty": "No comments yet",
+    "leave-comment-url": "http://example.com/sw-comment-form/?post=19",
+    "reply-label": "Reply",
+    "leave-comment-label": "Leave a comment"
   },
   "bottom": {
     "sections": [
@@ -176,6 +173,19 @@ Example:
 | `sidebar.items[].items[]` | array | *(type=links)* Each: `{ href, text, target?, rel? }` |
 | `sidebar.items[].format` | string | *(type=recent-comments)* Template for each item; default `"{author} on {post}"`. Placeholders: `{author}`, `{post}` |
 | `sidebar.items[].comments[]` | array | *(type=recent-comments)* Each: `{ post-href, post-title, author, excerpt? }` |
+
+**`comments` fields** (corresponds to the HDOC `<comments>` panel, §7.3 of the HDOC spec — a direct sibling of `top`/`post-nav`/`sidebar`/`bottom`, not nested inside `side`):
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `comments.url` | string | URL of a static-comments JSON array (see Static Comments Specification) |
+| `comments.title` | string | Optional section heading |
+| `comments.empty` | string | Optional message shown when there are no comments |
+| `comments.leave-comment-url` | string | Optional URL of the comment submission form. When absent, all posting UI is hidden (read-only); existing comments are still shown |
+| `comments.reply-label` | string | Optional label for the per-comment Reply button. Used only when `leave-comment-url` is present |
+| `comments.leave-comment-label` | string | Optional label for the section-level Leave a comment button. Used only when `leave-comment-url` is present |
+
+**`side` field (deprecated):** older embedded HDOCs may instead carry a `side` object (`{ ipage, comments: {...} }`, the same `comments` shape as above) in place of the top-level `comments` field. This form is deprecated — superseded by the top-level `comments` field — and kept only so clients can keep rendering older documents. `side.ipage` has no equivalent in the new form and is no longer supported going forward. This section will be removed in a future revision of this spec.
 
 ---
 
