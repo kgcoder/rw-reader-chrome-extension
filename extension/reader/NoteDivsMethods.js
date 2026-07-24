@@ -897,6 +897,8 @@ class NoteDivsManager{
         let didFindRange = false
         let indexOfCharacterInHighlight = 0
         const lineRects = []
+
+        let atLeastOneRectIsInsidePre = false
         for(let i = 0; i < textNodesArray.length; i++){
             if(didFindRange && highlightLength === 1)break
             const nodeText = textNodesArray[i].textContent
@@ -929,6 +931,8 @@ class NoteDivsManager{
                 range.setStart(textNodesArray[i], currentIndex);
                 range.setEnd(textNodesArray[i], currentIndex + 1);
 
+
+                atLeastOneRectIsInsidePre = textNodesArray[i].parentElement.closest('pre, blockquote') !== null;
               
             
                 const rawRect = range.getBoundingClientRect();
@@ -1082,9 +1086,9 @@ class NoteDivsManager{
         })
 
     //    
-        if(finalLineRects.length === 0)return finalLineRects
+        if(finalLineRects.length === 0)return {rects:finalLineRects,isInsidePre:atLeastOneRectIsInsidePre}
 
-        if(finalLineRects.length === 1)return finalLineRects
+        if(finalLineRects.length === 1)return {rects:finalLineRects,isInsidePre:atLeastOneRectIsInsidePre}
 
 
         if(finalLineRects.length === 2){
@@ -1093,7 +1097,7 @@ class NoteDivsManager{
             stickBottomLineRectToTheTopOne(firstLineRect,secondLineRect)
 
 
-            return finalLineRects
+            return {rects:finalLineRects,isInsidePre:atLeastOneRectIsInsidePre}
         }
 
         const firstLineRect = finalLineRects[0]
@@ -1117,7 +1121,7 @@ class NoteDivsManager{
 
 
 
-        return finalLineRects
+        return {rects:finalLineRects,isInsidePre:atLeastOneRectIsInsidePre}
     }
 
 

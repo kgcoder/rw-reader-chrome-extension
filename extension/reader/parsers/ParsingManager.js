@@ -135,7 +135,6 @@ export async function loadStaticContentFromUrl(originalUrl, isUserSpecifiedUrl =
 
 
 export async function parseStaticContent(contentString, originalUrl, savedParsingRules) {
-    
     const condocMatch = contentString.match(/<condoc\b[^>]*>([\s\S]*?)<\/condoc>/im)
     const collageMatch = contentString.match(/<cdoc\b[^>]*>([\s\S]*?)<\/cdoc>/im)
     const hdocMatch = contentString.match(/<hdoc\b[^>]*>([\s\S]*?)<\/hdoc>/im)

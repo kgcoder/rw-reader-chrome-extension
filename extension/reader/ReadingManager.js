@@ -1604,9 +1604,10 @@ setupFlinksCanvasDPR(){
         }
 
     
-        const leftRects = g.noteDivsManager.calculateHighlightPosition(noteScrollDiv,textNodesArray,leftEnd.index,leftEnd.length,divX,topY,padding, rightX)
+        const {rects:leftRects,isInsidePre} = g.noteDivsManager.calculateHighlightPosition(noteScrollDiv,textNodesArray,leftEnd.index,leftEnd.length,divX,topY,padding, rightX)
 
         if(leftRects.length){
+            flink.isLeftEndInsidePre = isInsidePre
             flink.leftRects = leftRects
     
             flink.leftTop = leftRects[0].top
@@ -1665,10 +1666,11 @@ setupFlinksCanvasDPR(){
         }
  
 
-        const rightRects = g.noteDivsManager.calculateHighlightPosition(rightScrollDiv,textNodesArray,rightEnd.index,rightEnd.length,divX,topY, kDefaultPadding)
+        const {rects:rightRects,isInsidePre} = g.noteDivsManager.calculateHighlightPosition(rightScrollDiv,textNodesArray,rightEnd.index,rightEnd.length,divX,topY, kDefaultPadding)
 
       
         if(rightRects.length){
+            flink.isRightEndInsidePre = isInsidePre
             flink.rightRects = rightRects
     
     
@@ -1721,7 +1723,7 @@ setupFlinksCanvasDPR(){
                 const lineRects = flink.leftRects
         
 
-                this.addOneHightlightToDiv(firstPresentationDiv,`leftDocFlinkCanvas${i}_${j}`,'leftDocFlinkCanvas',fillColor,isFlinkBroken,top,height,lineRects)
+                this.addOneHightlightToDiv(firstPresentationDiv,`leftDocFlinkCanvas${i}_${j}`,'leftDocFlinkCanvas',fillColor,isFlinkBroken,top,height,lineRects,flink.isLeftEndInsidePre)
                 flink.isLeftSideDrawn = true
                 j++
             }
@@ -1771,7 +1773,7 @@ setupFlinksCanvasDPR(){
             const height = flink.rightBottom - flink.rightTop
             const lineRects = flink.rightRects
 
-            this.addOneHightlightToDiv(presentationDiv,`rightDocFlinkCanvas${i}`,'rightDocFlinkCanvas',fillColor,isFlinkBroken,top,height,lineRects)
+            this.addOneHightlightToDiv(presentationDiv,`rightDocFlinkCanvas${i}`,'rightDocFlinkCanvas',fillColor,isFlinkBroken,top,height,lineRects,flink.isRightEndInsidePre)
             flink.isRightSideDrawn = true
         
             i++
@@ -1782,7 +1784,7 @@ setupFlinksCanvasDPR(){
 
 
 
-    addOneHightlightToDiv(div,id,className,fillColor,isFlinkBroken,top,height,lineRects){
+    addOneHightlightToDiv(div,id,className,fillColor,isFlinkBroken,top,height,lineRects,isInsidePre = false){
 
    
         const borderColorForBrokenLink = 'red'
@@ -1808,7 +1810,7 @@ setupFlinksCanvasDPR(){
 
         canvas.style.backgroundColor = 'transparent'
         canvas.style.pointerEvents = 'none'
-        canvas.style.zIndex = -1
+        canvas.style.zIndex = isInsidePre ? 1 : -1
 
     
 
@@ -3244,6 +3246,7 @@ setupFlinksCanvasDPR(){
 
             
             floatingLink = new FloatingLink([leftEnd],[rightEnd],false) 
+            floatingLink.isLeftEndInsidePre = this.partialLeftLink.isLeftEndInsidePre
 
         }else{
 
@@ -3258,6 +3261,7 @@ setupFlinksCanvasDPR(){
             new FLPointEnd(this.partialRightLink.x,this.partialRightLink.y,this.partialRightLink.radius)
 
             floatingLink = new FloatingLink([leftEnd],[rightEnd],false)
+            floatingLink.isRightEndInsidePre = this.partialRightLink.isInsidePre
 
         }
 
@@ -3314,6 +3318,7 @@ setupFlinksCanvasDPR(){
                 this.prepareOneRightLink(floatingLink,scrollDiv,rightTextNodesArray,divX,topY,rightTextLength)
     
             }
+
     
             
             
@@ -3323,7 +3328,7 @@ setupFlinksCanvasDPR(){
             const heightLeft = floatingLink.leftBottom - floatingLink.leftTop 
             
             if(isLeftText){
-                this.addOneHightlightToDiv(leftDiv,'something','leftDocFlinkCanvas',fillColor,isFlinkBroken,topLeft,heightLeft,floatingLink.leftRects)
+                this.addOneHightlightToDiv(leftDiv,'something','leftDocFlinkCanvas',fillColor,isFlinkBroken,topLeft,heightLeft,floatingLink.leftRects,floatingLink.isLeftEndInsidePre)
                 floatingLink.isLeftSideDrawn = true
             }
             
@@ -3333,9 +3338,11 @@ setupFlinksCanvasDPR(){
             
             
             if(isRightText){
-                this.addOneHightlightToDiv(rightDiv,'something','rightDocFlinkCanvas',fillColor,isFlinkBroken,topRight,heightRight,floatingLink.rightRects)
+                this.addOneHightlightToDiv(rightDiv,'something','rightDocFlinkCanvas',fillColor,isFlinkBroken,topRight,heightRight,floatingLink.rightRects,floatingLink.isRightEndInsidePre)
                 floatingLink.isRightSideDrawn = true
             }
+
+
 
         }
 
@@ -3366,7 +3373,7 @@ setupFlinksCanvasDPR(){
 
        const scrollDiv = document.getElementById("CurrentDocument")
 
-        const leftRects = g.noteDivsManager.calculateHighlightPosition(scrollDiv,textNodesArray,startIndex,length,verticalPanelWidth,divTop,kDefaultPadding)
+        const {rects:leftRects,isInsidePre} = g.noteDivsManager.calculateHighlightPosition(scrollDiv,textNodesArray,startIndex,length,verticalPanelWidth,divTop,kDefaultPadding)
         
 
         if(!leftRects.length)return
@@ -3375,6 +3382,7 @@ setupFlinksCanvasDPR(){
 
 
         this.partialLeftLink = {
+            isInsidePre,
             type:'text',
             startIndex,
             length,
@@ -3391,7 +3399,7 @@ setupFlinksCanvasDPR(){
         const top = this.partialLeftLink.leftTop
         const height = this.partialLeftLink.leftBottom - this.partialLeftLink.leftTop 
 
-        this.addOneHightlightToDiv(notePresentationDiv,'something','leftDocPartialLinkCanvas',fillColor,isFlinkBroken,top,height,this.partialLeftLink.leftRects)
+        this.addOneHightlightToDiv(notePresentationDiv,'something','leftDocPartialLinkCanvas',fillColor,isFlinkBroken,top,height,this.partialLeftLink.leftRects,isInsidePre)
 
     }
 
@@ -3410,7 +3418,7 @@ setupFlinksCanvasDPR(){
         const divTop = kLeftDivTop + g.pdm.getRightDocTopOffset(noteData)
 
 
-        const rightRects = g.noteDivsManager.calculateHighlightPosition(rightScrollDiv,textNodesArray,startIndex,length,divX,divTop,kDefaultPadding,rightX)
+        const {rects:rightRects,isInsidePre} = g.noteDivsManager.calculateHighlightPosition(rightScrollDiv,textNodesArray,startIndex,length,divX,divTop,kDefaultPadding,rightX)
         
 
         if(!rightRects.length)return
@@ -3418,6 +3426,7 @@ setupFlinksCanvasDPR(){
         const rightBottomRect = rightRects[rightRects.length - 1]
 
         this.partialRightLink = {
+            isInsidePre,
             type:'text',
             startIndex,
             length,
@@ -3434,7 +3443,7 @@ setupFlinksCanvasDPR(){
         const top =  this.partialRightLink.rightTop
         const height =  this.partialRightLink.rightBottom -  this.partialRightLink.rightTop 
 
-        this.addOneHightlightToDiv(notePresentationDiv,'something','rightDocPartialLinkCanvas',fillColor,isFlinkBroken,top,height,this.partialRightLink.rightRects)
+        this.addOneHightlightToDiv(notePresentationDiv,'something','rightDocPartialLinkCanvas',fillColor,isFlinkBroken,top,height,this.partialRightLink.rightRects,isInsidePre)
 
     }
 
