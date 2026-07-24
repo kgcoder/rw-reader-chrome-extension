@@ -692,70 +692,7 @@ code {
 
 }
 
-#magnetInputContainer {
-    display: none;
-    position: absolute;
-    left: 400px;
-    top: 300px;
-    width: 500px;
-    height: 150px;
-    flex-direction: column;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: white;
-    z-index: 1000;
-}
 
-
-
-
-
-#widgetInputContainer {
-    display: none;
-    position: absolute;
-    left: 400px;
-    top: 300px;
-    width: 500px;
-    height: 380px;
-    flex-direction: column;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: white;
-    z-index: 1000;
-
-}
-
-#widgetAddressInput {
-    margin-top: 10px;
-}
-
-#widgetContentInput {
-    height: 100px;
-}
-
-
-
-#linkCreationButtonsContainer {
-    display: flex;
-    justify-content: space-evenly;
-    height: 40px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-
-}
-
-
-
-#magnetCreationButtonsContainer {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-
-
-#magnetNameInput {
-    margin-bottom: 20px;
-}
 
 .NoteDiv {
     display: flex;
@@ -770,30 +707,9 @@ code {
     color:red
   } */
 
-.WidgetContainer {
-    display: flex;
-    position: absolute;
-    background-color: white;
-    flex-direction: column;
-    pointer-events: none;
-}
 
-.WidgetPlaceholderDiv {
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-}
 
-.WidgetIframe {
-    display: flex;
-    flex: 1;
-    /* overflow: hidden; */
-}
 
-.BlackWebview {
-    background-color: black;
-}
 
 .blackBorder {
     border-width: 1px;

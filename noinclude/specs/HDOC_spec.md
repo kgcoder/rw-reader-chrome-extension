@@ -179,7 +179,7 @@ Clients must extract the HTML block from `<content>` using a **regular expressio
 # 7. Panels
 
 The `<panels>` section defines standardized UI panels that appear in all clients.
-It may contain six types of panels: `<top>`, `<post-nav>`, `<sidebar>`, `<comments>`, `<side>` (**deprecated**, see §7.4), and `<bottom>`.
+It may contain five types of panels: `<top>`, `<post-nav>`, `<sidebar>`, `<comments>`, and `<bottom>`.
 
 ```xml
 <panels>
@@ -274,37 +274,11 @@ Content:
 
 * URL of a static-comments JSON array (see Static Comments Specification)
 
-`<comments>` is a direct child of `<panels>` (a sibling of `<top>`, `<post-nav>`, `<sidebar>`, and `<bottom>`). It supersedes the deprecated `<side><comments>…</comments></side>` form described below.
+`<comments>` is a direct child of `<panels>` (a sibling of `<top>`, `<post-nav>`, `<sidebar>`, and `<bottom>`).
 
 ---
 
-## 7.4 `<side>` Panel (deprecated)
-
-**Deprecated** — superseded by the `<comments>` panel (§7.3). Clients should treat this section as informational only, for understanding older documents; new documents should use `<comments>` directly under `<panels>` instead. This section will be removed in a future revision of this spec.
-
-Contains comments or an interactive page.
-
-```xml
-<side> … </side>
-```
-
-### Child elements:
-
-#### 7.4.1 `<comments>`
-
-Same attributes and content as the `<comments>` panel described in §7.3, but nested inside `<side>` instead of being a direct child of `<panels>`.
-
-#### 7.4.2 `<ipage>`
-
-URL of an interactive HTML page displayed in the side panel.
-
-```xml
-<ipage>https://…/interactive</ipage>
-```
-
----
-
-## 7.5 `<bottom>` Panel
+## 7.4 `<bottom>` Panel
 
 ```xml
 <bottom>
@@ -317,7 +291,7 @@ URL of an interactive HTML page displayed in the side panel.
 
 Child elements:
 
-### 7.5.1 `<section>`
+### 7.4.1 `<section>`
 
 Attributes:
 
@@ -325,13 +299,13 @@ Attributes:
 
 Contains multiple `<a>` elements.
 
-### 7.5.2 `<bottom-message>`
+### 7.4.2 `<bottom-message>`
 
 Contains plain text.
 
 ---
 
-## 7.6 `<sidebar>` Panel
+## 7.5 `<sidebar>` Panel
 
 A persistent visible column displayed alongside the document content. Unlike `<comments>` (which is opened on demand via a button), the sidebar is visible on page load.
 
@@ -358,7 +332,7 @@ A persistent visible column displayed alongside the document content. Unlike `<c
 * When space is insufficient (narrow view, split-screen mode) or when the `<comments>` panel is open, the sidebar content flows to the bottom, below the main content and above the `<bottom>` panel.
 * All child sections are optional.
 
-### 7.6.1 `<search>`
+### 7.5.1 `<search>`
 
 Renders a search input.
 
@@ -372,7 +346,7 @@ Attributes:
 * `placeholder` (optional) — hint text shown inside the input field.
 * `target` (optional) — where to open the search results page. Accepts `"_self"` (default, same tab) or `"_blank"` (new tab).
 
-### 7.6.2 `<links>`
+### 7.5.2 `<links>`
 
 A titled list of arbitrary links. Multiple `<links>` blocks are allowed.
 
@@ -395,7 +369,7 @@ Attributes on each `<a>`:
 
 Text content of each `<a>` is the link label.
 
-### 7.6.3 `<recent-comments>`
+### 7.5.3 `<recent-comments>`
 
 A list of recent comments across the site.
 
