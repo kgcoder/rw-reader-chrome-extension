@@ -2114,6 +2114,7 @@ setupFlinksCanvasDPR(){
     
             for(let flink of flinks){
                 if (flink.rightEndOutOfBounds) continue
+                if(!flink.rightRects)continue
                 for(let rect of flink.rightRects){
 
                     if(isDotInsideFrame(x,y,{minX:rect.left,minY:rect.top,maxX:rect.left + rect.width,maxY:rect.top + rect.height})){
