@@ -2351,20 +2351,18 @@ class PopupDocumentManager{
         flinksListContainerDiv.style.width = `${isFullscreenList ? window.innerWidth : kMaxListWidth}px`
         flinksListContainerDiv.style.maxHeight = `${window.innerHeight - kLeftDivTop }px`
         
-
+        const leftOffset = this.getMainLeftOffset()
+        
         if(g.isMobileMode && isFullscreenList){
-            flinksListContainerDiv.style.left = '0px'
+            flinksListContainerDiv.style.left = `${-leftOffset}px`
             flinksListContainerDiv.style.right = '0px'
         }else if(g.isMobileMode){
-            const leftOffset = this.getMainLeftOffset()
             if(leftOffset >=0){
-
-               flinksListContainerDiv.style.left = ''
-               flinksListContainerDiv.style.right = '0px'
+                flinksListContainerDiv.style.left = ''
+                flinksListContainerDiv.style.right = '0px'
             }else{
                 flinksListContainerDiv.style.left = `${-leftOffset}px`
                 flinksListContainerDiv.style.right = ''
-
             }
         }else{
             flinksListContainerDiv.style.left = `${g.readingManager.docWidth + kMiddleGap / 2 - flinksContainerWidth / 2}px`
