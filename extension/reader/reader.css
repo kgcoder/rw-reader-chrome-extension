@@ -722,21 +722,7 @@ code {
     margin-left: 0;
 }
 
-.NotePresentationDiv {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    /* background-color: 'transparent'; */
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    /* font-family: 'Times New Roman', Times, serif; */
 
-    background-color: transparent;
-
-
-
-
-}
 
 
 #CurrentDocumentInnerRow{
@@ -1712,6 +1698,11 @@ div.MenuHorizontalLine {
     width: 10px;
 }
 
+
+.PresentationDiv figcaption {
+    font-size: 0.85em;
+    text-align: center; 
+}
 
 
 

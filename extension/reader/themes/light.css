@@ -157,6 +157,9 @@
     padding-inline-start: 10px;
 }
   
+.theme-light figcaption {
+    color: #636363;
+}
   
 /* Paragraphs */
 .theme-light p {
