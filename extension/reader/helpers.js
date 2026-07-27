@@ -332,8 +332,10 @@ export function applyMediaMappings(container, mediaMappings) {
 
 export function getTextColumnWidth() {
     let textColumnWidth
-    if(g.readingManager.isFullScreen){
+    if(g.readingManager.isFullScreen && !g.isMobileMode){
         textColumnWidth = window.innerWidth * 0.6
+    }else if(g.isMobileMode){
+        textColumnWidth = g.readingManager.docWidth
     }else{
         textColumnWidth = g.readingManager.docWidth - 20 - 30
     }
