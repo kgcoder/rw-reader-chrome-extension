@@ -1,9 +1,9 @@
 {
-    "name": "Visible Connections",
+    "name": "RW Reader",
     "version": "3.5.1",
     "manifest_version": 3,
     "author": "Karen Grigorian",
-    "description": "View visible connections between web pages",
+    "description": "The original client for the Reader's Web",
     "permissions": [
         "storage",
         "clipboardWrite"

@@ -1,6 +1,6 @@
 # License Notice
 
-This specification is part of the Default Web project and is licensed under 
+This specification is part of the Reader's Web project and is licensed under 
 **Creative Commons Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)**.
 
 You are free to share, copy, and redistribute this specification in any medium or format, 
@@ -18,7 +18,7 @@ For details, see: https://creativecommons.org/licenses/by-nd/4.0/
 
 A **CDOC** is a static, 2D collage document. Like HDOCs, CDOCs cannot contain scripts and do not execute code. CDOCs support arbitrary SVG content, including images and text.
 
-CDOCs may optionally include `<copy-info>` and `<connections>` sections, consistent with the shared conventions across all Default Web document types.
+CDOCs may optionally include `<copy-info>` and `<connections>` sections, consistent with the shared conventions across all Reader's Web document types.
 
 ---
 

@@ -1,6 +1,6 @@
 # License Notice
 
-This specification is part of the Default Web project and is licensed under 
+This specification is part of the Reader's Web project and is licensed under 
 **Creative Commons Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)**.
 
 You are free to share, copy, and redistribute this specification in any medium or format, 
@@ -19,7 +19,7 @@ HDOCs and Embedded HDOCs may include a **comments section** displayed in a side 
 
 ### Key Differences from WordPress
 
-* **Comment ID (`id`)**: Unlike WordPress, the `id` in the Default Web context **can be either an integer or a string**, providing more flexibility for different backends.
+* **Comment ID (`id`)**: Unlike WordPress, the `id` in the Reader's Web context **can be either an integer or a string**, providing more flexibility for different backends.
 
 ### Future Extensions
 

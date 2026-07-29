@@ -1,6 +1,6 @@
 # License Notice
 
-This specification is part of the Default Web project and is licensed under 
+This specification is part of the Reader's Web project and is licensed under 
 **Creative Commons Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)**.
 
 You are free to share, copy, and redistribute this specification in any medium or format, 
@@ -16,7 +16,7 @@ For details, see: https://creativecommons.org/licenses/by-nd/4.0/
 **Status:** Early draft — subject to change
 **Document Type:** HDOC (Hypertext Document)
 
-HDOC is a static, script-free hypertext document format designed for the Default Web.
+HDOC is a static, script-free hypertext document format designed for the Reader's Web.
 It provides predictable rendering, visible connections, and long-term stability.
 This specification defines the structure, required/optional components, and parsing rules for HDOC documents.
 

@@ -1,4 +1,4 @@
-# Visible Connections Chrome extension — CLAUDE.md
+# RW Reader Chrome Extension — CLAUDE.md
 
 ## Project Overview
 
@@ -6,9 +6,9 @@ This extension allows you to explore the Reader's Web and view visible connectio
 
 ## The Reader's Web
 
-The Reader's Web is a new part of the browsable web where **content is separated from presentation**. It is similar in philosophy to RSS — the site owner provides only the content, while the reader's software decides how to style and display it — but unlike RSS it is part of the browsable web and supports visible connections between pages.
+The Reader's Web is a new part of the browsable web where reader, not the publisher decides what web pages look like. It is similar in philosophy to RSS — the site owner provides only the content, while the reader's software decides how to style and display it — but unlike RSS it is based on standalone documents that can show up in browser tabs, and it supports visible connections between pages.
 
-The Reader's Web is also referred to as the **Default Web** or **Web 1.1** in the codebase and specs.
+Eearlier, the Reader's Web was also referred to as **Static Web**, **Default Web** or **Web 1.1**.
 
 ### Document Formats
 
@@ -61,7 +61,7 @@ Not all document types have specs in this repo yet.
 
 ## The Browser Extension
 
-The **Visible Connections** Chrome extension (available on the Chrome Web Store) is the primary client that supports these document formats.
+The **RW Reader** Chrome extension (available on the Chrome Web Store) is the primary client that supports these document formats.
 
 **Tech:** MV3, vanilla JS, ES modules, no build toolchain, no tests.
 

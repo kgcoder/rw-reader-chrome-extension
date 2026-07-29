@@ -1,26 +1,17 @@
-# Visible Connections — Chrome Extension
+# RW Reader — Chrome Extension
 
 **View visible connections between web pages.**
 Chrome Web Store: [https://chromewebstore.google.com/detail/visible-connections/hlckcdbgknflkkciojgdbhomdnegimbm](https://chromewebstore.google.com/detail/visible-connections/hlckcdbgknflkkciojgdbhomdnegimbm)
 
-Visible Connections Chrome extension displays visible connections between web pages. The page that defines the connections needs to use one of the new data types from the **Default Web** project — the pages it connects to can be ordinary web pages.
+RW Reader Chrome Extension displays Reader's-Web-compatible documents and visible connections between them. The page that defines the connections needs to use one of the new data types from the **Reader's Web** project — the pages it connects to can be ordinary web pages.
 
-Default Web specifications: [https://github.com/kgcoder/default-web](https://github.com/kgcoder/default-web)
+Reader's Web specifications: [https://github.com/kgcoder/readers-web-specs](https://github.com/kgcoder/readers-web-specs)
 
 ---
 
 ## What This Extension Does
 
-Visible Connections scans the current page for supported document types (HDOC, CDOC, CONDOC, Embedded HDOC, etc.) and displays the connections they define:
-
-* links to sources
-* commentary relationships
-* references
-* any other link structures supported by Default Web document types
-
-It acts as a **viewer** for the growing ecosystem of static, connected documents.
-
-Because browsers don’t yet support visible connections natively, this extension provides the missing functionality until native support is provided.
+RW Reader scans the current page for supported document types (HDOC, CDOC, CONDOC, Embedded HDOC, etc.) and displays them using local themes. It also shows visible connections between documents.
 
 ---
 
@@ -57,11 +48,10 @@ Connecting copyrighted content might create derivative works — commentary is u
 
 This extension bypasses cross-domain restrictions using a background script — but it is designed to be safe:
 
-* **All scripts on the current page are disabled during processing.**
 * **All scripts in connected pages are stripped before display.**
 * **By default, the extension asks for confirmation** before downloading content from another domain.
 
-If that confirmation becomes annoying, you can turn it off in the settings.
+If the confirmation popup becomes annoying, you can turn it off in the settings.
 
 ---
 
@@ -85,16 +75,19 @@ This project aims to bring some of those ideas to life, starting with visible co
 
 The code in this repository is licensed under MIT.
 
-Document types used by this extension are part of the **Default Web project** and are licensed under **CC BY-ND 4.0**.
+Document types used by this extension are part of the **Reader's Web project** and are licensed under **CC BY-ND 4.0**.
 
 ---
 
 ## Links
 
+* **Reader's Web project description:**
+  [https://reinventingtheweb.com](https://reinventingtheweb.com)
+
 * **Chrome Web Store:**
   [https://chromewebstore.google.com/detail/visible-connections/hlckcdbgknflkkciojgdbhomdnegimbm](https://chromewebstore.google.com/detail/visible-connections/hlckcdbgknflkkciojgdbhomdnegimbm)
 
-* **Default Web Specs:**
-  [https://github.com/kgcoder/default-web](https://github.com/kgcoder/default-web)
+* **Reader's Web Specs:**
+  [https://github.com/kgcoder/readers-web-specs](https://github.com/kgcoder/readers-web-specs)
 
 
