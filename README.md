@@ -81,7 +81,7 @@ Document types used by this extension are part of the **Reader's Web project** a
 
 ## Links
 
-* **Reader's Web project description:**
+* **Reader's Web project:**
   [https://reinventingtheweb.com](https://reinventingtheweb.com)
 
 * **Chrome Web Store:**
