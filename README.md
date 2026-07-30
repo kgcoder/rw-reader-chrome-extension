@@ -82,7 +82,7 @@ Document types used by this extension are part of the **Reader's Web project** a
 ## Links
 
 * **Reader's Web project:**
-  [https://reinventingtheweb.com](https://reinventingtheweb.com)
+  [https://readersweb.org](https://readersweb.org)
 
 * **Chrome Web Store:**
   [https://chromewebstore.google.com/detail/visible-connections/hlckcdbgknflkkciojgdbhomdnegimbm](https://chromewebstore.google.com/detail/visible-connections/hlckcdbgknflkkciojgdbhomdnegimbm)

@@ -135,9 +135,9 @@ function updatePageMetadata(response) {
     const examplesLink = document.getElementById("visible-connections-examples-link")
     const sourceCodeLink = document.getElementById("source-code-link")
 
-    aboutLink.addEventListener('click',() => window.open('https://reinventingtheweb.com','_blank'))
-    examplesLink.addEventListener('click',() => window.open('https://reinventingtheweb.com/community-resources/','_blank'))
-    howToLink.addEventListener('click',() => window.open('https://reinventingtheweb.com/how-to-create-visible-connections/','_blank'))
+    aboutLink.addEventListener('click',() => window.open('https://readersweb.org','_blank'))
+    examplesLink.addEventListener('click',() => window.open('https://readersweb.org/community-resources/','_blank'))
+    howToLink.addEventListener('click',() => window.open('https://readersweb.org/how-to-create-visible-connections/','_blank'))
     sourceCodeLink.addEventListener('click',() => window.open('https://github.com/kgcoder/rw-reader-chrome-extension','_blank'))
 
 
