@@ -111,11 +111,13 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
             const leaveCommentUrl = commentsJSON['leave-comment-url']
             const replyLabel = commentsJSON['reply-label']
             const leaveLabel = commentsJSON['leave-comment-label']
+            const loadMoreLabel = commentsJSON['load-more-label']
 
             if (commentsUrl) {
                 commentsPanelString = `\n<comments`
                     + (commentsTitle       ? ` title="${escapeXml(commentsTitle)}"`                     : '')
                     + (commentsEmptyMessage ? ` empty="${escapeXml(commentsEmptyMessage)}"`              : '')
+                    + (loadMoreLabel       ? ` load-more-label="${escapeXml(loadMoreLabel)}"`            : '')
                     + (leaveCommentUrl     ? ` leave-comment-url="${escapeXml(leaveCommentUrl)}"`        : '')
                     + (replyLabel          ? ` reply-label="${escapeXml(replyLabel)}"`                   : '')
                     + (leaveLabel          ? ` leave-comment-label="${escapeXml(leaveLabel)}"`           : '')

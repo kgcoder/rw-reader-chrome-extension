@@ -132,6 +132,7 @@ Example:
     "url": "http://example.com/json-comments/?post=19",
     "title": "Comments",
     "empty": "No comments yet",
+    "load-more-label": "Load more comments",
     "leave-comment-url": "http://example.com/sw-comment-form/?post=19",
     "reply-label": "Reply",
     "leave-comment-label": "Leave a comment"
@@ -181,6 +182,7 @@ Example:
 | `comments.url` | string | URL of a static-comments JSON array (see Static Comments Specification) |
 | `comments.title` | string | Optional section heading |
 | `comments.empty` | string | Optional message shown when there are no comments |
+| `comments.load-more-label` | string | Optional label for a "Load more comments" pagination button, for clients that paginate the comments list via an explicit button rather than infinite scroll. When absent, no such button is shown and only the first page of comments is available in that UI. Independent of posting capability — applies regardless of whether `leave-comment-url` is present |
 | `comments.leave-comment-url` | string | Optional URL of the comment submission form. When absent, all posting UI is hidden (read-only); existing comments are still shown |
 | `comments.reply-label` | string | Optional label for the per-comment Reply button. Used only when `leave-comment-url` is present |
 | `comments.leave-comment-label` | string | Optional label for the section-level Leave a comment button. Used only when `leave-comment-url` is present |

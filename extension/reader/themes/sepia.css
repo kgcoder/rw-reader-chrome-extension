@@ -450,11 +450,26 @@
 
 .theme-sepia .comments-title {
     margin-top: 10px;
-    margin-left: 15px;
 }
 
 .theme-sepia .no-comments-text {
     align-self: center;
     margin-top: 15px;
     font-size: 25px;
+}
+
+.theme-sepia .swp-leave-comment-btn {
+  color:var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.theme-sepia .swp-load-more-btn {
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.theme-sepia .swp-reply-btn{
+  color: var(--accent);
+  opacity: 0.8;
+
 }

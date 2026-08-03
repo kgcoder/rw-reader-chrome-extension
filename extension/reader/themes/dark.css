@@ -451,7 +451,6 @@
 
 .theme-dark .comments-title {
     margin-top: 10px;
-    margin-left: 15px;
 }
 
 .theme-dark .no-comments-text {
@@ -466,7 +465,12 @@
   border: 1px solid white;
 }
 
+.theme-dark .swp-load-more-btn {
+  color: white;
+  border: 1px solid white;
+}
+
+
 .theme-dark .swp-reply-btn{
   color:white;
-  border: 1px solid white;
 }

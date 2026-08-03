@@ -258,6 +258,7 @@ Contains the document's comment thread.
 <comments
     title="Comments"
     empty="No comments yet"
+    load-more-label="Load more comments"
     leave-comment-url="https://example.com/sw-comment-form/?post=19"
     reply-label="Reply"
     leave-comment-label="Leave a comment"
@@ -268,6 +269,7 @@ Attributes:
 
 * `title` (optional)
 * `empty` (optional) — message shown when there are no comments
+* `load-more-label` (optional) — label for a "Load more comments" pagination button, for clients that paginate the comments list via an explicit button rather than infinite scroll (e.g. `"Load more comments"`). When absent, no such button is shown and only the first page of comments is available in that UI. Unlike `reply-label`/`leave-comment-label`, this is independent of posting capability — it applies whether or not `leave-comment-url` is present.
 * `leave-comment-url` (optional) — URL of the comment submission form for posting a top-level comment on this document. When absent, all posting UI ("Leave a comment" button and all "Reply" buttons) is hidden and the section is read-only. Existing comments are still displayed regardless.
 * `reply-label` (optional) — label for the per-comment Reply button (e.g. `"Reply"`). Used only when `leave-comment-url` is present.
 * `leave-comment-label` (optional) — label for the section-level Leave a comment button (e.g. `"Leave a comment"`). Used only when `leave-comment-url` is present.
@@ -505,5 +507,7 @@ Future versions of HDOC may add:
 * More structured header fields
 * Standardized themes and CSS class lists
 * More copy-tracking capabilities
+* Previous/Next pagination labels for the `<comments>` panel's comment list — e.g. to support a page-number-button UI (`1 2 3 …`) under the comment list, with Prev/Next buttons on either side. Not yet defined; only `load-more-label` exists today.
+* A total comment count as an attribute on `<comments>` (e.g. `total="42"`), so clients could know the total number of comments/pages up front instead of discovering the end via an empty page response. Not yet defined.
 
 Everything in this document is subject to change during the draft phase.

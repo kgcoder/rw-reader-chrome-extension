@@ -393,6 +393,12 @@ setupFlinksCanvasDPR(){
         // presentationDiv.style.width = `${this.docWidth}px`
          div.appendChild(presentationDiv)
 
+         const belowContentCommentsDiv = document.createElement('div')
+         belowContentCommentsDiv.id = 'RightDocumentBelowContentComments' + rightDocId
+         belowContentCommentsDiv.className = "RightDocumentBelowContentComments BelowContentComments"
+         belowContentCommentsDiv.style.display = 'none'
+         div.appendChild(belowContentCommentsDiv)
+
          const bottomBarDiv = document.createElement('div')
          bottomBarDiv.id = 'RightDocumentBottomBar' + rightDocId
          bottomBarDiv.className = "RightDocumentBottomBar BottomBar"

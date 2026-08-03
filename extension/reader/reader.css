@@ -1883,6 +1883,13 @@ div.MenuHorizontalLine {
     -webkit-overflow-scrolling: touch;
 }
 
+.BelowContentComments {
+    display: none;
+    flex-direction: column;
+    padding: 20px 0;
+    border-top: 1px solid lightgray;
+}
+
 .OneCommentContainerDiv {
     display: flex;
     flex-direction: column;
@@ -1933,17 +1940,45 @@ div.MenuHorizontalLine {
 .swp-leave-comment-btn:hover { opacity: 1; }
 
 .swp-reply-btn {
-    display: inline-block;
+    align-self: flex-start;
     margin-top: 6px;
-    padding: 3px 10px;
-    font-size: 12px;
+    padding: 3px 0px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Arial, sans-serif;
+    text-decoration: underline;
+    text-transform: none;
     cursor: pointer;
     background: transparent;
-    border: 1px solid currentColor;
+    color: #191919;
+    border: none;
     border-radius: 4px;
     opacity: 0.6;
 }
 .swp-reply-btn:hover { opacity: 1; }
+
+
+.swp-load-more-btn {
+    display: block;
+    margin: 14px auto 0;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 400;
+    font-family: Arial, sans-serif;
+    text-transform: none;
+    cursor: pointer;
+    background: transparent;
+    color: #191919;
+    border: 1px solid #191919;
+    border-radius: 4px;
+    opacity: 0.75;
+}
+.swp-load-more-btn:hover {
+    opacity: 1;
+    background: transparent;
+}
+
+/* ── Comment popup overlay / modal ──────────────────────────────────────── */
 
 .swp-comment-popup-overlay {
     position: fixed;
