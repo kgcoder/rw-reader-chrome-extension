@@ -41,9 +41,7 @@
   background-color: var(--accent);
 }
 
-/* .DocumentSidePanel.theme-dark {
-    background-color: var(--bg-main);
-} */
+
 
 .theme-dark .StaticCommentsSection{
     background-color: var(--bg-main);
