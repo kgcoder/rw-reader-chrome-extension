@@ -110,6 +110,8 @@ Allowed values:
 
 When this tag is **absent**, republishing is **implicitly allowed** by default. Using HDOC or CDOC formats is understood as consent to the republishing mechanism that keeps visible connections stable.
 
+This permission may be revoked by the original author at any time by notifying the republisher, who should cease distribution of the copy promptly upon request.
+
 ---
 
 # 4. Header
