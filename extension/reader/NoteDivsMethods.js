@@ -436,7 +436,7 @@ class NoteDivsManager{
 
 
                 let topPanelInfo = null
-                let sidePanelInfo = null
+                let commentsPanelInfo = null
                 let bottomPanelInfo = null
                 let commentsUrl = ''
                 let commentsTitle = ''
@@ -547,7 +547,7 @@ class NoteDivsManager{
                     commentsLeaveLabel = stripHtmlTags(directCommentsPanel.getAttribute('leave-comment-label'))
                     commentsLoadMoreLabel = stripHtmlTags(directCommentsPanel.getAttribute('load-more-label'))
 
-                    sidePanelInfo = {commentsUrl, commentsTitle, noCommentsMessage,
+                    commentsPanelInfo = {commentsUrl, commentsTitle, noCommentsMessage,
                                      leaveCommentUrl, commentsReplyLabel, commentsLeaveLabel, commentsLoadMoreLabel}
                 }
 
@@ -643,7 +643,7 @@ class NoteDivsManager{
                     topPanel:topPanelInfo,
                     postNavPanel:postNavPanelInfo,
                     sidebarPanel:sidebarPanelInfo,
-                    sidePanel:sidePanelInfo,
+                    commentsPanel:commentsPanelInfo,
                     bottomPanel:bottomPanelInfo
                 }
 
@@ -1109,84 +1109,6 @@ class NoteDivsManager{
     }
 
 
-
-    scrollCommentsEvent(e) {
-        const element = e.target;
-        
-        // Check if scrolled to bottom (with small threshold for better UX)
-        const threshold = 5; // pixels from bottom
-        const isAtBottom = element.scrollTop + element.clientHeight >= element.scrollHeight - threshold;
-        
-        if (isAtBottom) {
-            // Trigger pagination callback if available and not already loading
-            if (!this.isLoadingMore) {
-                g.pdm.getComments(this.commentsDiv,this.commentsUrl,this.commentsTitle,this.noCommentsMessage,this,this.leaveCommentUrl,this.commentsReplyLabel,this.commentsLeaveLabel,this.pageOrigin,this.currentPage + 1)
-            }
-        }
-
-
-    }
-
-
-
-    addEventListenersToNoteComments = (commentsDiv,listenersOwner) => {
-
-        // Store bound methods for proper removal
-        listenersOwner.commentsScrollListener = this.scrollCommentsEvent.bind(listenersOwner)
-        // listenersOwner.commentsLinkEventListener = this.interceptClickEvent.bind(listenersOwner)
-        // listenersOwner.commentsLinkHoverEventListener = this.onHoverOverLink.bind(listenersOwner)
-        // listenersOwner.commentsLinkMouseOutListener = this.onMouseOut.bind(listenersOwner)
-        // listenersOwner.commentsDoubleClickEventListener = this.onDoubleClick.bind(listenersOwner)
-
-        // Add the bound methods as event listeners
-        commentsDiv.addEventListener("scroll", listenersOwner.commentsScrollListener);
-        // commentsDiv.addEventListener('click', listenersOwner.commentsLinkEventListener);
-        // commentsDiv.addEventListener('dblclick', listenersOwner.commentsDoubleClickEventListener);
-        // commentsDiv.addEventListener('mouseover', listenersOwner.commentsLinkHoverEventListener);
-        // commentsDiv.addEventListener('mouseout', listenersOwner.commentsLinkMouseOutListener);
-
-    }
-
-
-    removeEventListenersFromNoteComments(commentsDiv, listenersOwner){
-    
-
-        if(!commentsDiv){
-            return
-        }
-        
-
-        if(listenersOwner.commentsScrollListener){
-            commentsDiv.removeEventListener('scroll',listenersOwner.commentsScrollListener)
-            listenersOwner.commentsScrollListener = null
-            
-        }
-
-        if(listenersOwner.commentsLinkEventListener){
-            commentsDiv.removeEventListener('click',listenersOwner.commentsLinkEventListener)
-            listenersOwner.commentsLinkEventListener = null
-            
-        }
-
-        if(listenersOwner.commentsLinkHoverEventListener){
-            commentsDiv.removeEventListener('mouseover',listenersOwner.commentsLinkHoverEventListener)
-            listenersOwner.commentsLinkHoverEventListener = null
-        }
-
-        if(listenersOwner.commentsLinkMouseOutListener){
-            commentsDiv.removeEventListener('mouseout',listenersOwner.commentsLinkMouseOutListener)
-            listenersOwner.commentsLinkMouseOutListener = null
-        }
-
-        if(listenersOwner.commentsDoubleClickEventListener){
-            commentsDiv.removeEventListener('dblclick',listenersOwner.commentsDoubleClickEventListener)
-            listenersOwner.commentsDoubleClickEventListener = null
-
-        }
-
-
-
-    }
 
 }
 export default NoteDivsManager

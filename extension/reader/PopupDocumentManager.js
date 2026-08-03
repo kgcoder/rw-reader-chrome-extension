@@ -1187,18 +1187,17 @@ class PopupDocumentManager{
 
         
 
-        const {topPanel,bottomPanel,sidePanel,style} = panelsInfo
+        const {topPanel,bottomPanel,commentsPanel,style} = panelsInfo
 
         if(belowContentCommentsDiv){
-            const hasComments = !!(sidePanel && sidePanel.commentsUrl)
+            const hasComments = !!(commentsPanel && commentsPanel.commentsUrl)
             belowContentCommentsDiv.style.display = hasComments ? 'block' : 'none'
-            if(!dataObject.belowContentComments) dataObject.belowContentComments = {}
             if(hasComments){
-                this.getComments(belowContentCommentsDiv, sidePanel.commentsUrl, sidePanel.commentsTitle,
-                    sidePanel.noCommentsMessage, dataObject.belowContentComments, sidePanel.leaveCommentUrl,
-                    sidePanel.commentsReplyLabel, sidePanel.commentsLeaveLabel, 1, 'button', sidePanel.commentsLoadMoreLabel)
+                this.getComments(belowContentCommentsDiv, commentsPanel.commentsUrl, commentsPanel.commentsTitle,
+                    commentsPanel.noCommentsMessage, dataObject, commentsPanel.leaveCommentUrl,
+                    commentsPanel.commentsReplyLabel, commentsPanel.commentsLeaveLabel, 1, commentsPanel.commentsLoadMoreLabel)
             }else{
-                this.cleanCommentsDiv(belowContentCommentsDiv, dataObject.belowContentComments)
+                this.cleanCommentsDiv(belowContentCommentsDiv)
             }
 
             const mainPadding = g.pdm.getMainDocumentPadding()
@@ -2613,15 +2612,14 @@ class PopupDocumentManager{
  
     
 
-    cleanCommentsDiv(commentsDiv, listnersOwner) {
+    cleanCommentsDiv(commentsDiv) {
         if (!commentsDiv) return
-        g.noteDivsManager.removeEventListenersFromNoteComments(commentsDiv, listnersOwner)
         while (commentsDiv.firstChild) {
             commentsDiv.firstChild.remove()
         }  
     }
 
-    getComments = async (commentsDiv, commentsUrl, commentsTitle, noCommentsMessage, listenersOwner, leaveCommentUrl, replyLabel, leaveCommentLabel, page = 1, paginationMode = 'scroll', loadMoreLabel = '') => {
+    getComments = async (commentsDiv, commentsUrl, commentsTitle, noCommentsMessage, listenersOwner, leaveCommentUrl, replyLabel, leaveCommentLabel, page = 1, loadMoreLabel = '') => {
         if (page === 1) {
             listenersOwner.commentsDiv = commentsDiv
             listenersOwner.commentsUrl = commentsUrl
@@ -2633,7 +2631,6 @@ class PopupDocumentManager{
             listenersOwner.leaveCommentUrl = leaveCommentUrl
             listenersOwner.commentsReplyLabel = replyLabel
             listenersOwner.commentsLeaveLabel = leaveCommentLabel
-            listenersOwner.paginationMode = paginationMode
             listenersOwner.loadMoreLabel = loadMoreLabel
         }
         
@@ -2700,10 +2697,10 @@ class PopupDocumentManager{
         
         const savedScrollTop = commentsDiv.scrollTop
 
-        this.cleanCommentsDiv(commentsDiv, listenersOwner)
+        this.cleanCommentsDiv(commentsDiv)
        
         const refreshComments = () => {
-            this.getComments(commentsDiv, commentsUrl, commentsTitle, noCommentsMessage, listenersOwner, leaveCommentUrl, replyLabel, leaveCommentLabel, 1, paginationMode, loadMoreLabel)
+            this.getComments(commentsDiv, commentsUrl, commentsTitle, noCommentsMessage, listenersOwner, leaveCommentUrl, replyLabel, leaveCommentLabel, 1, loadMoreLabel)
         }
 
         const openPopupFn = (url) => {
@@ -2748,22 +2745,19 @@ class PopupDocumentManager{
 
 
 
-        if (listenersOwner.paginationMode === 'button') {
-            if (listenersOwner.loadMoreLabel && !listenersOwner.allItemsLoaded) {
-                const loadMoreBtn = document.createElement('button')
-                loadMoreBtn.className = 'swp-load-more-btn'
-                loadMoreBtn.textContent = listenersOwner.loadMoreLabel
-                loadMoreBtn.addEventListener('click', () => {
-                    this.getComments(listenersOwner.commentsDiv, listenersOwner.commentsUrl, listenersOwner.commentsTitle,
-                        listenersOwner.noCommentsMessage, listenersOwner, listenersOwner.leaveCommentUrl,
-                        listenersOwner.commentsReplyLabel, listenersOwner.commentsLeaveLabel,
-                        listenersOwner.currentPage + 1, 'button', listenersOwner.loadMoreLabel)
-                })
-                commentsDiv.appendChild(loadMoreBtn)
-            }
-        } else {
-            g.noteDivsManager.addEventListenersToNoteComments(commentsDiv, listenersOwner)
+        if (listenersOwner.loadMoreLabel && !listenersOwner.allItemsLoaded) {
+            const loadMoreBtn = document.createElement('button')
+            loadMoreBtn.className = 'swp-load-more-btn'
+            loadMoreBtn.textContent = listenersOwner.loadMoreLabel
+            loadMoreBtn.addEventListener('click', () => {
+                this.getComments(listenersOwner.commentsDiv, listenersOwner.commentsUrl, listenersOwner.commentsTitle,
+                    listenersOwner.noCommentsMessage, listenersOwner, listenersOwner.leaveCommentUrl,
+                    listenersOwner.commentsReplyLabel, listenersOwner.commentsLeaveLabel,
+                    listenersOwner.currentPage + 1, listenersOwner.loadMoreLabel)
+            })
+            commentsDiv.appendChild(loadMoreBtn)
         }
+        
 
 
     }
