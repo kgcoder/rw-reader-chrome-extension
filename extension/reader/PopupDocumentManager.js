@@ -2930,8 +2930,8 @@ class PopupDocumentManager{
 
     updateMainDocumentCommentsSectionMargins = () => {
         const belowContentCommentsDiv = document.getElementById("CurrentDocumentBelowContentComments")
-        if(g.readingManager.isFullScreen && !g.isMobileMode){
-            if(g.readingManager.mainDocPanels && g.readingManager.mainDocPanels.sidebarPanel && g.readingManager.mainDocPanels.sidebarPanel.side === 'left'){
+        if(g.readingManager.isFullScreen && !g.isMobileMode && g.readingManager.mainDocPanels && g.readingManager.mainDocPanels.sidebarPanel){
+            if(g.readingManager.mainDocPanels.sidebarPanel.side === 'left'){
                 belowContentCommentsDiv.style.marginLeft = `${window.innerWidth * 0.2}px` 
                 belowContentCommentsDiv.style.marginRight = 0 
             }else{
