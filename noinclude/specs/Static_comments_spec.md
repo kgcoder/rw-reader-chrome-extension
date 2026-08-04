@@ -15,7 +15,8 @@ For details, see: https://creativecommons.org/licenses/by-nd/4.0/
 
 **Status:** Early draft — subject to change
 
-HDOCs and Embedded HDOCs may include a **comments section** displayed in a side panel. Comments are provided as a **JSON array**. The schema is based on the [WordPress Comments API](https://developer.wordpress.org/rest-api/reference/comments/), but it is **not limited to WordPress sites** and can be used on any website.
+HDOCs and Embedded HDOCs may include a **comments section** displayed in a side panel. Comments are provided as a **JSON object** containing a paginated array of comments plus pagination metadata. The comment schema is based on the [WordPress Comments API](https://developer.wordpress.org/rest-api/reference/comments/), but it is **not limited to WordPress sites** and can be used on any website.
+
 
 ### Key Differences from WordPress
 
@@ -28,27 +29,41 @@ HDOCs and Embedded HDOCs may include a **comments section** displayed in a side 
 ### Example (JSON structure)
 
 ```json
-[
-  {
-    "id": "c1",
-    "parent": 0,
-    "author_name": "Alice",
-    "author_email": "alice@example.com",
-    "date": "2025-12-01T14:30:00Z",
-    "content": "This is a comment.",
-    "reply-url": "https://example.com/sw-comment-form/?post=19&parent_id=c1"
-  },
-  {
-    "id": 2,
-    "parent": 0,
-    "author_name": "Bob",
-    "author_email": "bob@example.com",
-    "date": "2025-12-01T15:10:00Z",
-    "content": "Another comment.",
-    "reply-url": "https://example.com/sw-comment-form/?post=19&parent_id=2"
-  }
-]
+{
+  "comments": [
+    {
+      "id": "c1",
+      "parent": 0,
+      "author_name": "Alice",
+      "author_email": "alice@example.com",
+      "date": "2025-12-01T14:30:00Z",
+      "content": "This is a comment.",
+      "reply-url": "https://example.com/sw-comment-form/?post=19&parent_id=c1"
+    },
+    {
+      "id": 2,
+      "parent": 0,
+      "author_name": "Bob",
+      "author_email": "bob@example.com",
+      "date": "2025-12-01T15:10:00Z",
+      "content": "Another comment.",
+      "reply-url": "https://example.com/sw-comment-form/?post=19&parent_id=2"
+    }
+  ],
+  "total": 34,
+  "page": 1,
+  "per_page": 10
+}
 ```
+
+Top-level fields:
+
+* `comments`: Array of comment objects for the requested page, in the same shape as before (see below).
+* `total`: Total count of comments matching the request (across all pages), independent of `page`/`per_page`. Clients use this to know when they have loaded every comment — once the number of comments loaded so far reaches `total`, there are no more pages to request.
+* `page`: The page number this response corresponds to (echoes the requested `page` query parameter).
+* `per_page`: The page size used for this response (echoes the requested `per_page` query parameter, or the backend's default if none was given).
+
+Per-comment fields (inside `comments`):
 
 * `id`: Unique identifier for the comment (integer or string). Must be present when `reply-url` is used, since the backend uses it to build the reply URL.
 * `parent`: ID of the parent comment (integer or string), or `0` for a top-level comment.

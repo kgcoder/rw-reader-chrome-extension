@@ -2664,16 +2664,19 @@ class PopupDocumentManager{
             return
         }
 
-        const jsonArray = JSON.parse(text)
+        const parsedResponse = JSON.parse(text)
 
-        if (!jsonArray) return
-
-        if (!jsonArray.length) {
-            listenersOwner.allItemsLoaded = true
+        if (!parsedResponse || !Array.isArray(parsedResponse.comments)) {
+            showToastMessage('Something went wrong')
+            return
         }
+
+        const jsonArray = parsedResponse.comments
+
         listenersOwner.currentPage = page
         listenersOwner.isLoadingMore = false
         listenersOwner.comments = listenersOwner.comments.concat(jsonArray)
+        listenersOwner.allItemsLoaded = listenersOwner.comments.length >= parsedResponse.total
 
 
         let parents = listenersOwner.comments.filter(item => !!item && item.parent == 0)
