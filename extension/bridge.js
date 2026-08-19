@@ -159,6 +159,22 @@ window.addEventListener("message", async (event) => {
 })
 
 
+// Broadcast theme changes to every tab currently showing the reader, so all open
+// readers stay in sync. chrome.storage.onChanged fires in every extension context
+// with the "storage" permission — including this bridge.js instance in every tab —
+// regardless of which tab wrote the change, so no chrome.tabs fan-out is needed.
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local') return
+    if (!changes.theme) return
+    if (!isShowingReader) return
+
+    const newTheme = changes.theme.newValue
+    if (!newTheme) return
+
+    window.postMessage({ type: 'THEME_CHANGED', theme: newTheme }, '*')
+})
+
+
 // Listen for results from background — respond via port (not window)
 chrome.runtime.onMessage.addListener((message) => {
     if (message.action === "fetchResult") {

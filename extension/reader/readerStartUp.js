@@ -36,6 +36,14 @@ window.addEventListener("message", (event) => {
             g.readingManager.downloadOnePage(url, false, true)
 
       }
+      if (msg.type === "THEME_CHANGED") {
+            const newTheme = msg.theme
+            // shouldSave is hardcoded false: receiving a broadcast must never re-trigger
+            // a storage write — only the user-initiated Ctrl+[ path in KeyboardManager.js saves.
+            if (newTheme && newTheme !== g.currentTheme) {
+                setTheme(newTheme, false)
+            }
+      }
 });
 
 window.addEventListener('initReader', async (e) => {
