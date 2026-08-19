@@ -132,11 +132,11 @@ function updatePageMetadata(response) {
 
     const aboutLink = document.getElementById("about-link")
     const howToLink = document.getElementById("how-to-link")
-    const examplesLink = document.getElementById("visible-connections-examples-link")
+    const examplesLink = document.getElementById("explore-readers-web-link")
     const sourceCodeLink = document.getElementById("source-code-link")
 
     aboutLink.addEventListener('click',() => window.open('https://readersweb.org','_blank'))
-    examplesLink.addEventListener('click',() => window.open('https://readersweb.org/community-resources/','_blank'))
+    examplesLink.addEventListener('click',() => window.open('https://readersweb.org/explore-readers-web/','_blank'))
     howToLink.addEventListener('click',() => window.open('https://readersweb.org/how-to-create-visible-connections/','_blank'))
     sourceCodeLink.addEventListener('click',() => window.open('https://github.com/kgcoder/rw-reader-chrome-extension','_blank'))
 
