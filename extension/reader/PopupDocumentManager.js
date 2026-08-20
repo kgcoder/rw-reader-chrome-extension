@@ -19,6 +19,7 @@ import { fetchWebPage } from './NetworkManager.js'
 import ExportPageManager from './ExportPageManager.js'
 import { loadStaticContentFromUrl } from './parsers/ParsingManager.js'
 import { hideMultipleLinksPopup } from './MultipleLinksPopupManager.js'
+import { saveObjectInLocalStorage } from './LocalStorageManager.js'
 
 export const kMiddleGap = 50
 export const kMinDocWidthForDesktop = 430
@@ -463,16 +464,22 @@ class PopupDocumentManager{
 
 
     updateFontSize = (diff) => {
-        this.fontSize += diff
-   
+        this.setFontSize(this.fontSize + diff)
+
+        if(diff != 0){
+            showToastMessage(`Font size: ${this.fontSize}${this.fontSize === kDefaultFontSize ? ' (default)' : ''}`)
+            saveObjectInLocalStorage('fontSize', this.fontSize)
+        }
+    }
+
+
+    setFontSize = (value) => {
+        this.fontSize = value
+
         this.applyFontSizeToPresentationDivs()
 
         g.readingManager.applyFlinksOnTheLeft()
         g.readingManager.applyFlinksOnTheRight()
-
-        if(diff != 0){
-            showToastMessage(`Font size: ${this.fontSize}${this.fontSize === 18 ? ' (default)' : ''}`)
-        }
     }
 
 

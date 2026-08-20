@@ -44,6 +44,12 @@ window.addEventListener("message", (event) => {
                 setTheme(newTheme, false)
             }
       }
+      if (msg.type === "FONT_SIZE_CHANGED") {
+            const newFontSize = msg.fontSize
+            if (newFontSize && newFontSize !== g.pdm.fontSize) {
+                g.pdm.setFontSize(newFontSize)
+            }
+      }
 });
 
 window.addEventListener('initReader', async (e) => {
@@ -55,7 +61,7 @@ window.addEventListener('initReader', async (e) => {
 
 
     if(dataObject && !error){
-        loadUIAndIcons()
+        await loadUIAndIcons()
     }
 
 
@@ -108,7 +114,7 @@ window.addEventListener('initReader', async (e) => {
 });
 
 
-function loadUIAndIcons() {
+async function loadUIAndIcons() {
 
     g.flinksCanvas = document.getElementById('flinks-canvas')
     g.flinksCtx = g.flinksCanvas.getContext("2d")
@@ -120,7 +126,8 @@ function loadUIAndIcons() {
 
     document.onkeydown = checkKey
 
-    useSavedTheme()
+    await useSavedTheme()
+    await useSavedFontSize()
 
 }
 
@@ -132,6 +139,14 @@ async function useSavedTheme() {
     }
     setTheme(saved)
     g.currentTheme = saved
+}
+
+
+async function useSavedFontSize() {
+    const { value: saved } = await getObjectFromLocalStorage('fontSize')
+    if (saved) {
+        g.pdm.fontSize = saved
+    }
 }
 
 
