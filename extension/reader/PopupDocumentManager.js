@@ -2151,6 +2151,7 @@ class PopupDocumentManager{
  
 
     showMiddleCanvas() {
+        if(!g.readingManager.mainDocData)return
         if (g.readingManager.isFullScreen && g.readingManager.mainDocType === 'h') return
         if(g.readingManager.mainDocData.docType === 'condoc' && !g.readingManager.embeddedDocData)return
         const screenHeight = window.innerHeight

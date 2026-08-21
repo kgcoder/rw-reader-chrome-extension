@@ -138,15 +138,7 @@
 }
 
 
-.theme-light .NotePresentationDiv{
 
-    font-family: "Georgia", "Times New Roman", serif; /* Classic reading font */
-    font-size: 18px;
-    line-height: 1.7;
-    color: var(--text-main);
-    padding: 2rem;
-
-}
 
 .theme-light .PostNavBarSide * {
   color: var(--accent);
