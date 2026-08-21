@@ -43,6 +43,7 @@
 
 .theme-ocean #CurrentDocumentTopBar{
   background-color: var(--top-bars);
+  border-bottom: none;
 }
 
 .theme-ocean #RightDocumentsTopBar{

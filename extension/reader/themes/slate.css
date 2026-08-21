@@ -43,6 +43,7 @@
 
 .theme-slate #CurrentDocumentTopBar{
   background-color: var(--top-bars);
+  border-bottom: none;
 }
 
 .theme-slate #RightDocumentsTopBar{

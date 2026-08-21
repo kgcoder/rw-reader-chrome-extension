@@ -41,6 +41,7 @@
 
 .theme-navy #CurrentDocumentTopBar{
   background-color: var(--top-bars);
+  border-bottom: none;
 }
 
 .theme-navy #RightDocumentsTopBar{

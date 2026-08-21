@@ -43,6 +43,7 @@
 
 .theme-lavender #CurrentDocumentTopBar{
   background-color: var(--top-bars);
+  border-bottom: none;
 }
 
 .theme-lavender #RightDocumentsTopBar{

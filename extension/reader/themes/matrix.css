@@ -41,6 +41,7 @@
 
 .theme-matrix #CurrentDocumentTopBar{
   background-color: var(--top-bars);
+  border-bottom: none;
 }
 
 .theme-matrix #RightDocumentsTopBar{
