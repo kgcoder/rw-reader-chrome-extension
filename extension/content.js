@@ -105,10 +105,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             window.postMessage({ type: "DOWNLOAD_USER_SPECIFIED_PAGE", url },"*");
         }
 
-        if (messageName === 'ToggleThickLinks') {
-            const useThickLinks = message.enabled
-            saveFlinksThickness(useThickLinks)
-            window.postMessage({ type: "FLINK_THICKNESS_UPDATED", useThickLinks },"*");
+        if (messageName === 'ToggleThinLinks') {
+            const useThinLinks = message.enabled
+            saveFlinksThickness(useThinLinks)
+            window.postMessage({ type: "FLINK_THICKNESS_UPDATED", useThinLinks },"*");
         }
 
         if (messageName === 'SetFetchMode') {
@@ -157,7 +157,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 async function sendPageMetadata() {
 
-    const areLinksThick = await getLinkThicknessFromStorage()
+    const areLinksThin = await getLinkThicknessFromStorage()
     const storedFetchMode = await getFetchModeFromStorage()
     const storedTheme = await getThemeFromStorage()
     const storedFontSet = await getFontSetFromStorage()
@@ -166,7 +166,7 @@ async function sendPageMetadata() {
     chrome.runtime.sendMessage({
         type: 'pageMetadata',
         payload: {
-            areLinksThick,
+            areLinksThin,
             fetchMode: storedFetchMode,
             theme: storedTheme,
             fontSet: storedFontSet,
@@ -186,13 +186,13 @@ async function sendPageMetadata() {
 
 
 async function getLinkThicknessFromStorage() {
-    const result = await chrome.storage.local.get('thickLinks')
-    const isThick = result.thickLinks ?? false
-    return isThick
+    const result = await chrome.storage.local.get('thinLinks')
+    const isThin = result.thinLinks ?? false
+    return isThin
 }
 
-async function saveFlinksThickness(isThick) {
-    chrome.storage.local.set({ thickLinks:isThick })
+async function saveFlinksThickness(isThin) {
+    chrome.storage.local.set({ thinLinks:isThin })
 }
 
 
@@ -261,7 +261,7 @@ async function showReaderOverlay() {
     let isEmbeddedCdoc = false
     let isEmbeddedCondoc = false
 
-    const useThickLinks = await getLinkThicknessFromStorage()
+    const useThinLinks = await getLinkThicknessFromStorage()
     fetchMode = await getFetchModeFromStorage()
 
 
@@ -439,7 +439,7 @@ async function showReaderOverlay() {
     script.type = "module";
     script.src = chrome.runtime.getURL('reader/readerStartUp.js');
     script.onload = () => {
-        window.dispatchEvent(new CustomEvent('initReader', {detail:{ contentString, url:currentLocation, useThickLinks, savedParsingRules }}));
+        window.dispatchEvent(new CustomEvent('initReader', {detail:{ contentString, url:currentLocation, useThinLinks, savedParsingRules }}));
     };
     pendingPortSend = true
     document.body.appendChild(script);

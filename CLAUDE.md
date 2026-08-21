@@ -101,7 +101,7 @@ The reader UI is not an iframe — `content.js`'s `showReaderOverlay()` splices 
 4. **Cross-tab broadcast:** in [bridge.js](bridge.js), a single `chrome.storage.onChanged` listener (gated on `area === 'local'` and `isShowingReader`) checks `changes.<key>` and `window.postMessage`s a `<SETTING>_CHANGED` message into that tab's reader page — add a new `if (changes.<key>) {...}` branch alongside the existing `theme`/`fontSize` ones rather than a new listener. `chrome.storage.onChanged` fires in every tab's `bridge.js` instance (not just the one that wrote the change) — this is Chrome's native broadcast, so no `chrome.tabs.query`/`sendMessage` fan-out via `background.js` is needed.
 5. **Receiving the broadcast:** in `readerStartUp.js`'s top-level `window.addEventListener("message", ...)` handler, add a `<SETTING>_CHANGED` branch that calls the absolute setter with `shouldSave`-equivalent left at its default (never true), guarded by comparing to the current in-memory value first to skip redundant DOM work in the tab that originated the change (that tab receives its own broadcast too, since Chrome doesn't distinguish the writer).
 
-Settings that only need per-tab in-memory state (no persistence/sync) already use a simpler version of step 4/5 alone — e.g. `FLINK_THICKNESS_UPDATED`, forwarded from `content.js`'s popup-message handler rather than from a storage listener.
+
 
 
 ---

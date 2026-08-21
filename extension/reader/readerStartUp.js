@@ -23,8 +23,8 @@ window.addEventListener("message", (event) => {
       if (event.source !== window) return;
       const msg = event.data;
         if (msg.type === "FLINK_THICKNESS_UPDATED") {
-            const useThickLinks = msg.useThickLinks
-            g.readingManager.flinkStyle = useThickLinks ? 'thick' : 'thin'
+            const useThinLinks = msg.useThinLinks
+            g.readingManager.flinkStyle = useThinLinks ? 'thin' : 'thick'
             g.readingManager.redrawFlinks()
 
       }
@@ -65,8 +65,8 @@ window.addEventListener("message", (event) => {
 });
 
 window.addEventListener('initReader', async (e) => {
-    const { url, contentString, useThickLinks, savedParsingRules } = e.detail;
-    g.readingManager.flinkStyle = useThickLinks ? 'thick' : 'thin'
+    const { url, contentString, useThinLinks, savedParsingRules } = e.detail;
+    g.readingManager.flinkStyle = useThinLinks ? 'thin' : 'thick'
     mainDocData = e.detail
 
     const {dataObject,error} = await parseStaticContent(contentString,url, savedParsingRules)

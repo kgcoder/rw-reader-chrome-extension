@@ -406,7 +406,7 @@ function createFavoritesDropdown({ favorites, theme, fontSet, onPick, onChange }
 
 
 function updatePageMetadata(response) {
-    const {areLinksThick,fetchMode,theme,fontSet,favorites,isShowingReader,isShowingParsingRulesConstructor, currentLocation, isUnforcedEmbeddedHDOC} = response
+    const {areLinksThin,fetchMode,theme,fontSet,favorites,isShowingReader,isShowingParsingRulesConstructor, currentLocation, isUnforcedEmbeddedHDOC} = response
 
     const settingsMenu = document.getElementById("settingsMenu")
 
@@ -459,24 +459,24 @@ function updatePageMetadata(response) {
     settingsMenu.appendChild(favoritesDropdown.element)
 
 
-    const thickLinksLabel = document.createElement('label')
-    thickLinksLabel.style.display = 'flex'
-    thickLinksLabel.style.alignItems = 'center'
-    thickLinksLabel.style.gap = '8px'
-    thickLinksLabel.style.marginBottom = '8px'
+    const thinLinksLabel = document.createElement('label')
+    thinLinksLabel.style.display = 'flex'
+    thinLinksLabel.style.alignItems = 'center'
+    thinLinksLabel.style.gap = '8px'
+    thinLinksLabel.style.marginBottom = '8px'
 
-    const thickLinksCheckbox = document.createElement('input')
-    thickLinksCheckbox.type = 'checkbox'
-    thickLinksCheckbox.id = 'thick-links-checkbox'
-    thickLinksCheckbox.checked = areLinksThick
+    const thinLinksCheckbox = document.createElement('input')
+    thinLinksCheckbox.type = 'checkbox'
+    thinLinksCheckbox.id = 'thick-links-checkbox'
+    thinLinksCheckbox.checked = areLinksThin
 
-    thickLinksLabel.appendChild(thickLinksCheckbox)
-    thickLinksLabel.appendChild(document.createTextNode('Thick links'))
+    thinLinksLabel.appendChild(thinLinksCheckbox)
+    thinLinksLabel.appendChild(document.createTextNode('Thin links'))
 
-    settingsMenu.appendChild(thickLinksLabel)
+    settingsMenu.appendChild(thinLinksLabel)
 
-    thickLinksCheckbox.addEventListener('change', () => {
-        sendMessageToPage({ messageName: 'ToggleThickLinks', enabled: thickLinksCheckbox.checked })
+    thinLinksCheckbox.addEventListener('change', () => {
+        sendMessageToPage({ messageName: 'ToggleThinLinks', enabled: thinLinksCheckbox.checked })
     })
 
 

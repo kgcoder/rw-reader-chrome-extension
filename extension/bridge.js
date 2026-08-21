@@ -182,9 +182,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
         if (newFontSet !== undefined) window.postMessage({ type: 'FONT_SET_CHANGED', fontSet: newFontSet }, '*')
     }
 
-    if (changes.thickLinks) {
-        const newValue = changes.thickLinks.newValue
-        if (newValue !== undefined) window.postMessage({ type: 'FLINK_THICKNESS_UPDATED', useThickLinks: newValue }, '*')
+    if (changes.thinLinks) {
+        const newValue = changes.thinLinks.newValue
+        if (newValue !== undefined) window.postMessage({ type: 'FLINK_THICKNESS_UPDATED', useThinLinks: newValue }, '*')
     }
 
     if (changes.favorites) {
