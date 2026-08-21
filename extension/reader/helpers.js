@@ -25,6 +25,8 @@ export function timestamp() {
 
 export async function setTheme(themeName, shouldSave = false) {
 
+    if (!themeName) return
+
     const rootEl = document.getElementById("ui-root")
   
     rootEl.classList.forEach(cls => {

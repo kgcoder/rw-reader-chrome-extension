@@ -130,6 +130,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             window.postMessage({ type: "FONT_SET_CHANGED", fontSet }, "*")
         }
 
+        if (messageName === 'SetFavorites') {
+            const favorites = message.favorites
+            saveFavorites(favorites)
+            window.postMessage({ type: "FAVORITES_CHANGED", favorites }, "*")
+        }
+
         if (messageName === 'OpenInParsingRulesConstructor') {
 
 
@@ -155,6 +161,7 @@ async function sendPageMetadata() {
     const storedFetchMode = await getFetchModeFromStorage()
     const storedTheme = await getThemeFromStorage()
     const storedFontSet = await getFontSetFromStorage()
+    const storedFavorites = await getFavoritesFromStorage()
 
     chrome.runtime.sendMessage({
         type: 'pageMetadata',
@@ -163,6 +170,7 @@ async function sendPageMetadata() {
             fetchMode: storedFetchMode,
             theme: storedTheme,
             fontSet: storedFontSet,
+            favorites: storedFavorites,
             isShowingReader,
             isShowingParsingRulesConstructor,
             currentLocation,
@@ -208,11 +216,20 @@ async function saveTheme(themeName) {
 
 async function getFontSetFromStorage() {
     const result = await chrome.storage.local.get('fontSet')
-    return result.fontSet ?? 0
+    return result.fontSet
 }
 
 async function saveFontSet(index) {
     chrome.storage.local.set({ fontSet: index })
+}
+
+async function getFavoritesFromStorage() {
+    const result = await chrome.storage.local.get('favorites')
+    return result.favorites ?? []
+}
+
+async function saveFavorites(favorites) {
+    chrome.storage.local.set({ favorites })
 }
 
 

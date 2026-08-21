@@ -12,7 +12,7 @@ https://github.com/kgcoder/readers-web-specs
 
 import g from "./Globals.js"
 import { addScrollEndListener, setTheme, showToastMessage } from "./helpers.js";
-import { applyFonts, kFontRoleSets } from "./Fonts.js";
+import { setFontSet } from "./Fonts.js";
 import IconsInfo from "./Icons.js";
 import { parseStaticContent } from "./parsers/ParsingManager.js";
 import { checkKey } from "./KeyboardManager.js";
@@ -56,9 +56,11 @@ window.addEventListener("message", (event) => {
             // shouldSave-equivalent: broadcasts never re-trigger a storage write,
             // only the user-initiated popup selection saves.
             if (newFontSet !== undefined && newFontSet !== g.currentFontSet) {
-                applyFonts(kFontRoleSets[newFontSet])
-                g.currentFontSet = newFontSet
+                setFontSet(newFontSet, false)
             }
+      }
+      if (msg.type === "FAVORITES_CHANGED") {
+            g.favorites = msg.favorites ?? []
       }
 });
 
@@ -139,6 +141,7 @@ async function loadUIAndIcons() {
     await useSavedTheme()
     await useSavedFontSize()
     await useSavedFontSet()
+    await useSavedFavorites()
 
 }
 
@@ -154,12 +157,14 @@ async function useSavedTheme() {
 
 
 async function useSavedFontSet() {
-    let { value: saved } = await getObjectFromLocalStorage('fontSet')
-    if (saved === undefined || saved === null || !kFontRoleSets[saved]) {
-        saved = 0
-    }
-    applyFonts(kFontRoleSets[saved])
-    g.currentFontSet = saved
+    const { value: saved } = await getObjectFromLocalStorage('fontSet')
+    await setFontSet(saved, false)
+}
+
+
+async function useSavedFavorites() {
+    const { value: saved } = await getObjectFromLocalStorage('favorites')
+    g.favorites = saved ?? []
 }
 
 

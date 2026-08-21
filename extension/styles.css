@@ -246,3 +246,43 @@ body {
 .rw-dropdown-option:hover {
     background: #f0f0f0;
 }
+
+.rw-favorite-add-button {
+    flex: 0 0 auto;
+    margin-left: 8px;
+    padding: 3px 8px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.rw-favorite-add-button:hover {
+    background: #f0f0f0;
+}
+
+.rw-favorite-reorder-button,
+.rw-favorite-delete-button {
+    flex: 0 0 auto;
+    margin-left: 4px;
+    padding: 2px 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.rw-favorite-reorder-button:hover,
+.rw-favorite-delete-button:hover {
+    background: #f0f0f0;
+}
+
+.rw-favorite-reorder-button:disabled {
+    opacity: 0.35;
+    cursor: default;
+    background: white;
+}

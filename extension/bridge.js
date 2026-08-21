@@ -186,6 +186,11 @@ chrome.storage.onChanged.addListener((changes, area) => {
         const newValue = changes.thickLinks.newValue
         if (newValue !== undefined) window.postMessage({ type: 'FLINK_THICKNESS_UPDATED', useThickLinks: newValue }, '*')
     }
+
+    if (changes.favorites) {
+        const newFavorites = changes.favorites.newValue
+        window.postMessage({ type: 'FAVORITES_CHANGED', favorites: newFavorites ?? [] }, '*')
+    }
 })
 
 

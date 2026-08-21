@@ -11,7 +11,7 @@ https://github.com/kgcoder/readers-web-specs
 */
 
 
-import { kFontRoleSets } from './reader/Fonts.js'
+import { kFontRoleSets, resolveFontSetId } from './reader/Fonts.js'
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -64,6 +64,14 @@ document.addEventListener('click', () => {
     openDropdownClosers.forEach(close => close())
 })
 
+function createDropdownCaret() {
+    const caret = document.createElement('span')
+    caret.textContent = '▾'
+    caret.style.marginLeft = '8px'
+    caret.style.fontSize = '14px'
+    return caret
+}
+
 function createCustomDropdown({ label, options, selectedValue, renderOption, onSelect }) {
     const wrapper = document.createElement('div')
     wrapper.className = 'rw-dropdown'
@@ -92,12 +100,8 @@ function createCustomDropdown({ label, options, selectedValue, renderOption, onS
         const opt = options.find(o => o.value === selected) ?? options[0]
         renderOption(content, opt)
 
-        const caret = document.createElement('span')
-        caret.textContent = '▾'
-        caret.style.marginLeft = '8px'
-
         trigger.appendChild(content)
-        trigger.appendChild(caret)
+        trigger.appendChild(createDropdownCaret())
     }
 
     function closePanel() {
@@ -131,7 +135,13 @@ function createCustomDropdown({ label, options, selectedValue, renderOption, onS
 
     renderTrigger()
 
-    return wrapper
+    return {
+        element: wrapper,
+        setSelected(value) {
+            selected = value
+            renderTrigger()
+        }
+    }
 }
 
 function renderFontOption(container, opt) {
@@ -187,29 +197,266 @@ function renderThemeOption(container, opt) {
 }
 
 
+function renderPairSwatchAndLabel(container, themeValue, fontSetId) {
+    const row = document.createElement('div')
+    row.style.display = 'flex'
+    row.style.alignItems = 'center'
+    row.style.gap = '8px'
+
+    const themeOpt = kThemeOptions.find(t => t.value === themeValue)
+    const fontOpt = kFontRoleSets.find(s => s.id === fontSetId)
+
+    const swatch = document.createElement('div')
+    swatch.style.width = '28px'
+    swatch.style.height = '28px'
+    swatch.style.flex = '0 0 auto'
+    swatch.style.borderRadius = '4px'
+    swatch.style.border = '1px solid #ccc'
+    swatch.style.background = themeOpt ? themeOpt.bg : '#ccc'
+    swatch.style.color = themeOpt ? themeOpt.text : '#666'
+    swatch.style.display = 'flex'
+    swatch.style.alignItems = 'center'
+    swatch.style.justifyContent = 'center'
+    swatch.style.fontWeight = 'bold'
+    swatch.style.fontSize = '13px'
+    swatch.textContent = 'Aa'
+
+    const label = document.createElement('span')
+    label.textContent = `${themeOpt ? themeOpt.label : 'Unknown theme'} - ${fontOpt ? fontOpt.label : 'Unknown font'}`
+
+    row.appendChild(swatch)
+    row.appendChild(label)
+    container.appendChild(row)
+}
+
+
+function createFavoritesDropdown({ favorites, theme, fontSet, onPick, onChange }) {
+    const wrapper = document.createElement('div')
+    wrapper.className = 'rw-dropdown'
+
+    const dropdownLabel = document.createElement('div')
+    dropdownLabel.className = 'rw-dropdown-label'
+    dropdownLabel.textContent = 'Favorites'
+    wrapper.appendChild(dropdownLabel)
+
+    const trigger = document.createElement('div')
+    trigger.className = 'rw-dropdown-trigger'
+    trigger.tabIndex = 0
+    wrapper.appendChild(trigger)
+
+    const panel = document.createElement('div')
+    panel.className = 'rw-dropdown-panel'
+    panel.style.display = 'none'
+    wrapper.appendChild(panel)
+
+    let currentTheme = theme
+    let currentFontSet = fontSet
+    let currentFavorites = favorites
+
+    function isCurrentSaved() {
+        return currentFavorites.some(f => f.theme === currentTheme && f.fontSetId === currentFontSet)
+    }
+
+    function renderTrigger() {
+        trigger.innerHTML = ''
+
+        const content = document.createElement('div')
+        content.style.flex = '1'
+        renderPairSwatchAndLabel(content, currentTheme, currentFontSet)
+        trigger.appendChild(content)
+
+        if (!isCurrentSaved()) {
+            const addButton = document.createElement('button')
+            addButton.type = 'button'
+            addButton.className = 'rw-favorite-add-button'
+            addButton.textContent = 'Add to favorites'
+            addButton.addEventListener('click', (e) => {
+                e.stopPropagation()
+                const newFavorite = {
+                    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                    theme: currentTheme,
+                    fontSetId: currentFontSet
+                }
+                currentFavorites = [...currentFavorites, newFavorite]
+                onChange(currentFavorites)
+                renderTrigger()
+            })
+            trigger.appendChild(addButton)
+        }
+
+        trigger.appendChild(createDropdownCaret())
+    }
+
+    function closePanel() {
+        panel.style.display = 'none'
+    }
+
+    function openPanel() {
+        panel.innerHTML = ''
+
+        if (!currentFavorites.length) {
+            const empty = document.createElement('div')
+            empty.className = 'rw-dropdown-option'
+            empty.style.color = '#888'
+            empty.textContent = 'No favorites saved yet'
+            panel.appendChild(empty)
+        }
+
+        currentFavorites.forEach((fav, index) => {
+            const row = document.createElement('div')
+            row.className = 'rw-dropdown-option'
+            row.style.display = 'flex'
+            row.style.alignItems = 'center'
+            row.style.justifyContent = 'space-between'
+            row.style.gap = '8px'
+
+            const left = document.createElement('div')
+            left.style.flex = '1'
+            left.style.cursor = 'pointer'
+            renderPairSwatchAndLabel(left, fav.theme, fav.fontSetId)
+            left.addEventListener('click', () => {
+                currentTheme = fav.theme
+                currentFontSet = fav.fontSetId
+                renderTrigger()
+                closePanel()
+                onPick(fav)
+            })
+            row.appendChild(left)
+
+            const controls = document.createElement('div')
+            controls.style.display = 'flex'
+            controls.style.alignItems = 'center'
+            controls.style.flex = '0 0 auto'
+
+            const upButton = document.createElement('button')
+            upButton.type = 'button'
+            upButton.className = 'rw-favorite-reorder-button'
+            upButton.textContent = '▲'
+            upButton.title = 'Move up'
+            upButton.disabled = index === 0
+            upButton.addEventListener('click', (e) => {
+                e.stopPropagation()
+                if (index === 0) return
+                const updated = [...currentFavorites]
+                ;[updated[index - 1], updated[index]] = [updated[index], updated[index - 1]]
+                currentFavorites = updated
+                onChange(currentFavorites)
+                openPanel()
+            })
+            controls.appendChild(upButton)
+
+            const downButton = document.createElement('button')
+            downButton.type = 'button'
+            downButton.className = 'rw-favorite-reorder-button'
+            downButton.textContent = '▼'
+            downButton.title = 'Move down'
+            downButton.disabled = index === currentFavorites.length - 1
+            downButton.addEventListener('click', (e) => {
+                e.stopPropagation()
+                if (index === currentFavorites.length - 1) return
+                const updated = [...currentFavorites]
+                ;[updated[index + 1], updated[index]] = [updated[index], updated[index + 1]]
+                currentFavorites = updated
+                onChange(currentFavorites)
+                openPanel()
+            })
+            controls.appendChild(downButton)
+
+            const deleteButton = document.createElement('button')
+            deleteButton.type = 'button'
+            deleteButton.className = 'rw-favorite-delete-button'
+            deleteButton.title = 'Delete favorite'
+            deleteButton.textContent = '🗑'
+            deleteButton.addEventListener('click', (e) => {
+                e.stopPropagation()
+                currentFavorites = currentFavorites.filter(f => f.id !== fav.id)
+                onChange(currentFavorites)
+                openPanel()
+                renderTrigger()
+            })
+            controls.appendChild(deleteButton)
+
+            row.appendChild(controls)
+            panel.appendChild(row)
+        })
+
+        panel.style.display = 'block'
+    }
+
+    openDropdownClosers.push(closePanel)
+
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation()
+        const wasOpen = panel.style.display !== 'none'
+        openDropdownClosers.forEach(close => close())
+        if (!wasOpen) openPanel()
+    })
+
+    renderTrigger()
+
+    return {
+        element: wrapper,
+        refresh(theme, fontSet) {
+            currentTheme = theme
+            currentFontSet = fontSet
+            renderTrigger()
+        }
+    }
+}
+
+
 function updatePageMetadata(response) {
-    const {areLinksThick,fetchMode,theme,fontSet,isShowingReader,isShowingParsingRulesConstructor, currentLocation, isUnforcedEmbeddedHDOC} = response
+    const {areLinksThick,fetchMode,theme,fontSet,favorites,isShowingReader,isShowingParsingRulesConstructor, currentLocation, isUnforcedEmbeddedHDOC} = response
 
     const settingsMenu = document.getElementById("settingsMenu")
 
+    let currentTheme = theme ?? 'light'
+    let currentFontSet = resolveFontSetId(fontSet)
+    let favoritesDropdown
 
     const fontDropdown = createCustomDropdown({
         label: 'Font',
-        options: kFontRoleSets.map((set, i) => ({ value: i, set })),
-        selectedValue: fontSet ?? 0,
+        options: kFontRoleSets.map(set => ({ value: set.id, set })),
+        selectedValue: currentFontSet,
         renderOption: renderFontOption,
-        onSelect: (value) => sendMessageToPage({ messageName: 'SetFontSet', fontSet: value })
+        onSelect: (value) => {
+            sendMessageToPage({ messageName: 'SetFontSet', fontSet: value })
+            currentFontSet = value
+            favoritesDropdown?.refresh(currentTheme, currentFontSet)
+        }
     })
-    settingsMenu.appendChild(fontDropdown)
+    settingsMenu.appendChild(fontDropdown.element)
 
     const themeDropdown = createCustomDropdown({
         label: 'Theme',
         options: kThemeOptions,
-        selectedValue: theme ?? 'light',
+        selectedValue: currentTheme,
         renderOption: renderThemeOption,
-        onSelect: (value) => sendMessageToPage({ messageName: 'SetTheme', theme: value })
+        onSelect: (value) => {
+            sendMessageToPage({ messageName: 'SetTheme', theme: value })
+            currentTheme = value
+            favoritesDropdown?.refresh(currentTheme, currentFontSet)
+        }
     })
-    settingsMenu.appendChild(themeDropdown)
+    settingsMenu.appendChild(themeDropdown.element)
+
+    favoritesDropdown = createFavoritesDropdown({
+        favorites: favorites ?? [],
+        theme: currentTheme,
+        fontSet: currentFontSet,
+        onPick: (fav) => {
+            sendMessageToPage({ messageName: 'SetTheme', theme: fav.theme })
+            sendMessageToPage({ messageName: 'SetFontSet', fontSet: fav.fontSetId })
+            currentTheme = fav.theme
+            currentFontSet = fav.fontSetId
+            themeDropdown.setSelected(fav.theme)
+            fontDropdown.setSelected(fav.fontSetId)
+        },
+        onChange: (updatedFavorites) => {
+            sendMessageToPage({ messageName: 'SetFavorites', favorites: updatedFavorites })
+        }
+    })
+    settingsMenu.appendChild(favoritesDropdown.element)
 
 
     const thickLinksLabel = document.createElement('label')

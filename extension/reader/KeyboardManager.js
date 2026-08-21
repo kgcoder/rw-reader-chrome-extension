@@ -12,7 +12,7 @@ https://github.com/kgcoder/readers-web-specs
 
 import g from './Globals.js'
 import { setTheme } from './helpers.js'
-import { getObjectFromLocalStorage } from './LocalStorageManager.js'
+import { setFontSet } from './Fonts.js'
 
 
 export const checkKey = async (e) => {
@@ -40,13 +40,13 @@ export const checkKey = async (e) => {
     }
     if (e.key === '[' && e.ctrlKey) {
 
-        const {value: saved} = await getObjectFromLocalStorage('theme') || "light";
+        if (!g.favorites || !g.favorites.length) return
 
-        const themeOrder = ['light', 'dark', 'sepia', 'matrix', 'mint', 'navy', 'ocean', 'lavender', 'rose', 'slate', 'olive']
-        const currentIndex = themeOrder.indexOf(saved)
-        const next = themeOrder[(currentIndex + 1) % themeOrder.length]
+        const currentIndex = g.favorites.findIndex(f => f.theme === g.currentTheme && f.fontSetId === g.currentFontSet)
+        const next = g.favorites[(currentIndex + 1) % g.favorites.length]
 
-        setTheme(next, true)
+        setTheme(next.theme, true)
+        setFontSet(next.fontSetId, true)
 
     }
 

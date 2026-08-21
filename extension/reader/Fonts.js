@@ -10,6 +10,9 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/readers-web-specs
 */
 
+import g from "./Globals.js"
+import { saveObjectInLocalStorage } from "./LocalStorageManager.js"
+
 // Each entry is a full set of font roles, mapped to CSS custom properties
 // (--font-<role>-family / -weight / -line-height) consumed by reader.css,
 // themes/light.css, themes/dark.css and themes/sepia.css, so switching to a
@@ -18,6 +21,7 @@ https://github.com/kgcoder/readers-web-specs
 export const kFontRoleSets = [
     // Set 0 (default): sans-serif throughout, matching the original hardcoded CSS.
     {
+        id: 'default',
         label: 'Default (sans-serif)',
         main: {
             fontFamily: 'Arial, Helvetica, sans-serif',
@@ -45,6 +49,7 @@ export const kFontRoleSets = [
     // Set 1: classic editorial pairing - serif body text with bold sans-serif
     // headers for contrast, and a serif quote/code treatment to match.
     {
+        id: 'classic-serif',
         label: 'Classic serif',
         main: {
             fontFamily: 'Georgia, "Times New Roman", serif',
@@ -71,6 +76,7 @@ export const kFontRoleSets = [
     },
     // Set 2 (exotic): comic / playful - Comic Sans everywhere.
     {
+        id: 'comic',
         label: 'Comic',
         main: {
             fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
@@ -97,6 +103,7 @@ export const kFontRoleSets = [
     },
     // Set 3 (exotic): typewriter - monospace body copy throughout, not just code.
     {
+        id: 'typewriter',
         label: 'Typewriter',
         main: {
             fontFamily: '"Courier New", Courier, monospace',
@@ -123,6 +130,7 @@ export const kFontRoleSets = [
     },
     // Set 4: poster - big blocky Impact headers over a clean Verdana body.
     {
+        id: 'poster',
         label: 'Poster',
         main: {
             fontFamily: 'Verdana, Geneva, sans-serif',
@@ -148,6 +156,7 @@ export const kFontRoleSets = [
     },
     // Set 5 (exotic): elegant script - cursive headers over a classic Garamond body.
     {
+        id: 'elegant-script',
         label: 'Elegant script',
         main: {
             fontFamily: 'Garamond, "Book Antiqua", Palatino, serif',
@@ -173,6 +182,7 @@ export const kFontRoleSets = [
     },
     // Set 6: modern minimal - light-weight Segoe UI, Office/Windows aesthetic.
     {
+        id: 'modern-minimal',
         label: 'Modern minimal',
         main: {
             fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
@@ -199,6 +209,7 @@ export const kFontRoleSets = [
     },
     // Set 7: geometric editorial - bold Century Gothic headers over a Garamond body.
     {
+        id: 'geometric-editorial',
         label: 'Geometric editorial',
         main: {
             fontFamily: 'Garamond, "Book Antiqua", Palatino, serif',
@@ -225,6 +236,7 @@ export const kFontRoleSets = [
     },
     // Set 8 (exotic): retro poster - engraved Copperplate headers over a Georgia body.
     {
+        id: 'retro-poster',
         label: 'Retro poster',
         main: {
             fontFamily: 'Georgia, serif',
@@ -250,6 +262,7 @@ export const kFontRoleSets = [
     },
     // Set 9 (exotic): terminal - Consolas monospace everywhere, hacker reading mode.
     {
+        id: 'terminal',
         label: 'Terminal',
         main: {
             fontFamily: 'Consolas, "Lucida Console", Monaco, monospace',
@@ -281,7 +294,7 @@ export function applyFonts(fonts = kFontRoleSets[0]) {
     if (!rootEl) return
 
     for (const [role, font] of Object.entries(fonts)) {
-        if (role === 'label') continue
+        if (role === 'label' || role === 'id') continue
         const cssRole = role.replace(/([A-Z])/g, '-$1').toLowerCase()
         rootEl.style.setProperty(`--font-${cssRole}-family`, font.fontFamily)
         if (font.fontWeight !== undefined) {
@@ -290,5 +303,24 @@ export function applyFonts(fonts = kFontRoleSets[0]) {
         if (font.lineHeight !== undefined) {
             rootEl.style.setProperty(`--font-${cssRole}-line-height`, font.lineHeight)
         }
+    }
+}
+
+// Turns any stored/incoming value into a currently-valid kFontRoleSets id, never throwing.
+// Handles both a since-deleted id and a legacy numeric index from before font sets had ids.
+export function resolveFontSetId(value) {
+    if (typeof value === 'number') {
+        return kFontRoleSets[value]?.id ?? kFontRoleSets[0].id
+    }
+    return kFontRoleSets.find(s => s.id === value)?.id ?? kFontRoleSets[0].id
+}
+
+export async function setFontSet(idOrLegacyIndex, shouldSave = false) {
+    const resolvedId = resolveFontSetId(idOrLegacyIndex)
+    applyFonts(kFontRoleSets.find(s => s.id === resolvedId))
+    g.currentFontSet = resolvedId
+
+    if (shouldSave) {
+        saveObjectInLocalStorage('fontSet', resolvedId)
     }
 }
