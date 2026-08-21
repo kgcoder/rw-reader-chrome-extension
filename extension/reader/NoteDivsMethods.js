@@ -130,14 +130,13 @@ class NoteDivsManager{
             
             image['data-width'] = image.width
           
-            if(!image.classList.contains('emoji')){
-                if (image['data-width']) {
-                    image.style.width =  Math.min(image['data-width'] , maxImageWidth) + 'px'  
-                } else {
-                    image.style.width = '100%'
-                }
-                image.style.height = 'auto'
+            if (image['data-width']) {
+                image.style.width =  Math.min(image['data-width'] , maxImageWidth) + 'px'  
+            } else {
+                image.style.width = '100%'
             }
+            image.style.height = 'auto'
+            
 
 
             image.onload = () => g.readingManager.imageJustLoaded(flinksData)

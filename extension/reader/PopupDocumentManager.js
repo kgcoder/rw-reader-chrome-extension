@@ -3073,14 +3073,13 @@ class PopupDocumentManager{
             const image = images.item(i)
             
           
-            if(!image.classList.contains('emoji')){
-                if (image['data-width']) {
-                    image.style.width =  Math.min(image['data-width'] , textColumnWidth) + 'px'  
-                } else {
-                    image.style.width = '100%'
-                }
-                image.style.height = 'auto'
+            if (image['data-width']) {
+                image.style.width =  Math.min(image['data-width'] , textColumnWidth) + 'px'  
+            } else {
+                image.style.width = '100%'
             }
+            image.style.height = 'auto'
+            
 
            
         
