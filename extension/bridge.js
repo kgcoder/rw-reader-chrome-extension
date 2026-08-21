@@ -176,6 +176,16 @@ chrome.storage.onChanged.addListener((changes, area) => {
         const newFontSize = changes.fontSize.newValue
         if (newFontSize) window.postMessage({ type: 'FONT_SIZE_CHANGED', fontSize: newFontSize }, '*')
     }
+
+    if (changes.fontSet) {
+        const newFontSet = changes.fontSet.newValue
+        if (newFontSet !== undefined) window.postMessage({ type: 'FONT_SET_CHANGED', fontSet: newFontSet }, '*')
+    }
+
+    if (changes.thickLinks) {
+        const newValue = changes.thickLinks.newValue
+        if (newValue !== undefined) window.postMessage({ type: 'FLINK_THICKNESS_UPDATED', useThickLinks: newValue }, '*')
+    }
 })
 
 

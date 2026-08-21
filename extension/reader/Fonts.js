@@ -18,6 +18,7 @@ https://github.com/kgcoder/readers-web-specs
 export const kFontRoleSets = [
     // Set 0 (default): sans-serif throughout, matching the original hardcoded CSS.
     {
+        label: 'Default (sans-serif)',
         main: {
             fontFamily: 'Arial, Helvetica, sans-serif',
             lineHeight: 1.55,
@@ -44,6 +45,7 @@ export const kFontRoleSets = [
     // Set 1: classic editorial pairing - serif body text with bold sans-serif
     // headers for contrast, and a serif quote/code treatment to match.
     {
+        label: 'Classic serif',
         main: {
             fontFamily: 'Georgia, "Times New Roman", serif',
             lineHeight: 1.6,
@@ -69,6 +71,7 @@ export const kFontRoleSets = [
     },
     // Set 2 (exotic): comic / playful - Comic Sans everywhere.
     {
+        label: 'Comic',
         main: {
             fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
             lineHeight: 1.5,
@@ -94,6 +97,7 @@ export const kFontRoleSets = [
     },
     // Set 3 (exotic): typewriter - monospace body copy throughout, not just code.
     {
+        label: 'Typewriter',
         main: {
             fontFamily: '"Courier New", Courier, monospace',
             lineHeight: 1.6,
@@ -119,6 +123,7 @@ export const kFontRoleSets = [
     },
     // Set 4: poster - big blocky Impact headers over a clean Verdana body.
     {
+        label: 'Poster',
         main: {
             fontFamily: 'Verdana, Geneva, sans-serif',
             lineHeight: 1.5,
@@ -143,6 +148,7 @@ export const kFontRoleSets = [
     },
     // Set 5 (exotic): elegant script - cursive headers over a classic Garamond body.
     {
+        label: 'Elegant script',
         main: {
             fontFamily: 'Garamond, "Book Antiqua", Palatino, serif',
             lineHeight: 1.7,
@@ -167,6 +173,7 @@ export const kFontRoleSets = [
     },
     // Set 6: modern minimal - light-weight Segoe UI, Office/Windows aesthetic.
     {
+        label: 'Modern minimal',
         main: {
             fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
             lineHeight: 1.5,
@@ -192,6 +199,7 @@ export const kFontRoleSets = [
     },
     // Set 7: geometric editorial - bold Century Gothic headers over a Garamond body.
     {
+        label: 'Geometric editorial',
         main: {
             fontFamily: 'Garamond, "Book Antiqua", Palatino, serif',
             lineHeight: 1.7,
@@ -217,6 +225,7 @@ export const kFontRoleSets = [
     },
     // Set 8 (exotic): retro poster - engraved Copperplate headers over a Georgia body.
     {
+        label: 'Retro poster',
         main: {
             fontFamily: 'Georgia, serif',
             lineHeight: 1.6,
@@ -241,6 +250,7 @@ export const kFontRoleSets = [
     },
     // Set 9 (exotic): terminal - Consolas monospace everywhere, hacker reading mode.
     {
+        label: 'Terminal',
         main: {
             fontFamily: 'Consolas, "Lucida Console", Monaco, monospace',
             lineHeight: 1.5,
@@ -271,6 +281,7 @@ export function applyFonts(fonts = kFontRoleSets[0]) {
     if (!rootEl) return
 
     for (const [role, font] of Object.entries(fonts)) {
+        if (role === 'label') continue
         const cssRole = role.replace(/([A-Z])/g, '-$1').toLowerCase()
         rootEl.style.setProperty(`--font-${cssRole}-family`, font.fontFamily)
         if (font.fontWeight !== undefined) {

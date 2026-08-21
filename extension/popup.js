@@ -11,6 +11,9 @@ https://github.com/kgcoder/readers-web-specs
 */
 
 
+import { kFontRoleSets } from './reader/Fonts.js'
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     getPageMetadata()
@@ -38,13 +41,168 @@ function getPageMetadata() {
 
 
 
+// Theme colors are duplicated here (from themes/light.css, dark.css, sepia.css) since
+// popup.js runs in a separate extension page and can't read the reader's CSS custom
+// properties directly. Keep these in sync if the theme CSS files' --bg-main/--text-main change.
+const kThemeOptions = [
+    { value: 'light', label: 'Light', bg: '#fafafa', text: '#2c2c2c' },
+    { value: 'dark', label: 'Dark', bg: '#1e1e1e', text: '#e0e0e0' },
+    { value: 'sepia', label: 'Sepia', bg: '#FBF0D9', text: '#704214' },
+]
+
+// Closers for every dropdown created via createCustomDropdown, so opening one closes the rest.
+const openDropdownClosers = []
+document.addEventListener('click', () => {
+    openDropdownClosers.forEach(close => close())
+})
+
+function createCustomDropdown({ label, options, selectedValue, renderOption, onSelect }) {
+    const wrapper = document.createElement('div')
+    wrapper.className = 'rw-dropdown'
+
+    const dropdownLabel = document.createElement('div')
+    dropdownLabel.className = 'rw-dropdown-label'
+    dropdownLabel.textContent = label
+    wrapper.appendChild(dropdownLabel)
+
+    const trigger = document.createElement('button')
+    trigger.type = 'button'
+    trigger.className = 'rw-dropdown-trigger'
+    wrapper.appendChild(trigger)
+
+    const panel = document.createElement('div')
+    panel.className = 'rw-dropdown-panel'
+    panel.style.display = 'none'
+    wrapper.appendChild(panel)
+
+    let selected = selectedValue
+
+    function renderTrigger() {
+        trigger.innerHTML = ''
+        const content = document.createElement('div')
+        content.style.flex = '1'
+        const opt = options.find(o => o.value === selected) ?? options[0]
+        renderOption(content, opt)
+
+        const caret = document.createElement('span')
+        caret.textContent = '▾'
+        caret.style.marginLeft = '8px'
+
+        trigger.appendChild(content)
+        trigger.appendChild(caret)
+    }
+
+    function closePanel() {
+        panel.style.display = 'none'
+    }
+
+    function openPanel() {
+        panel.innerHTML = ''
+        options.forEach(opt => {
+            const row = document.createElement('div')
+            row.className = 'rw-dropdown-option'
+            renderOption(row, opt)
+            row.addEventListener('click', () => {
+                selected = opt.value
+                renderTrigger()
+                onSelect(opt.value)
+            })
+            panel.appendChild(row)
+        })
+        panel.style.display = 'block'
+    }
+
+    openDropdownClosers.push(closePanel)
+
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation()
+        const wasOpen = panel.style.display !== 'none'
+        openDropdownClosers.forEach(close => close())
+        if (!wasOpen) openPanel()
+    })
+
+    renderTrigger()
+
+    return wrapper
+}
+
+function renderFontOption(container, opt) {
+    const label = document.createElement('div')
+    label.textContent = opt.set.label
+    label.style.fontSize = '11px'
+    label.style.fontWeight = 'bold'
+    label.style.color = '#888'
+    label.style.marginBottom = '2px'
+
+    const heading = document.createElement('div')
+    heading.textContent = 'Example Heading'
+    heading.style.fontFamily = opt.set.headers.fontFamily
+    heading.style.fontWeight = opt.set.headers.fontWeight ?? 'bold'
+
+    const body = document.createElement('div')
+    body.textContent = 'The quick brown fox jumps over the lazy dog.'
+    body.style.fontFamily = opt.set.main.fontFamily
+    body.style.fontSize = '12px'
+
+    container.appendChild(label)
+    container.appendChild(heading)
+    container.appendChild(body)
+}
+
+function renderThemeOption(container, opt) {
+    const row = document.createElement('div')
+    row.style.display = 'flex'
+    row.style.alignItems = 'center'
+    row.style.gap = '8px'
+
+    const swatch = document.createElement('div')
+    swatch.style.width = '28px'
+    swatch.style.height = '28px'
+    swatch.style.flex = '0 0 auto'
+    swatch.style.borderRadius = '4px'
+    swatch.style.border = '1px solid #ccc'
+    swatch.style.background = opt.bg
+    swatch.style.color = opt.text
+    swatch.style.display = 'flex'
+    swatch.style.alignItems = 'center'
+    swatch.style.justifyContent = 'center'
+    swatch.style.fontWeight = 'bold'
+    swatch.style.fontSize = '13px'
+    swatch.textContent = 'Aa'
+
+    const label = document.createElement('span')
+    label.textContent = opt.label
+
+    row.appendChild(swatch)
+    row.appendChild(label)
+    container.appendChild(row)
+}
+
+
 function updatePageMetadata(response) {
-    const {areLinksThick,fetchMode,isShowingReader,isShowingParsingRulesConstructor, currentLocation, isUnforcedEmbeddedHDOC} = response
+    const {areLinksThick,fetchMode,theme,fontSet,isShowingReader,isShowingParsingRulesConstructor, currentLocation, isUnforcedEmbeddedHDOC} = response
 
     const settingsMenu = document.getElementById("settingsMenu")
 
 
-    //add fonts and theme drop downs here
+    const fontDropdown = createCustomDropdown({
+        label: 'Font',
+        options: kFontRoleSets.map((set, i) => ({ value: i, set })),
+        selectedValue: fontSet ?? 0,
+        renderOption: renderFontOption,
+        onSelect: (value) => sendMessageToPage({ messageName: 'SetFontSet', fontSet: value })
+    })
+    settingsMenu.appendChild(fontDropdown)
+
+    const themeDropdown = createCustomDropdown({
+        label: 'Theme',
+        options: kThemeOptions,
+        selectedValue: theme ?? 'light',
+        renderOption: renderThemeOption,
+        onSelect: (value) => sendMessageToPage({ messageName: 'SetTheme', theme: value })
+    })
+    settingsMenu.appendChild(themeDropdown)
+
 
     const thickLinksLabel = document.createElement('label')
     thickLinksLabel.style.display = 'flex'

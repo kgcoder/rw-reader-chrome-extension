@@ -51,6 +51,15 @@ window.addEventListener("message", (event) => {
                 g.pdm.setFontSize(newFontSize)
             }
       }
+      if (msg.type === "FONT_SET_CHANGED") {
+            const newFontSet = msg.fontSet
+            // shouldSave-equivalent: broadcasts never re-trigger a storage write,
+            // only the user-initiated popup selection saves.
+            if (newFontSet !== undefined && newFontSet !== g.currentFontSet) {
+                applyFonts(kFontRoleSets[newFontSet])
+                g.currentFontSet = newFontSet
+            }
+      }
 });
 
 window.addEventListener('initReader', async (e) => {
@@ -123,13 +132,13 @@ async function loadUIAndIcons() {
 
     g.iconsInfo.loadAllIcons()
     g.pdm.loadUI()
-    applyFonts(kFontRoleSets[9])
 
 
     document.onkeydown = checkKey
 
     await useSavedTheme()
     await useSavedFontSize()
+    await useSavedFontSet()
 
 }
 
@@ -141,6 +150,16 @@ async function useSavedTheme() {
     }
     setTheme(saved)
     g.currentTheme = saved
+}
+
+
+async function useSavedFontSet() {
+    let { value: saved } = await getObjectFromLocalStorage('fontSet')
+    if (saved === undefined || saved === null || !kFontRoleSets[saved]) {
+        saved = 0
+    }
+    applyFonts(kFontRoleSets[saved])
+    g.currentFontSet = saved
 }
 
 

@@ -118,6 +118,18 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             window.postMessage({ type: "UPDATE_FETCH_MODE_CONFIG", mode }, "*")
         }
 
+        if (messageName === 'SetTheme') {
+            const themeName = message.theme
+            saveTheme(themeName)
+            window.postMessage({ type: "THEME_CHANGED", theme: themeName }, "*")
+        }
+
+        if (messageName === 'SetFontSet') {
+            const fontSet = message.fontSet
+            saveFontSet(fontSet)
+            window.postMessage({ type: "FONT_SET_CHANGED", fontSet }, "*")
+        }
+
         if (messageName === 'OpenInParsingRulesConstructor') {
 
 
@@ -141,12 +153,16 @@ async function sendPageMetadata() {
 
     const areLinksThick = await getLinkThicknessFromStorage()
     const storedFetchMode = await getFetchModeFromStorage()
+    const storedTheme = await getThemeFromStorage()
+    const storedFontSet = await getFontSetFromStorage()
 
     chrome.runtime.sendMessage({
         type: 'pageMetadata',
         payload: {
             areLinksThick,
             fetchMode: storedFetchMode,
+            theme: storedTheme,
+            fontSet: storedFontSet,
             isShowingReader,
             isShowingParsingRulesConstructor,
             currentLocation,
@@ -179,6 +195,24 @@ async function getFetchModeFromStorage() {
 
 async function saveFetchMode(mode) {
     chrome.storage.local.set({ fetchMode: mode })
+}
+
+async function getThemeFromStorage() {
+    const result = await chrome.storage.local.get('theme')
+    return result.theme ?? 'light'
+}
+
+async function saveTheme(themeName) {
+    chrome.storage.local.set({ theme: themeName })
+}
+
+async function getFontSetFromStorage() {
+    const result = await chrome.storage.local.get('fontSet')
+    return result.fontSet ?? 0
+}
+
+async function saveFontSet(index) {
+    chrome.storage.local.set({ fontSet: index })
 }
 
 
