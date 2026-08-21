@@ -465,7 +465,7 @@ async function showReaderOverlay() {
     sepiaThemeLink.rel = "stylesheet"
     document.head.appendChild(sepiaThemeLink)
 
-    const kAdditionalThemeNames = ['forest', 'mint', 'ocean', 'lavender', 'rose', 'slate', 'olive']
+    const kAdditionalThemeNames = ['mint', 'ocean', 'lavender', 'rose', 'slate', 'olive', 'matrix', 'navy']
     for (const themeName of kAdditionalThemeNames) {
         const themeLink = document.createElement('link')
         themeLink.href = chrome.runtime.getURL(`reader/themes/${themeName}.css`)

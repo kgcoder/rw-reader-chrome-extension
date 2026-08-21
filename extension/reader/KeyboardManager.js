@@ -42,7 +42,7 @@ export const checkKey = async (e) => {
 
         const {value: saved} = await getObjectFromLocalStorage('theme') || "light";
 
-        const themeOrder = ['light', 'dark', 'sepia', 'forest', 'mint', 'ocean', 'lavender', 'rose', 'slate', 'olive']
+        const themeOrder = ['light', 'dark', 'sepia', 'mint', 'ocean', 'lavender', 'rose', 'slate', 'olive', 'matrix', 'navy']
         const currentIndex = themeOrder.indexOf(saved)
         const next = themeOrder[(currentIndex + 1) % themeOrder.length]
 
