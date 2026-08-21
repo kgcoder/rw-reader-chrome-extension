@@ -6,16 +6,30 @@
     --accent: #7a3baa;
     --accent-hover: #632f8e;
     --borders: #d3b8da;
+    --top-bars: #eed0f4;
+    --header-footer-bg: #f9e3fd;
     --blockquote-accent: #9a4ac5;
-    --code-bg: #f5e8f8;
-    --table-header-bg: #9a4ac5;
-    --table-header-text: #ffffff;
-    --table-row-hover: #f1e2f5;
-    --top-bars:#f9e3fd;
+    --blockquote-bg: #f9edfb;
+    --code-bg: #f2e6f6;
+    --code-text: #42175b;
+    --code-border: #d2badb;
+    --table-text: #303030;
+    --table-header-bg: #dab6e0;
+    --table-header-text: #303030;
+    --table-row-stripe: #ffffff;
+    --table-row-hover: #f5e3f9;
+    --page-backdrop: #ffffff;
+    --tab-inactive-bg: #b798c6;
+    --icon-tint: #231029;
+    --sort-button-text: #cea3e6;
+    --footer-message-text: #5e5e60;
+    --media-card-bg: #ffffff;
+    --scrollbar-track: #f5e9f8;
+    --scrollbar-thumb-hover: #926fa3;
 }
 
 .theme-lavender #AllDocumentsContainer{
-  background-color: #ffffff;
+  background-color: var(--page-backdrop);
 }
 
 
@@ -36,7 +50,7 @@
 }
 
 .theme-lavender #multiple-links-popup{
-  background-color: var(--bg-main); 
+  background-color: var(--bg-main);
 }
 
 
@@ -64,7 +78,7 @@
 
 
 .theme-lavender .RightDocumentTab{
-  background-color: #b798c6;
+  background-color: var(--tab-inactive-bg);
 
 }
 
@@ -83,7 +97,7 @@
 
 .theme-lavender .DocumentTopPanel{
     background-color: var(--header-footer-bg);
-    /* border-top: 1px solid #f2f2f2; */
+    /* border-top: 1px solid #e0e0e0; */
     border-bottom: 1px solid var(--borders);
     /* box-shadow: 0 2px 4px rgba(0,0,0,0.05); */
     /* padding: 1rem 2rem; */
@@ -145,11 +159,11 @@
 }
 
 .theme-lavender .DocumentBottomPanelBottomMessage{
-    color:#5e5e60;
+    color:var(--footer-message-text);
 }
 
 
-.theme-lavender #CurrentDocumentExportContainer, 
+.theme-lavender #CurrentDocumentExportContainer,
 .theme-lavender #RightDocumentExportContainer{
   background-color: var(--bg-main);
 }
@@ -171,7 +185,7 @@
     padding-inline-start: 10px;
     color: var(--text-main);
 }
-  
+
 .theme-lavender div{
     color: var(--text-main);
 }
@@ -181,7 +195,7 @@
 }
 
 .theme-lavender .LinksListSortButton {
-    color:#cea3e6;
+    color:var(--sort-button-text);
 }
 .theme-lavender .FlinksListSelectedSide *{
   color:var(--text-main);
@@ -192,7 +206,7 @@
 }
 
 .theme-lavender .InfoLinkRowDiv{
-  /* background-color: rgb(65, 65, 65); */
+  /* background-color: rgb(60, 60, 60); */
 }
 
 .theme-lavender #CurrentDocumentMainCollageCanvas,
@@ -202,7 +216,7 @@
 
 .theme-lavender .DocumentTopBarButtonWrapper,
 .theme-lavender .DocumentTopBarButtonWrapper *{
-  color:rgb(35, 16, 41);
+  color:var(--icon-tint);
 }
 
 .theme-lavender .TopPanelOptionLinkSelected{
@@ -216,14 +230,14 @@
 .theme-lavender .selectedIcon *{
   color:white;
 }
-  
+
   /* Paragraphs */
   .theme-lavender p {
     margin: 1em 0;
     font-size: 1.05em;
     color: var(--text-main);
   }
-  
+
   /* Headings */
   .theme-lavender h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
@@ -232,23 +246,23 @@
     margin: 1.6em 0 0.6em;
     color: var(--heading);
   }
-  
+
   .theme-lavender h1 {
     font-size: 2.2em;
-    /* border-bottom: 2px solid #f2f2f2; */
+    /* border-bottom: 2px solid #e0e0e0; */
     padding-bottom: 0.3em;
   }
-  
+
   .theme-lavender h2 {
     font-size: 1.8em;
     margin-top: 2em;
   }
-  
+
   .theme-lavender h3 {
     font-size: 1.4em;
     margin-top: 1.5em;
   }
-  
+
   /* Links */
   .theme-lavender a {
     color: var(--accent);
@@ -270,40 +284,40 @@
    .theme-lavender a.multiple-links-popup-row:hover{
     text-decoration: none;
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   /* Code snippets */
   .theme-lavender pre,
   .theme-lavender code {
       font-family: var(--font-code-family, "Fira Code", monospace);
-      color: #42175b;
+      color: var(--code-text);
       /* darker brown text */
   }
-  
+
   .theme-lavender pre {
-    background-color: #f2e6f6;
+    background-color: var(--code-bg);
     border-radius: 6px;
     padding: 1em;
-    border: 1px solid #d2badb;
+    border: 1px solid var(--code-border);
     overflow-x: auto;
   }
 
   .theme-lavender code {
-      background-color: #f2e6f6;
+      background-color: var(--code-bg);
       border-radius: 3px;
   }
 
-  
+
   .theme-lavender blockquote {
     position: relative;
     margin: 1em 0;
     padding: 1em 1.2em;
     padding-left: 2em; /* space for the quote mark */
-    background-color: #f9edfb;
+    background-color: var(--blockquote-bg);
     border-left: 5px solid var(--blockquote-accent);
     border-radius: 6px;
     color: var(--text-main);
@@ -312,10 +326,10 @@
     line-height: var(--font-quotes-line-height, 1.6);
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
-  
+
   /* Add a decorative quote mark */
   .theme-lavender blockquote::before {
-    
+
     position: absolute;
     left: 10px;
     top: 0;
@@ -324,14 +338,14 @@
     color: #4a90e2;
     font-family: var(--font-quotes-family, Georgia, serif);
   }
-  
+
   .theme-lavender blockquote ol {
     padding-left: 10px;
     padding-right: 10px;
     list-style-position: inside;
   }
-  
-  
+
+
   /* Basic table styling */
   .theme-lavender table {
     /* width: 100%; */
@@ -340,34 +354,34 @@
     font-family: var(--font-quotes-family, "Georgia", serif);
     font-size: 16px;
     line-height: 1.5;
-    color: #303030;
-    border-color: var(--border);
+    color: var(--table-text);
+    border-color: var(--borders);
   }
-  
+
   /* Table header */
   .theme-lavender th {
-    background-color: #dab6e0;
-    color: #303030;
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
     font-weight: 600;
     text-align: left;
     padding: 10px 12px;
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid #ddd;
   }
-  
+
   /* Table cells */
   .theme-lavender td {
     padding: 10px 12px;
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid #ddd;
   }
-  
+
   /* Alternating row colors */
   .theme-lavender tr:nth-child(even) {
-    background-color: #ffffff;
+    background-color: var(--table-row-stripe);
   }
-  
+
   /* Hover effect for rows */
   .theme-lavender tr:hover {
-    background-color: #ffffff;
+    background-color: var(--table-row-hover);
   }
 
 .theme-lavender .media-card {
@@ -376,7 +390,7 @@
     border-radius: 8px;
     padding: 12px 16px;
     margin: 6px 0;
-    background-color: #ffffff;
+    background-color: var(--media-card-bg);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -402,7 +416,7 @@
 .theme-lavender .DocumentColumn::-webkit-scrollbar-track,
 .theme-lavender #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-lavender .StaticCommentsSection::-webkit-scrollbar-track{
-    background: #f5e9f8;
+    background: var(--scrollbar-track);
     /* slightly darker than page background */
 }
 
@@ -411,7 +425,7 @@
 .theme-lavender .DocumentColumn::-webkit-scrollbar-thumb,
 .theme-lavender #SourceCodeTextDiv::-webkit-scrollbar-thumb,
 .theme-lavender .StaticCommentsSection::-webkit-scrollbar-thumb{
-    background: #b798c6;
+    background: var(--tab-inactive-bg);
     /* thumb color */
     border: 4px solid transparent;
     /* creates the gap */
@@ -425,7 +439,7 @@
 .theme-lavender .DocumentColumn::-webkit-scrollbar-thumb:hover,
 .theme-lavender #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
 .theme-lavender .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
-    background: #926fa3;
+    background: var(--scrollbar-thumb-hover);
     border: 4px solid transparent;
     /* creates the gap */
     background-clip: content-box;
@@ -436,7 +450,7 @@
 .theme-lavender .DocumentColumn::-webkit-scrollbar-corner,
 .theme-lavender #SourceCodeTextDiv::-webkit-scrollbar-corner,
 .theme-lavender .StaticCommentsSection::-webkit-scrollbar-corner{
-    background: #f5e9f8;
+    background: var(--scrollbar-track);
     /* same as track */
 }
 

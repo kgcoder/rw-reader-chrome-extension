@@ -6,16 +6,30 @@
     --accent: #37a88a;
     --accent-hover: #2b8d71;
     --borders: #b0d8d5;
+    --top-bars: #c4f2f2;
+    --header-footer-bg: #d5fcfd;
     --blockquote-accent: #41c6ae;
-    --code-bg: #ddf6f5;
-    --table-header-bg: #41c6ae;
-    --table-header-text: #ffffff;
-    --table-row-hover: #d7f3f2;
-    --top-bars:#d5fcfd;
+    --blockquote-bg: #e1f9f9;
+    --code-bg: #dcf3f2;
+    --code-text: #155b4c;
+    --code-border: #b2d8d4;
+    --table-text: #2e2e2e;
+    --table-header-bg: #adddde;
+    --table-header-text: #2e2e2e;
+    --table-row-stripe: #ffffff;
+    --table-row-hover: #d7f6f7;
+    --page-backdrop: #fdfeff;
+    --tab-inactive-bg: #90c4bc;
+    --icon-tint: #0f2927;
+    --sort-button-text: #98e6d7;
+    --footer-message-text: #5b5d5c;
+    --media-card-bg: #f6fefe;
+    --scrollbar-track: #def6f5;
+    --scrollbar-thumb-hover: #69a298;
 }
 
 .theme-mint #AllDocumentsContainer{
-  background-color: #fdfeff;
+  background-color: var(--page-backdrop);
 }
 
 
@@ -36,7 +50,7 @@
 }
 
 .theme-mint #multiple-links-popup{
-  background-color: var(--bg-main); 
+  background-color: var(--bg-main);
 }
 
 
@@ -64,7 +78,7 @@
 
 
 .theme-mint .RightDocumentTab{
-  background-color: #90c4bc;
+  background-color: var(--tab-inactive-bg);
 
 }
 
@@ -83,7 +97,7 @@
 
 .theme-mint .DocumentTopPanel{
     background-color: var(--header-footer-bg);
-    /* border-top: 1px solid #ebebeb; */
+    /* border-top: 1px solid #e0e0e0; */
     border-bottom: 1px solid var(--borders);
     /* box-shadow: 0 2px 4px rgba(0,0,0,0.05); */
     /* padding: 1rem 2rem; */
@@ -145,11 +159,11 @@
 }
 
 .theme-mint .DocumentBottomPanelBottomMessage{
-    color:#5b5d5c;
+    color:var(--footer-message-text);
 }
 
 
-.theme-mint #CurrentDocumentExportContainer, 
+.theme-mint #CurrentDocumentExportContainer,
 .theme-mint #RightDocumentExportContainer{
   background-color: var(--bg-main);
 }
@@ -171,7 +185,7 @@
     padding-inline-start: 10px;
     color: var(--text-main);
 }
-  
+
 .theme-mint div{
     color: var(--text-main);
 }
@@ -181,7 +195,7 @@
 }
 
 .theme-mint .LinksListSortButton {
-    color:#98e6d7;
+    color:var(--sort-button-text);
 }
 .theme-mint .FlinksListSelectedSide *{
   color:var(--text-main);
@@ -192,7 +206,7 @@
 }
 
 .theme-mint .InfoLinkRowDiv{
-  /* background-color: rgb(63, 63, 63); */
+  /* background-color: rgb(60, 60, 60); */
 }
 
 .theme-mint #CurrentDocumentMainCollageCanvas,
@@ -202,7 +216,7 @@
 
 .theme-mint .DocumentTopBarButtonWrapper,
 .theme-mint .DocumentTopBarButtonWrapper *{
-  color:rgb(15, 41, 39);
+  color:var(--icon-tint);
 }
 
 .theme-mint .TopPanelOptionLinkSelected{
@@ -216,14 +230,14 @@
 .theme-mint .selectedIcon *{
   color:white;
 }
-  
+
   /* Paragraphs */
   .theme-mint p {
     margin: 1em 0;
     font-size: 1.05em;
     color: var(--text-main);
   }
-  
+
   /* Headings */
   .theme-mint h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
@@ -232,23 +246,23 @@
     margin: 1.6em 0 0.6em;
     color: var(--heading);
   }
-  
+
   .theme-mint h1 {
     font-size: 2.2em;
-    /* border-bottom: 2px solid #ebebeb; */
+    /* border-bottom: 2px solid #e0e0e0; */
     padding-bottom: 0.3em;
   }
-  
+
   .theme-mint h2 {
     font-size: 1.8em;
     margin-top: 2em;
   }
-  
+
   .theme-mint h3 {
     font-size: 1.4em;
     margin-top: 1.5em;
   }
-  
+
   /* Links */
   .theme-mint a {
     color: var(--accent);
@@ -270,40 +284,40 @@
    .theme-mint a.multiple-links-popup-row:hover{
     text-decoration: none;
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   /* Code snippets */
   .theme-mint pre,
   .theme-mint code {
       font-family: var(--font-code-family, "Fira Code", monospace);
-      color: #155b4c;
+      color: var(--code-text);
       /* darker brown text */
   }
-  
+
   .theme-mint pre {
-    background-color: #dcf3f2;
+    background-color: var(--code-bg);
     border-radius: 6px;
     padding: 1em;
-    border: 1px solid #b2d8d4;
+    border: 1px solid var(--code-border);
     overflow-x: auto;
   }
 
   .theme-mint code {
-      background-color: #dcf3f2;
+      background-color: var(--code-bg);
       border-radius: 3px;
   }
 
-  
+
   .theme-mint blockquote {
     position: relative;
     margin: 1em 0;
     padding: 1em 1.2em;
     padding-left: 2em; /* space for the quote mark */
-    background-color: #e1f9f9;
+    background-color: var(--blockquote-bg);
     border-left: 5px solid var(--blockquote-accent);
     border-radius: 6px;
     color: var(--text-main);
@@ -312,10 +326,10 @@
     line-height: var(--font-quotes-line-height, 1.6);
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
-  
+
   /* Add a decorative quote mark */
   .theme-mint blockquote::before {
-    
+
     position: absolute;
     left: 10px;
     top: 0;
@@ -324,14 +338,14 @@
     color: #4a90e2;
     font-family: var(--font-quotes-family, Georgia, serif);
   }
-  
+
   .theme-mint blockquote ol {
     padding-left: 10px;
     padding-right: 10px;
     list-style-position: inside;
   }
-  
-  
+
+
   /* Basic table styling */
   .theme-mint table {
     /* width: 100%; */
@@ -340,34 +354,34 @@
     font-family: var(--font-quotes-family, "Georgia", serif);
     font-size: 16px;
     line-height: 1.5;
-    color: #2e2e2e;
-    border-color: var(--border);
+    color: var(--table-text);
+    border-color: var(--borders);
   }
-  
+
   /* Table header */
   .theme-mint th {
-    background-color: #adddde;
-    color: #2e2e2e;
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
     font-weight: 600;
     text-align: left;
     padding: 10px 12px;
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: 1px solid #ddd;
   }
-  
+
   /* Table cells */
   .theme-mint td {
     padding: 10px 12px;
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: 1px solid #ddd;
   }
-  
+
   /* Alternating row colors */
   .theme-mint tr:nth-child(even) {
-    background-color: #ffffff;
+    background-color: var(--table-row-stripe);
   }
-  
+
   /* Hover effect for rows */
   .theme-mint tr:hover {
-    background-color: #ffffff;
+    background-color: var(--table-row-hover);
   }
 
 .theme-mint .media-card {
@@ -376,7 +390,7 @@
     border-radius: 8px;
     padding: 12px 16px;
     margin: 6px 0;
-    background-color: #ffffff;
+    background-color: var(--media-card-bg);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -402,7 +416,7 @@
 .theme-mint .DocumentColumn::-webkit-scrollbar-track,
 .theme-mint #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-mint .StaticCommentsSection::-webkit-scrollbar-track{
-    background: #def6f5;
+    background: var(--scrollbar-track);
     /* slightly darker than page background */
 }
 
@@ -411,7 +425,7 @@
 .theme-mint .DocumentColumn::-webkit-scrollbar-thumb,
 .theme-mint #SourceCodeTextDiv::-webkit-scrollbar-thumb,
 .theme-mint .StaticCommentsSection::-webkit-scrollbar-thumb{
-    background: #90c4bc;
+    background: var(--tab-inactive-bg);
     /* thumb color */
     border: 4px solid transparent;
     /* creates the gap */
@@ -425,7 +439,7 @@
 .theme-mint .DocumentColumn::-webkit-scrollbar-thumb:hover,
 .theme-mint #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
 .theme-mint .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
-    background: #69a298;
+    background: var(--scrollbar-thumb-hover);
     border: 4px solid transparent;
     /* creates the gap */
     background-clip: content-box;
@@ -436,7 +450,7 @@
 .theme-mint .DocumentColumn::-webkit-scrollbar-corner,
 .theme-mint #SourceCodeTextDiv::-webkit-scrollbar-corner,
 .theme-mint .StaticCommentsSection::-webkit-scrollbar-corner{
-    background: #def6f5;
+    background: var(--scrollbar-track);
     /* same as track */
 }
 

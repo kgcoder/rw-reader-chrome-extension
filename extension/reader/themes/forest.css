@@ -6,16 +6,30 @@
     --accent: #30a62e;
     --accent-hover: #288b24;
     --borders: #a1d4ab;
+    --top-bars: #b0f2c2;
+    --header-footer-bg: #bdffce;
     --blockquote-accent: #32c93c;
-    --code-bg: #c9f3d3;
-    --table-header-bg: #32c93c;
-    --table-header-text: #ffffff;
-    --table-row-hover: #c4f0ce;
-    --top-bars:#bdffce;
+    --blockquote-bg: #ccf8d7;
+    --code-bg: #c9f0d0;
+    --code-text: #105a13;
+    --code-border: #a3d4ab;
+    --table-text: #2c2c2c;
+    --table-header-bg: #9cdcad;
+    --table-header-text: #2c2c2c;
+    --table-row-stripe: #f9f9f9;
+    --table-row-hover: #c2f6d0;
+    --page-backdrop: #e7fced;
+    --tab-inactive-bg: #82c288;
+    --icon-tint: #0d2812;
+    --sort-button-text: #85e78b;
+    --footer-message-text: #585957;
+    --media-card-bg: #dffde6;
+    --scrollbar-track: #cbf3d3;
+    --scrollbar-thumb-hover: #5ea064;
 }
 
 .theme-forest #AllDocumentsContainer{
-  background-color: #e7fced;
+  background-color: var(--page-backdrop);
 }
 
 
@@ -36,7 +50,7 @@
 }
 
 .theme-forest #multiple-links-popup{
-  background-color: var(--bg-main); 
+  background-color: var(--bg-main);
 }
 
 
@@ -64,7 +78,7 @@
 
 
 .theme-forest .RightDocumentTab{
-  background-color: #82c288;
+  background-color: var(--tab-inactive-bg);
 
 }
 
@@ -145,11 +159,11 @@
 }
 
 .theme-forest .DocumentBottomPanelBottomMessage{
-    color:#585957;
+    color:var(--footer-message-text);
 }
 
 
-.theme-forest #CurrentDocumentExportContainer, 
+.theme-forest #CurrentDocumentExportContainer,
 .theme-forest #RightDocumentExportContainer{
   background-color: var(--bg-main);
 }
@@ -171,7 +185,7 @@
     padding-inline-start: 10px;
     color: var(--text-main);
 }
-  
+
 .theme-forest div{
     color: var(--text-main);
 }
@@ -181,7 +195,7 @@
 }
 
 .theme-forest .LinksListSortButton {
-    color:#85e78b;
+    color:var(--sort-button-text);
 }
 .theme-forest .FlinksListSelectedSide *{
   color:var(--text-main);
@@ -202,7 +216,7 @@
 
 .theme-forest .DocumentTopBarButtonWrapper,
 .theme-forest .DocumentTopBarButtonWrapper *{
-  color:rgb(13, 40, 18);
+  color:var(--icon-tint);
 }
 
 .theme-forest .TopPanelOptionLinkSelected{
@@ -216,14 +230,14 @@
 .theme-forest .selectedIcon *{
   color:white;
 }
-  
+
   /* Paragraphs */
   .theme-forest p {
     margin: 1em 0;
     font-size: 1.05em;
     color: var(--text-main);
   }
-  
+
   /* Headings */
   .theme-forest h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
@@ -232,23 +246,23 @@
     margin: 1.6em 0 0.6em;
     color: var(--heading);
   }
-  
+
   .theme-forest h1 {
     font-size: 2.2em;
     /* border-bottom: 2px solid #e0e0e0; */
     padding-bottom: 0.3em;
   }
-  
+
   .theme-forest h2 {
     font-size: 1.8em;
     margin-top: 2em;
   }
-  
+
   .theme-forest h3 {
     font-size: 1.4em;
     margin-top: 1.5em;
   }
-  
+
   /* Links */
   .theme-forest a {
     color: var(--accent);
@@ -270,40 +284,40 @@
    .theme-forest a.multiple-links-popup-row:hover{
     text-decoration: none;
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   /* Code snippets */
   .theme-forest pre,
   .theme-forest code {
       font-family: var(--font-code-family, "Fira Code", monospace);
-      color: #105a13;
+      color: var(--code-text);
       /* darker brown text */
   }
-  
+
   .theme-forest pre {
-    background-color: #c9f0d0;
+    background-color: var(--code-bg);
     border-radius: 6px;
     padding: 1em;
-    border: 1px solid #a3d4ab;
+    border: 1px solid var(--code-border);
     overflow-x: auto;
   }
 
   .theme-forest code {
-      background-color: #c9f0d0;
+      background-color: var(--code-bg);
       border-radius: 3px;
   }
 
-  
+
   .theme-forest blockquote {
     position: relative;
     margin: 1em 0;
     padding: 1em 1.2em;
     padding-left: 2em; /* space for the quote mark */
-    background-color: #ccf8d7;
+    background-color: var(--blockquote-bg);
     border-left: 5px solid var(--blockquote-accent);
     border-radius: 6px;
     color: var(--text-main);
@@ -312,10 +326,10 @@
     line-height: var(--font-quotes-line-height, 1.6);
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
-  
+
   /* Add a decorative quote mark */
   .theme-forest blockquote::before {
-    
+
     position: absolute;
     left: 10px;
     top: 0;
@@ -324,14 +338,14 @@
     color: #4a90e2;
     font-family: var(--font-quotes-family, Georgia, serif);
   }
-  
+
   .theme-forest blockquote ol {
     padding-left: 10px;
     padding-right: 10px;
     list-style-position: inside;
   }
-  
-  
+
+
   /* Basic table styling */
   .theme-forest table {
     /* width: 100%; */
@@ -340,34 +354,34 @@
     font-family: var(--font-quotes-family, "Georgia", serif);
     font-size: 16px;
     line-height: 1.5;
-    color: #2c2c2c;
-    border-color: var(--border);
+    color: var(--table-text);
+    border-color: var(--borders);
   }
-  
+
   /* Table header */
   .theme-forest th {
-    background-color: #9cdcad;
-    color: #2c2c2c;
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
     font-weight: 600;
     text-align: left;
     padding: 10px 12px;
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid #ddd;
   }
-  
+
   /* Table cells */
   .theme-forest td {
     padding: 10px 12px;
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid #ddd;
   }
-  
+
   /* Alternating row colors */
   .theme-forest tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: var(--table-row-stripe);
   }
-  
+
   /* Hover effect for rows */
   .theme-forest tr:hover {
-    background-color: #fceefa;
+    background-color: var(--table-row-hover);
   }
 
 .theme-forest .media-card {
@@ -376,7 +390,7 @@
     border-radius: 8px;
     padding: 12px 16px;
     margin: 6px 0;
-    background-color: #fff0fe;
+    background-color: var(--media-card-bg);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -402,7 +416,7 @@
 .theme-forest .DocumentColumn::-webkit-scrollbar-track,
 .theme-forest #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-forest .StaticCommentsSection::-webkit-scrollbar-track{
-    background: #cbf3d3;
+    background: var(--scrollbar-track);
     /* slightly darker than page background */
 }
 
@@ -411,7 +425,7 @@
 .theme-forest .DocumentColumn::-webkit-scrollbar-thumb,
 .theme-forest #SourceCodeTextDiv::-webkit-scrollbar-thumb,
 .theme-forest .StaticCommentsSection::-webkit-scrollbar-thumb{
-    background: #82c288;
+    background: var(--tab-inactive-bg);
     /* thumb color */
     border: 4px solid transparent;
     /* creates the gap */
@@ -425,7 +439,7 @@
 .theme-forest .DocumentColumn::-webkit-scrollbar-thumb:hover,
 .theme-forest #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
 .theme-forest .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
-    background: #5ea064;
+    background: var(--scrollbar-thumb-hover);
     border: 4px solid transparent;
     /* creates the gap */
     background-clip: content-box;
@@ -436,7 +450,7 @@
 .theme-forest .DocumentColumn::-webkit-scrollbar-corner,
 .theme-forest #SourceCodeTextDiv::-webkit-scrollbar-corner,
 .theme-forest .StaticCommentsSection::-webkit-scrollbar-corner{
-    background: #cbf3d3;
+    background: var(--scrollbar-track);
     /* same as track */
 }
 

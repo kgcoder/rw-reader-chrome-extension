@@ -6,16 +6,30 @@
     --accent: #4c6372;
     --accent-hover: #3f535f;
     --borders: #9ca5b3;
+    --top-bars: #abb6cd;
+    --header-footer-bg: #b4c1db;
     --blockquote-accent: #597289;
-    --code-bg: #bcc4d4;
-    --table-header-bg: #597289;
-    --table-header-text: #e6e6e6;
-    --table-row-hover: #b8c1d0;
-    --top-bars:#b4c1db;
+    --blockquote-bg: #bec7d9;
+    --code-bg: #bbc4d2;
+    --code-text: #24313b;
+    --code-border: #9ea7b4;
+    --table-text: #282828;
+    --table-header-bg: #9ba4b8;
+    --table-header-text: #282828;
+    --table-row-stripe: #e0e0e0;
+    --table-row-hover: #b7c0d5;
+    --page-backdrop: #cfd5e4;
+    --tab-inactive-bg: #85919f;
+    --icon-tint: #14171c;
+    --sort-button-text: #8ea5b9;
+    --footer-message-text: #4f5050;
+    --media-card-bg: #cad2e3;
+    --scrollbar-track: #bdc6d5;
+    --scrollbar-thumb-hover: #68727d;
 }
 
 .theme-slate #AllDocumentsContainer{
-  background-color: #cfd5e4;
+  background-color: var(--page-backdrop);
 }
 
 
@@ -36,7 +50,7 @@
 }
 
 .theme-slate #multiple-links-popup{
-  background-color: var(--bg-main); 
+  background-color: var(--bg-main);
 }
 
 
@@ -64,7 +78,7 @@
 
 
 .theme-slate .RightDocumentTab{
-  background-color: #85919f;
+  background-color: var(--tab-inactive-bg);
 
 }
 
@@ -83,7 +97,7 @@
 
 .theme-slate .DocumentTopPanel{
     background-color: var(--header-footer-bg);
-    /* border-top: 1px solid #cacaca; */
+    /* border-top: 1px solid #e0e0e0; */
     border-bottom: 1px solid var(--borders);
     /* box-shadow: 0 2px 4px rgba(0,0,0,0.05); */
     /* padding: 1rem 2rem; */
@@ -145,11 +159,11 @@
 }
 
 .theme-slate .DocumentBottomPanelBottomMessage{
-    color:#4f5050;
+    color:var(--footer-message-text);
 }
 
 
-.theme-slate #CurrentDocumentExportContainer, 
+.theme-slate #CurrentDocumentExportContainer,
 .theme-slate #RightDocumentExportContainer{
   background-color: var(--bg-main);
 }
@@ -171,7 +185,7 @@
     padding-inline-start: 10px;
     color: var(--text-main);
 }
-  
+
 .theme-slate div{
     color: var(--text-main);
 }
@@ -181,7 +195,7 @@
 }
 
 .theme-slate .LinksListSortButton {
-    color:#8ea5b9;
+    color:var(--sort-button-text);
 }
 .theme-slate .FlinksListSelectedSide *{
   color:var(--text-main);
@@ -192,7 +206,7 @@
 }
 
 .theme-slate .InfoLinkRowDiv{
-  /* background-color: rgb(54, 54, 54); */
+  /* background-color: rgb(60, 60, 60); */
 }
 
 .theme-slate #CurrentDocumentMainCollageCanvas,
@@ -202,7 +216,7 @@
 
 .theme-slate .DocumentTopBarButtonWrapper,
 .theme-slate .DocumentTopBarButtonWrapper *{
-  color:rgb(20, 23, 28);
+  color:var(--icon-tint);
 }
 
 .theme-slate .TopPanelOptionLinkSelected{
@@ -216,14 +230,14 @@
 .theme-slate .selectedIcon *{
   color:white;
 }
-  
+
   /* Paragraphs */
   .theme-slate p {
     margin: 1em 0;
     font-size: 1.05em;
     color: var(--text-main);
   }
-  
+
   /* Headings */
   .theme-slate h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
@@ -232,23 +246,23 @@
     margin: 1.6em 0 0.6em;
     color: var(--heading);
   }
-  
+
   .theme-slate h1 {
     font-size: 2.2em;
-    /* border-bottom: 2px solid #cacaca; */
+    /* border-bottom: 2px solid #e0e0e0; */
     padding-bottom: 0.3em;
   }
-  
+
   .theme-slate h2 {
     font-size: 1.8em;
     margin-top: 2em;
   }
-  
+
   .theme-slate h3 {
     font-size: 1.4em;
     margin-top: 1.5em;
   }
-  
+
   /* Links */
   .theme-slate a {
     color: var(--accent);
@@ -270,40 +284,40 @@
    .theme-slate a.multiple-links-popup-row:hover{
     text-decoration: none;
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   /* Code snippets */
   .theme-slate pre,
   .theme-slate code {
       font-family: var(--font-code-family, "Fira Code", monospace);
-      color: #24313b;
+      color: var(--code-text);
       /* darker brown text */
   }
-  
+
   .theme-slate pre {
-    background-color: #bbc4d2;
+    background-color: var(--code-bg);
     border-radius: 6px;
     padding: 1em;
-    border: 1px solid #9ea7b4;
+    border: 1px solid var(--code-border);
     overflow-x: auto;
   }
 
   .theme-slate code {
-      background-color: #bbc4d2;
+      background-color: var(--code-bg);
       border-radius: 3px;
   }
 
-  
+
   .theme-slate blockquote {
     position: relative;
     margin: 1em 0;
     padding: 1em 1.2em;
     padding-left: 2em; /* space for the quote mark */
-    background-color: #bec7d9;
+    background-color: var(--blockquote-bg);
     border-left: 5px solid var(--blockquote-accent);
     border-radius: 6px;
     color: var(--text-main);
@@ -312,10 +326,10 @@
     line-height: var(--font-quotes-line-height, 1.6);
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
-  
+
   /* Add a decorative quote mark */
   .theme-slate blockquote::before {
-    
+
     position: absolute;
     left: 10px;
     top: 0;
@@ -324,14 +338,14 @@
     color: #4a90e2;
     font-family: var(--font-quotes-family, Georgia, serif);
   }
-  
+
   .theme-slate blockquote ol {
     padding-left: 10px;
     padding-right: 10px;
     list-style-position: inside;
   }
-  
-  
+
+
   /* Basic table styling */
   .theme-slate table {
     /* width: 100%; */
@@ -340,34 +354,34 @@
     font-family: var(--font-quotes-family, "Georgia", serif);
     font-size: 16px;
     line-height: 1.5;
-    color: #282828;
-    border-color: var(--border);
+    color: var(--table-text);
+    border-color: var(--borders);
   }
-  
+
   /* Table header */
   .theme-slate th {
-    background-color: #9ba4b8;
-    color: #282828;
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
     font-weight: 600;
     text-align: left;
     padding: 10px 12px;
-    border-bottom: 1px solid #c7c7c7;
+    border-bottom: 1px solid #ddd;
   }
-  
+
   /* Table cells */
   .theme-slate td {
     padding: 10px 12px;
-    border-bottom: 1px solid #c7c7c7;
+    border-bottom: 1px solid #ddd;
   }
-  
+
   /* Alternating row colors */
   .theme-slate tr:nth-child(even) {
-    background-color: #e0e0e0;
+    background-color: var(--table-row-stripe);
   }
-  
+
   /* Hover effect for rows */
   .theme-slate tr:hover {
-    background-color: #e5ded4;
+    background-color: var(--table-row-hover);
   }
 
 .theme-slate .media-card {
@@ -376,7 +390,7 @@
     border-radius: 8px;
     padding: 12px 16px;
     margin: 6px 0;
-    background-color: #eaded3;
+    background-color: var(--media-card-bg);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -402,7 +416,7 @@
 .theme-slate .DocumentColumn::-webkit-scrollbar-track,
 .theme-slate #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-slate .StaticCommentsSection::-webkit-scrollbar-track{
-    background: #bdc6d5;
+    background: var(--scrollbar-track);
     /* slightly darker than page background */
 }
 
@@ -411,7 +425,7 @@
 .theme-slate .DocumentColumn::-webkit-scrollbar-thumb,
 .theme-slate #SourceCodeTextDiv::-webkit-scrollbar-thumb,
 .theme-slate .StaticCommentsSection::-webkit-scrollbar-thumb{
-    background: #85919f;
+    background: var(--tab-inactive-bg);
     /* thumb color */
     border: 4px solid transparent;
     /* creates the gap */
@@ -425,7 +439,7 @@
 .theme-slate .DocumentColumn::-webkit-scrollbar-thumb:hover,
 .theme-slate #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
 .theme-slate .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
-    background: #68727d;
+    background: var(--scrollbar-thumb-hover);
     border: 4px solid transparent;
     /* creates the gap */
     background-clip: content-box;
@@ -436,7 +450,7 @@
 .theme-slate .DocumentColumn::-webkit-scrollbar-corner,
 .theme-slate #SourceCodeTextDiv::-webkit-scrollbar-corner,
 .theme-slate .StaticCommentsSection::-webkit-scrollbar-corner{
-    background: #bdc6d5;
+    background: var(--scrollbar-track);
     /* same as track */
 }
 

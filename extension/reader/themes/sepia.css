@@ -6,16 +6,30 @@
     --accent: #a65e2e;
     --accent-hover: #8b4b24;
     --borders: #d4c0a1;
+    --top-bars: #f2ddb0;
+    --header-footer-bg: #FFEABD;
     --blockquote-accent: #c97b32;
-    --code-bg: #f3e4c9;
-    --table-header-bg: #c97b32;
-    --table-header-text: #ffffff;
-    --table-row-hover: #f0e0c4;
-    --top-bars:#FFEABD;
+    --blockquote-bg: #f8e9cc;
+    --code-bg: #f0e0c9;
+    --code-text: #5a3210;
+    --code-border: #d4bfa3;
+    --table-text: #2c2c2c;
+    --table-header-bg: #dcc89c;
+    --table-header-text: #2c2c2c;
+    --table-row-stripe: #f9f9f9;
+    --table-row-hover: #f6e6c2;
+    --page-backdrop: #fcf6e7;
+    --tab-inactive-bg: #c2a382;
+    --icon-tint: #281d0d;
+    --sort-button-text: #e7b485;
+    --footer-message-text: #595757;
+    --media-card-bg: #fdf3df;
+    --scrollbar-track: #f3e4cb;
+    --scrollbar-thumb-hover: #a07f5e;
 }
 
 .theme-sepia #AllDocumentsContainer{
-  background-color: #fcf6e7;
+  background-color: var(--page-backdrop);
 }
 
 
@@ -36,7 +50,7 @@
 }
 
 .theme-sepia #multiple-links-popup{
-  background-color: var(--bg-main); 
+  background-color: var(--bg-main);
 }
 
 
@@ -64,7 +78,7 @@
 
 
 .theme-sepia .RightDocumentTab{
-  background-color: #c2a382;
+  background-color: var(--tab-inactive-bg);
 
 }
 
@@ -145,11 +159,11 @@
 }
 
 .theme-sepia .DocumentBottomPanelBottomMessage{
-    color:#595757;
+    color:var(--footer-message-text);
 }
 
 
-.theme-sepia #CurrentDocumentExportContainer, 
+.theme-sepia #CurrentDocumentExportContainer,
 .theme-sepia #RightDocumentExportContainer{
   background-color: var(--bg-main);
 }
@@ -171,7 +185,7 @@
     padding-inline-start: 10px;
     color: var(--text-main);
 }
-  
+
 .theme-sepia div{
     color: var(--text-main);
 }
@@ -181,7 +195,7 @@
 }
 
 .theme-sepia .LinksListSortButton {
-    color:#e7b485;
+    color:var(--sort-button-text);
 }
 .theme-sepia .FlinksListSelectedSide *{
   color:var(--text-main);
@@ -202,7 +216,7 @@
 
 .theme-sepia .DocumentTopBarButtonWrapper,
 .theme-sepia .DocumentTopBarButtonWrapper *{
-  color:rgb(40, 29, 13);
+  color:var(--icon-tint);
 }
 
 .theme-sepia .TopPanelOptionLinkSelected{
@@ -216,14 +230,14 @@
 .theme-sepia .selectedIcon *{
   color:white;
 }
-  
+
   /* Paragraphs */
   .theme-sepia p {
     margin: 1em 0;
     font-size: 1.05em;
     color: var(--text-main);
   }
-  
+
   /* Headings */
   .theme-sepia h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
@@ -232,23 +246,23 @@
     margin: 1.6em 0 0.6em;
     color: var(--heading);
   }
-  
+
   .theme-sepia h1 {
     font-size: 2.2em;
     /* border-bottom: 2px solid #e0e0e0; */
     padding-bottom: 0.3em;
   }
-  
+
   .theme-sepia h2 {
     font-size: 1.8em;
     margin-top: 2em;
   }
-  
+
   .theme-sepia h3 {
     font-size: 1.4em;
     margin-top: 1.5em;
   }
-  
+
   /* Links */
   .theme-sepia a {
     color: var(--accent);
@@ -270,40 +284,40 @@
    .theme-sepia a.multiple-links-popup-row:hover{
     text-decoration: none;
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   /* Code snippets */
   .theme-sepia pre,
   .theme-sepia code {
       font-family: var(--font-code-family, "Fira Code", monospace);
-      color: #5a3210;
+      color: var(--code-text);
       /* darker brown text */
   }
-  
+
   .theme-sepia pre {
-    background-color: #f0e0c9;
+    background-color: var(--code-bg);
     border-radius: 6px;
     padding: 1em;
-    border: 1px solid #d4bfa3;
+    border: 1px solid var(--code-border);
     overflow-x: auto;
   }
 
   .theme-sepia code {
-      background-color: #f0e0c9;
+      background-color: var(--code-bg);
       border-radius: 3px;
   }
 
-  
+
   .theme-sepia blockquote {
     position: relative;
     margin: 1em 0;
     padding: 1em 1.2em;
     padding-left: 2em; /* space for the quote mark */
-    background-color: #f8e9cc;
+    background-color: var(--blockquote-bg);
     border-left: 5px solid var(--blockquote-accent);
     border-radius: 6px;
     color: var(--text-main);
@@ -312,10 +326,10 @@
     line-height: var(--font-quotes-line-height, 1.6);
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
-  
+
   /* Add a decorative quote mark */
   .theme-sepia blockquote::before {
-    
+
     position: absolute;
     left: 10px;
     top: 0;
@@ -324,14 +338,14 @@
     color: #4a90e2;
     font-family: var(--font-quotes-family, Georgia, serif);
   }
-  
+
   .theme-sepia blockquote ol {
     padding-left: 10px;
     padding-right: 10px;
     list-style-position: inside;
   }
-  
-  
+
+
   /* Basic table styling */
   .theme-sepia table {
     /* width: 100%; */
@@ -340,34 +354,34 @@
     font-family: var(--font-quotes-family, "Georgia", serif);
     font-size: 16px;
     line-height: 1.5;
-    color: #2c2c2c;
-    border-color: var(--border);
+    color: var(--table-text);
+    border-color: var(--borders);
   }
-  
+
   /* Table header */
   .theme-sepia th {
-    background-color: #dcc89c;
-    color: #2c2c2c;
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
     font-weight: 600;
     text-align: left;
     padding: 10px 12px;
     border-bottom: 1px solid #ddd;
   }
-  
+
   /* Table cells */
   .theme-sepia td {
     padding: 10px 12px;
     border-bottom: 1px solid #ddd;
   }
-  
+
   /* Alternating row colors */
   .theme-sepia tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: var(--table-row-stripe);
   }
-  
+
   /* Hover effect for rows */
   .theme-sepia tr:hover {
-    background-color: #eef4fc;
+    background-color: var(--table-row-hover);
   }
 
 .theme-sepia .media-card {
@@ -376,7 +390,7 @@
     border-radius: 8px;
     padding: 12px 16px;
     margin: 6px 0;
-    background-color: #f0f8ff;
+    background-color: var(--media-card-bg);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -402,7 +416,7 @@
 .theme-sepia .DocumentColumn::-webkit-scrollbar-track,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-track,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-track{
-    background: #f3e4cb;
+    background: var(--scrollbar-track);
     /* slightly darker than page background */
 }
 
@@ -411,7 +425,7 @@
 .theme-sepia .DocumentColumn::-webkit-scrollbar-thumb,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-thumb,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb{
-    background: #c2a382;
+    background: var(--tab-inactive-bg);
     /* thumb color */
     border: 4px solid transparent;
     /* creates the gap */
@@ -425,7 +439,7 @@
 .theme-sepia .DocumentColumn::-webkit-scrollbar-thumb:hover,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
-    background: #a07f5e;
+    background: var(--scrollbar-thumb-hover);
     border: 4px solid transparent;
     /* creates the gap */
     background-clip: content-box;
@@ -436,7 +450,7 @@
 .theme-sepia .DocumentColumn::-webkit-scrollbar-corner,
 .theme-sepia #SourceCodeTextDiv::-webkit-scrollbar-corner,
 .theme-sepia .StaticCommentsSection::-webkit-scrollbar-corner{
-    background: #f3e4cb;
+    background: var(--scrollbar-track);
     /* same as track */
 }
 
