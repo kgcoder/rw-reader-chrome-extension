@@ -43,6 +43,9 @@ function updatePageMetadata(response) {
 
     const settingsMenu = document.getElementById("settingsMenu")
 
+
+    //add fonts and theme drop downs here
+
     const thickLinksLabel = document.createElement('label')
     thickLinksLabel.style.display = 'flex'
     thickLinksLabel.style.alignItems = 'center'

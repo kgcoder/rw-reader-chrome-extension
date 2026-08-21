@@ -12,7 +12,7 @@ https://github.com/kgcoder/readers-web-specs
 
 import g from "./Globals.js"
 import { addScrollEndListener, setTheme, showToastMessage } from "./helpers.js";
-import { applyFonts } from "./Fonts.js";
+import { applyFonts, kFontRoleSets } from "./Fonts.js";
 import IconsInfo from "./Icons.js";
 import { parseStaticContent } from "./parsers/ParsingManager.js";
 import { checkKey } from "./KeyboardManager.js";
@@ -123,7 +123,7 @@ async function loadUIAndIcons() {
 
     g.iconsInfo.loadAllIcons()
     g.pdm.loadUI()
-    applyFonts()
+    applyFonts(kFontRoleSets[9])
 
 
     document.onkeydown = checkKey
