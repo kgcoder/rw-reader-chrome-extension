@@ -61,6 +61,10 @@
 }
 
 
+.theme-navy .BelowContentComments{
+    border-top: 2px solid var(--border-surface);
+}
+
 
 .theme-navy .StaticCommentsSection{
     background-color: var(--bg-main);

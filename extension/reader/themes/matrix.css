@@ -61,6 +61,9 @@
 }
 
 
+.theme-matrix .BelowContentComments{
+    border-top: 2px solid var(--border-surface);
+}
 
 .theme-matrix .StaticCommentsSection{
     background-color: var(--bg-main);

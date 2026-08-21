@@ -315,6 +315,11 @@ export function getHdocJsonAndContentFromHtml(contentString) {
     if (!contentEl)return false
 
 
+    const existingFlinkCanvases = contentEl.getElementsByClassName('leftDocFlinkCanvas')
+
+    while(existingFlinkCanvases.length > 0) {
+        existingFlinkCanvases[0].remove();  // Remove the first element repeatedly until none are left
+    }
     return {hdocDataJSON, content:contentEl.innerHTML}
     
 
