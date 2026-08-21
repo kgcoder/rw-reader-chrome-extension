@@ -41,13 +41,20 @@ function getPageMetadata() {
 
 
 
-// Theme colors are duplicated here (from themes/light.css, dark.css, sepia.css) since
-// popup.js runs in a separate extension page and can't read the reader's CSS custom
-// properties directly. Keep these in sync if the theme CSS files' --bg-main/--text-main change.
+// Theme colors are duplicated here (from themes/*.css) since popup.js runs in a
+// separate extension page and can't read the reader's CSS custom properties directly.
+// Keep these in sync if the theme CSS files' --bg-main/--text-main change.
 const kThemeOptions = [
     { value: 'light', label: 'Light', bg: '#fafafa', text: '#2c2c2c' },
     { value: 'dark', label: 'Dark', bg: '#1e1e1e', text: '#e0e0e0' },
     { value: 'sepia', label: 'Sepia', bg: '#FBF0D9', text: '#704214' },
+    { value: 'forest', label: 'Forest', bg: '#D9FBE2', text: '#14701C' },
+    { value: 'mint', label: 'Mint', bg: '#EFFCFC', text: '#1A7162' },
+    { value: 'ocean', label: 'Ocean', bg: '#C4D5F9', text: '#133F6A' },
+    { value: 'lavender', label: 'Lavender', bg: '#FEFBFE', text: '#551D72' },
+    { value: 'rose', label: 'Rose', bg: '#FBD9DE', text: '#701433' },
+    { value: 'slate', label: 'Slate', bg: '#C6CEDF', text: '#2D3B4A' },
+    { value: 'olive', label: 'Olive', bg: '#C6F1BE', text: '#315F1B' },
 ]
 
 // Closers for every dropdown created via createCustomDropdown, so opening one closes the rest.

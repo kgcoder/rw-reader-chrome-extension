@@ -130,13 +130,13 @@ class NoteDivsManager{
             
             image['data-width'] = image.width
           
-
             if (image['data-width']) {
-                image.style.width =  Math.min(image['data-width'] , maxImageWidth) + 'px'  
-            } else {
-                image.style.width = '100%'
+                    image.style.width =  Math.min(image['data-width'] , maxImageWidth) + 'px'  
+                } else {
+                    image.style.width = '100%'
+                }
+                image.style.height = 'auto'
             }
-            image.style.height = 'auto'
 
 
             image.onload = () => g.readingManager.imageJustLoaded(flinksData)

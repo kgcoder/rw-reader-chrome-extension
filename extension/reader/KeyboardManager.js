@@ -42,15 +42,10 @@ export const checkKey = async (e) => {
 
         const {value: saved} = await getObjectFromLocalStorage('theme') || "light";
 
-        let next = 'light'
-        if (saved === 'light') {
-            next = 'dark'
-        } else if (saved === 'dark') {
-            next = 'sepia'
-        } else if (saved === 'sepia') {
-            next = 'light'
-        }
-        
+        const themeOrder = ['light', 'dark', 'sepia', 'forest', 'mint', 'ocean', 'lavender', 'rose', 'slate', 'olive']
+        const currentIndex = themeOrder.indexOf(saved)
+        const next = themeOrder[(currentIndex + 1) % themeOrder.length]
+
         setTheme(next, true)
 
     }

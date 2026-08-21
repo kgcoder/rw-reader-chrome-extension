@@ -1,0 +1,467 @@
+.theme-olive {
+    --bg-main: #c6f1be;
+    --text-main: #315f1b;
+    --text-secondary: #4e7838;
+    --heading: #2a4c16;
+    --accent: #5c8e35;
+    --accent-hover: #4d762b;
+    --borders: #9ec493;
+    --blockquote-accent: #63ab3c;
+    --code-bg: #bce6b2;
+    --table-header-bg: #63ab3c;
+    --table-header-text: #ebebeb;
+    --table-row-hover: #b9e2af;
+    --top-bars:#b0f5a4;
+}
+
+.theme-olive #AllDocumentsContainer{
+  background-color: #cff3ca;
+}
+
+
+.theme-olive #LinksListContainerDiv{
+  background-color: var(--bg-main);
+}
+
+.theme-olive .DocumentColumn {
+    background-color: var(--bg-main); /* dark background */
+}
+
+.theme-olive #CurrentDocumentTopBar{
+  background-color: var(--top-bars);
+}
+
+.theme-olive #RightDocumentsTopBar{
+  background-color: var(--top-bars);
+}
+
+.theme-olive #multiple-links-popup{
+  background-color: var(--bg-main); 
+}
+
+
+.theme-olive .StaticCommentsSection {
+    background-color: var(--bg-main);
+}
+
+.theme-olive .NoteDiv{
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+
+
+
+.theme-olive .linkInputTypeSelectorButton{
+  background-color: transparent;
+}
+
+.theme-olive .linkInputTypeSelectedButton{
+  background-color: #484de9;
+  color: white;
+}
+
+
+
+.theme-olive .RightDocumentTab{
+  background-color: #8ab278;
+
+}
+
+
+.theme-olive .RightDocumentTabSelected{
+  background-color: var(--top-bars);
+}
+
+.theme-olive .RightDocumentTabTitle{
+
+}
+
+.theme-olive .RightDocumentTabTitleSelected{
+  color:rgba(37, 38, 39, 0.5);
+}
+
+.theme-olive .DocumentTopPanel{
+    background-color: var(--header-footer-bg);
+    /* border-top: 1px solid #cecece; */
+    border-bottom: 1px solid var(--borders);
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.05); */
+    /* padding: 1rem 2rem; */
+    font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
+}
+
+.theme-olive .TopPanelTitle{
+    color: var(--heading);
+}
+
+.theme-olive .TopPanelOptionLink{
+    color:var(--heading);
+}
+
+.theme-olive #middle-canvas-topDiv{
+  background-color: var(--top-bars);
+}
+
+.theme-olive #LinksListContainerDiv{
+  background-color: var(--bg-main);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--borders);
+}
+
+.theme-olive .FlinkOneEndContainer{
+  background-color: rgba(255, 255, 255, 0.1);;
+}
+
+.theme-olive #LinksListModificationMessage {
+  color:var(--text-main);
+}
+
+.theme-olive .DocumentBottomPanel{
+    font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
+    border-top: 1px solid var(--borders);
+    background-color: var(--header-footer-bg);
+    /* box-shadow: 0 -2px 4px rgba(0,0,0,0.05); */
+}
+
+.theme-olive .RightSandwichLine{
+    background-color: var(--accent);
+}
+
+.theme-olive .LeftSandwichLine{
+    background-color: var(--accent);
+}
+
+
+.theme-olive .DocumentDropDownMenu{
+    background-color: var(--header-footer-bg);
+}
+
+.theme-olive .FooterSectionTitle{
+    color: var(--heading);
+}
+.theme-olive .FooterOptionLink{
+    color:var(--heading);
+}
+
+.theme-olive .DocumentBottomPanelBottomMessage{
+    color:#515250;
+}
+
+
+.theme-olive #CurrentDocumentExportContainer, 
+.theme-olive #RightDocumentExportContainer{
+  background-color: var(--bg-main);
+}
+
+
+
+
+
+
+
+
+
+.theme-olive .PostNavBarSide * {
+  color: var(--accent);
+}
+
+
+.theme-olive ol,ul{
+    padding-inline-start: 10px;
+    color: var(--text-main);
+}
+  
+.theme-olive div{
+    color: var(--text-main);
+}
+
+.theme-olive .ActionButton{
+  color:white;
+}
+
+.theme-olive .LinksListSortButton {
+    color:#9ad678;
+}
+.theme-olive .FlinksListSelectedSide *{
+  color:var(--text-main);
+}
+
+.theme-olive #CurrentDocumentInfo{
+  background-color: var(--bg-main);
+}
+
+.theme-olive .InfoLinkRowDiv{
+  /* background-color: rgb(55, 55, 55); */
+}
+
+.theme-olive #CurrentDocumentMainCollageCanvas,
+.theme-olive .OneCollageCanvas{
+  background-color: var(--bg-main);
+}
+
+.theme-olive .DocumentTopBarButtonWrapper,
+.theme-olive .DocumentTopBarButtonWrapper *{
+  color:rgb(19, 34, 14);
+}
+
+.theme-olive .TopPanelOptionLinkSelected{
+  color:red;
+}
+
+.theme-olive .CurrentDocumentInfoButtonCountDivIncomplete{
+  color:red;
+}
+
+.theme-olive .selectedIcon *{
+  color:white;
+}
+  
+  /* Paragraphs */
+  .theme-olive p {
+    margin: 1em 0;
+    font-size: 1.05em;
+    color: var(--text-main);
+  }
+  
+  /* Headings */
+  .theme-olive h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
+    font-weight: var(--font-headers-weight, 600);
+    line-height: var(--font-headers-line-height, 1.3);
+    margin: 1.6em 0 0.6em;
+    color: var(--heading);
+  }
+  
+  .theme-olive h1 {
+    font-size: 2.2em;
+    /* border-bottom: 2px solid #cecece; */
+    padding-bottom: 0.3em;
+  }
+  
+  .theme-olive h2 {
+    font-size: 1.8em;
+    margin-top: 2em;
+  }
+  
+  .theme-olive h3 {
+    font-size: 1.4em;
+    margin-top: 1.5em;
+  }
+  
+  /* Links */
+  .theme-olive a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .theme-olive a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+
+  .theme-olive a[data-static] {
+    color: rgb(26, 125, 54);
+  }
+
+.theme-olive a.multiple-links-popup-row{
+    color: var(--text-main);
+  }
+
+   .theme-olive a.multiple-links-popup-row:hover{
+    text-decoration: none;
+  }
+  
+  
+  
+  
+  
+  
+  /* Code snippets */
+  .theme-olive pre,
+  .theme-olive code {
+      font-family: var(--font-code-family, "Fira Code", monospace);
+      color: #2a4c16;
+      /* darker brown text */
+  }
+  
+  .theme-olive pre {
+    background-color: #bfe2b3;
+    border-radius: 6px;
+    padding: 1em;
+    border: 1px solid #a1c495;
+    overflow-x: auto;
+  }
+
+  .theme-olive code {
+      background-color: #bfe2b3;
+      border-radius: 3px;
+  }
+
+  
+  .theme-olive blockquote {
+    position: relative;
+    margin: 1em 0;
+    padding: 1em 1.2em;
+    padding-left: 2em; /* space for the quote mark */
+    background-color: #bdecb3;
+    border-left: 5px solid var(--blockquote-accent);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-style: italic;
+    font-family: var(--font-quotes-family, Georgia, serif);
+    line-height: var(--font-quotes-line-height, 1.6);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  
+  /* Add a decorative quote mark */
+  .theme-olive blockquote::before {
+    
+    position: absolute;
+    left: 10px;
+    top: 0;
+    font-size: 3em;
+    line-height: 1;
+    color: #4a90e2;
+    font-family: var(--font-quotes-family, Georgia, serif);
+  }
+  
+  .theme-olive blockquote ol {
+    padding-left: 10px;
+    padding-right: 10px;
+    list-style-position: inside;
+  }
+  
+  
+  /* Basic table styling */
+  .theme-olive table {
+    /* width: 100%; */
+    border-collapse: collapse; /* remove double borders */
+    margin: 1.5em 0;
+    font-family: var(--font-quotes-family, "Georgia", serif);
+    font-size: 16px;
+    line-height: 1.5;
+    color: #282828;
+    border-color: var(--border);
+  }
+  
+  /* Table header */
+  .theme-olive th {
+    background-color: #97cc8e;
+    color: #282828;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #cbcbcb;
+  }
+  
+  /* Table cells */
+  .theme-olive td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #cbcbcb;
+  }
+  
+  /* Alternating row colors */
+  .theme-olive tr:nth-child(even) {
+    background-color: #e5e5e5;
+  }
+  
+  /* Hover effect for rows */
+  .theme-olive tr:hover {
+    background-color: #e9d1f2;
+  }
+
+.theme-olive .media-card {
+    display: inline-block;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 6px 0;
+    background-color: #eacefa;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.theme-olive .media-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.theme-olive .load-button {
+    color:white;
+    background-color: #357ABD;
+}
+
+.theme-olive pre::-webkit-scrollbar,
+.theme-olive .DocumentColumn::-webkit-scrollbar,
+.theme-olive #SourceCodeTextDiv::-webkit-scrollbar,
+.theme-olive .StaticCommentsSection::-webkit-scrollbar{
+    width: 15px;
+    height: 15px;
+}
+
+.theme-olive pre::-webkit-scrollbar-track,
+.theme-olive .DocumentColumn::-webkit-scrollbar-track,
+.theme-olive #SourceCodeTextDiv::-webkit-scrollbar-track,
+.theme-olive .StaticCommentsSection::-webkit-scrollbar-track{
+    background: #bfe6b4;
+    /* slightly darker than page background */
+}
+
+
+.theme-olive pre::-webkit-scrollbar-thumb,
+.theme-olive .DocumentColumn::-webkit-scrollbar-thumb,
+.theme-olive #SourceCodeTextDiv::-webkit-scrollbar-thumb,
+.theme-olive .StaticCommentsSection::-webkit-scrollbar-thumb{
+    background: #8ab278;
+    /* thumb color */
+    border: 4px solid transparent;
+    /* creates the gap */
+    background-clip: content-box;
+    /* ensures color doesn't paint over the border */
+    border-radius: 10px;
+    /* still rounded */
+}
+
+.theme-olive pre::-webkit-scrollbar-thumb:hover,
+.theme-olive .DocumentColumn::-webkit-scrollbar-thumb:hover,
+.theme-olive #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
+.theme-olive .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
+    background: #6d8d5d;
+    border: 4px solid transparent;
+    /* creates the gap */
+    background-clip: content-box;
+    border-radius: 10px;
+}
+
+.theme-olive pre::-webkit-scrollbar-corner,
+.theme-olive .DocumentColumn::-webkit-scrollbar-corner,
+.theme-olive #SourceCodeTextDiv::-webkit-scrollbar-corner,
+.theme-olive .StaticCommentsSection::-webkit-scrollbar-corner{
+    background: #bfe6b4;
+    /* same as track */
+}
+
+.theme-olive .comments-title {
+    margin-top: 10px;
+}
+
+.theme-olive .no-comments-text {
+    align-self: center;
+    margin-top: 15px;
+    font-size: 25px;
+}
+
+.theme-olive .swp-leave-comment-btn {
+  color:var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.theme-olive .swp-load-more-btn {
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.theme-olive .swp-reply-btn{
+  color: var(--accent);
+  opacity: 0.8;
+
+}

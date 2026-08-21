@@ -1,0 +1,467 @@
+.theme-slate {
+    --bg-main: #c6cedf;
+    --text-main: #2d3b4a;
+    --text-secondary: #485664;
+    --heading: #24313b;
+    --accent: #4c6372;
+    --accent-hover: #3f535f;
+    --borders: #9ca5b3;
+    --blockquote-accent: #597289;
+    --code-bg: #bcc4d4;
+    --table-header-bg: #597289;
+    --table-header-text: #e6e6e6;
+    --table-row-hover: #b8c1d0;
+    --top-bars:#b4c1db;
+}
+
+.theme-slate #AllDocumentsContainer{
+  background-color: #cfd5e4;
+}
+
+
+.theme-slate #LinksListContainerDiv{
+  background-color: var(--bg-main);
+}
+
+.theme-slate .DocumentColumn {
+    background-color: var(--bg-main); /* dark background */
+}
+
+.theme-slate #CurrentDocumentTopBar{
+  background-color: var(--top-bars);
+}
+
+.theme-slate #RightDocumentsTopBar{
+  background-color: var(--top-bars);
+}
+
+.theme-slate #multiple-links-popup{
+  background-color: var(--bg-main); 
+}
+
+
+.theme-slate .StaticCommentsSection {
+    background-color: var(--bg-main);
+}
+
+.theme-slate .NoteDiv{
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+
+
+
+.theme-slate .linkInputTypeSelectorButton{
+  background-color: transparent;
+}
+
+.theme-slate .linkInputTypeSelectedButton{
+  background-color: #484de9;
+  color: white;
+}
+
+
+
+.theme-slate .RightDocumentTab{
+  background-color: #85919f;
+
+}
+
+
+.theme-slate .RightDocumentTabSelected{
+  background-color: var(--top-bars);
+}
+
+.theme-slate .RightDocumentTabTitle{
+
+}
+
+.theme-slate .RightDocumentTabTitleSelected{
+  color:rgba(37, 38, 39, 0.5);
+}
+
+.theme-slate .DocumentTopPanel{
+    background-color: var(--header-footer-bg);
+    /* border-top: 1px solid #cacaca; */
+    border-bottom: 1px solid var(--borders);
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.05); */
+    /* padding: 1rem 2rem; */
+    font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
+}
+
+.theme-slate .TopPanelTitle{
+    color: var(--heading);
+}
+
+.theme-slate .TopPanelOptionLink{
+    color:var(--heading);
+}
+
+.theme-slate #middle-canvas-topDiv{
+  background-color: var(--top-bars);
+}
+
+.theme-slate #LinksListContainerDiv{
+  background-color: var(--bg-main);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--borders);
+}
+
+.theme-slate .FlinkOneEndContainer{
+  background-color: rgba(255, 255, 255, 0.1);;
+}
+
+.theme-slate #LinksListModificationMessage {
+  color:var(--text-main);
+}
+
+.theme-slate .DocumentBottomPanel{
+    font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
+    border-top: 1px solid var(--borders);
+    background-color: var(--header-footer-bg);
+    /* box-shadow: 0 -2px 4px rgba(0,0,0,0.05); */
+}
+
+.theme-slate .RightSandwichLine{
+    background-color: var(--accent);
+}
+
+.theme-slate .LeftSandwichLine{
+    background-color: var(--accent);
+}
+
+
+.theme-slate .DocumentDropDownMenu{
+    background-color: var(--header-footer-bg);
+}
+
+.theme-slate .FooterSectionTitle{
+    color: var(--heading);
+}
+.theme-slate .FooterOptionLink{
+    color:var(--heading);
+}
+
+.theme-slate .DocumentBottomPanelBottomMessage{
+    color:#4f5050;
+}
+
+
+.theme-slate #CurrentDocumentExportContainer, 
+.theme-slate #RightDocumentExportContainer{
+  background-color: var(--bg-main);
+}
+
+
+
+
+
+
+
+
+
+.theme-slate .PostNavBarSide * {
+  color: var(--accent);
+}
+
+
+.theme-slate ol,ul{
+    padding-inline-start: 10px;
+    color: var(--text-main);
+}
+  
+.theme-slate div{
+    color: var(--text-main);
+}
+
+.theme-slate .ActionButton{
+  color:white;
+}
+
+.theme-slate .LinksListSortButton {
+    color:#8ea5b9;
+}
+.theme-slate .FlinksListSelectedSide *{
+  color:var(--text-main);
+}
+
+.theme-slate #CurrentDocumentInfo{
+  background-color: var(--bg-main);
+}
+
+.theme-slate .InfoLinkRowDiv{
+  /* background-color: rgb(54, 54, 54); */
+}
+
+.theme-slate #CurrentDocumentMainCollageCanvas,
+.theme-slate .OneCollageCanvas{
+  background-color: var(--bg-main);
+}
+
+.theme-slate .DocumentTopBarButtonWrapper,
+.theme-slate .DocumentTopBarButtonWrapper *{
+  color:rgb(20, 23, 28);
+}
+
+.theme-slate .TopPanelOptionLinkSelected{
+  color:red;
+}
+
+.theme-slate .CurrentDocumentInfoButtonCountDivIncomplete{
+  color:red;
+}
+
+.theme-slate .selectedIcon *{
+  color:white;
+}
+  
+  /* Paragraphs */
+  .theme-slate p {
+    margin: 1em 0;
+    font-size: 1.05em;
+    color: var(--text-main);
+  }
+  
+  /* Headings */
+  .theme-slate h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
+    font-weight: var(--font-headers-weight, 600);
+    line-height: var(--font-headers-line-height, 1.3);
+    margin: 1.6em 0 0.6em;
+    color: var(--heading);
+  }
+  
+  .theme-slate h1 {
+    font-size: 2.2em;
+    /* border-bottom: 2px solid #cacaca; */
+    padding-bottom: 0.3em;
+  }
+  
+  .theme-slate h2 {
+    font-size: 1.8em;
+    margin-top: 2em;
+  }
+  
+  .theme-slate h3 {
+    font-size: 1.4em;
+    margin-top: 1.5em;
+  }
+  
+  /* Links */
+  .theme-slate a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .theme-slate a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+
+  .theme-slate a[data-static] {
+    color: rgb(26, 125, 54);
+  }
+
+.theme-slate a.multiple-links-popup-row{
+    color: var(--text-main);
+  }
+
+   .theme-slate a.multiple-links-popup-row:hover{
+    text-decoration: none;
+  }
+  
+  
+  
+  
+  
+  
+  /* Code snippets */
+  .theme-slate pre,
+  .theme-slate code {
+      font-family: var(--font-code-family, "Fira Code", monospace);
+      color: #24313b;
+      /* darker brown text */
+  }
+  
+  .theme-slate pre {
+    background-color: #bbc4d2;
+    border-radius: 6px;
+    padding: 1em;
+    border: 1px solid #9ea7b4;
+    overflow-x: auto;
+  }
+
+  .theme-slate code {
+      background-color: #bbc4d2;
+      border-radius: 3px;
+  }
+
+  
+  .theme-slate blockquote {
+    position: relative;
+    margin: 1em 0;
+    padding: 1em 1.2em;
+    padding-left: 2em; /* space for the quote mark */
+    background-color: #bec7d9;
+    border-left: 5px solid var(--blockquote-accent);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-style: italic;
+    font-family: var(--font-quotes-family, Georgia, serif);
+    line-height: var(--font-quotes-line-height, 1.6);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  
+  /* Add a decorative quote mark */
+  .theme-slate blockquote::before {
+    
+    position: absolute;
+    left: 10px;
+    top: 0;
+    font-size: 3em;
+    line-height: 1;
+    color: #4a90e2;
+    font-family: var(--font-quotes-family, Georgia, serif);
+  }
+  
+  .theme-slate blockquote ol {
+    padding-left: 10px;
+    padding-right: 10px;
+    list-style-position: inside;
+  }
+  
+  
+  /* Basic table styling */
+  .theme-slate table {
+    /* width: 100%; */
+    border-collapse: collapse; /* remove double borders */
+    margin: 1.5em 0;
+    font-family: var(--font-quotes-family, "Georgia", serif);
+    font-size: 16px;
+    line-height: 1.5;
+    color: #282828;
+    border-color: var(--border);
+  }
+  
+  /* Table header */
+  .theme-slate th {
+    background-color: #9ba4b8;
+    color: #282828;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #c7c7c7;
+  }
+  
+  /* Table cells */
+  .theme-slate td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #c7c7c7;
+  }
+  
+  /* Alternating row colors */
+  .theme-slate tr:nth-child(even) {
+    background-color: #e0e0e0;
+  }
+  
+  /* Hover effect for rows */
+  .theme-slate tr:hover {
+    background-color: #e5ded4;
+  }
+
+.theme-slate .media-card {
+    display: inline-block;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 6px 0;
+    background-color: #eaded3;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.theme-slate .media-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.theme-slate .load-button {
+    color:white;
+    background-color: #357ABD;
+}
+
+.theme-slate pre::-webkit-scrollbar,
+.theme-slate .DocumentColumn::-webkit-scrollbar,
+.theme-slate #SourceCodeTextDiv::-webkit-scrollbar,
+.theme-slate .StaticCommentsSection::-webkit-scrollbar{
+    width: 15px;
+    height: 15px;
+}
+
+.theme-slate pre::-webkit-scrollbar-track,
+.theme-slate .DocumentColumn::-webkit-scrollbar-track,
+.theme-slate #SourceCodeTextDiv::-webkit-scrollbar-track,
+.theme-slate .StaticCommentsSection::-webkit-scrollbar-track{
+    background: #bdc6d5;
+    /* slightly darker than page background */
+}
+
+
+.theme-slate pre::-webkit-scrollbar-thumb,
+.theme-slate .DocumentColumn::-webkit-scrollbar-thumb,
+.theme-slate #SourceCodeTextDiv::-webkit-scrollbar-thumb,
+.theme-slate .StaticCommentsSection::-webkit-scrollbar-thumb{
+    background: #85919f;
+    /* thumb color */
+    border: 4px solid transparent;
+    /* creates the gap */
+    background-clip: content-box;
+    /* ensures color doesn't paint over the border */
+    border-radius: 10px;
+    /* still rounded */
+}
+
+.theme-slate pre::-webkit-scrollbar-thumb:hover,
+.theme-slate .DocumentColumn::-webkit-scrollbar-thumb:hover,
+.theme-slate #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
+.theme-slate .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
+    background: #68727d;
+    border: 4px solid transparent;
+    /* creates the gap */
+    background-clip: content-box;
+    border-radius: 10px;
+}
+
+.theme-slate pre::-webkit-scrollbar-corner,
+.theme-slate .DocumentColumn::-webkit-scrollbar-corner,
+.theme-slate #SourceCodeTextDiv::-webkit-scrollbar-corner,
+.theme-slate .StaticCommentsSection::-webkit-scrollbar-corner{
+    background: #bdc6d5;
+    /* same as track */
+}
+
+.theme-slate .comments-title {
+    margin-top: 10px;
+}
+
+.theme-slate .no-comments-text {
+    align-self: center;
+    margin-top: 15px;
+    font-size: 25px;
+}
+
+.theme-slate .swp-leave-comment-btn {
+  color:var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.theme-slate .swp-load-more-btn {
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.theme-slate .swp-reply-btn{
+  color: var(--accent);
+  opacity: 0.8;
+
+}

@@ -1,0 +1,467 @@
+.theme-lavender {
+    --bg-main: #fefbfe;
+    --text-main: #551d72;
+    --text-secondary: #733f8f;
+    --heading: #42175b;
+    --accent: #7a3baa;
+    --accent-hover: #632f8e;
+    --borders: #d3b8da;
+    --blockquote-accent: #9a4ac5;
+    --code-bg: #f5e8f8;
+    --table-header-bg: #9a4ac5;
+    --table-header-text: #ffffff;
+    --table-row-hover: #f1e2f5;
+    --top-bars:#f9e3fd;
+}
+
+.theme-lavender #AllDocumentsContainer{
+  background-color: #ffffff;
+}
+
+
+.theme-lavender #LinksListContainerDiv{
+  background-color: var(--bg-main);
+}
+
+.theme-lavender .DocumentColumn {
+    background-color: var(--bg-main); /* dark background */
+}
+
+.theme-lavender #CurrentDocumentTopBar{
+  background-color: var(--top-bars);
+}
+
+.theme-lavender #RightDocumentsTopBar{
+  background-color: var(--top-bars);
+}
+
+.theme-lavender #multiple-links-popup{
+  background-color: var(--bg-main); 
+}
+
+
+.theme-lavender .StaticCommentsSection {
+    background-color: var(--bg-main);
+}
+
+.theme-lavender .NoteDiv{
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+
+
+
+.theme-lavender .linkInputTypeSelectorButton{
+  background-color: transparent;
+}
+
+.theme-lavender .linkInputTypeSelectedButton{
+  background-color: #484de9;
+  color: white;
+}
+
+
+
+.theme-lavender .RightDocumentTab{
+  background-color: #b798c6;
+
+}
+
+
+.theme-lavender .RightDocumentTabSelected{
+  background-color: var(--top-bars);
+}
+
+.theme-lavender .RightDocumentTabTitle{
+
+}
+
+.theme-lavender .RightDocumentTabTitleSelected{
+  color:rgba(37, 38, 39, 0.5);
+}
+
+.theme-lavender .DocumentTopPanel{
+    background-color: var(--header-footer-bg);
+    /* border-top: 1px solid #f2f2f2; */
+    border-bottom: 1px solid var(--borders);
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.05); */
+    /* padding: 1rem 2rem; */
+    font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
+}
+
+.theme-lavender .TopPanelTitle{
+    color: var(--heading);
+}
+
+.theme-lavender .TopPanelOptionLink{
+    color:var(--heading);
+}
+
+.theme-lavender #middle-canvas-topDiv{
+  background-color: var(--top-bars);
+}
+
+.theme-lavender #LinksListContainerDiv{
+  background-color: var(--bg-main);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--borders);
+}
+
+.theme-lavender .FlinkOneEndContainer{
+  background-color: rgba(255, 255, 255, 0.1);;
+}
+
+.theme-lavender #LinksListModificationMessage {
+  color:var(--text-main);
+}
+
+.theme-lavender .DocumentBottomPanel{
+    font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
+    border-top: 1px solid var(--borders);
+    background-color: var(--header-footer-bg);
+    /* box-shadow: 0 -2px 4px rgba(0,0,0,0.05); */
+}
+
+.theme-lavender .RightSandwichLine{
+    background-color: var(--accent);
+}
+
+.theme-lavender .LeftSandwichLine{
+    background-color: var(--accent);
+}
+
+
+.theme-lavender .DocumentDropDownMenu{
+    background-color: var(--header-footer-bg);
+}
+
+.theme-lavender .FooterSectionTitle{
+    color: var(--heading);
+}
+.theme-lavender .FooterOptionLink{
+    color:var(--heading);
+}
+
+.theme-lavender .DocumentBottomPanelBottomMessage{
+    color:#5e5e60;
+}
+
+
+.theme-lavender #CurrentDocumentExportContainer, 
+.theme-lavender #RightDocumentExportContainer{
+  background-color: var(--bg-main);
+}
+
+
+
+
+
+
+
+
+
+.theme-lavender .PostNavBarSide * {
+  color: var(--accent);
+}
+
+
+.theme-lavender ol,ul{
+    padding-inline-start: 10px;
+    color: var(--text-main);
+}
+  
+.theme-lavender div{
+    color: var(--text-main);
+}
+
+.theme-lavender .ActionButton{
+  color:white;
+}
+
+.theme-lavender .LinksListSortButton {
+    color:#cea3e6;
+}
+.theme-lavender .FlinksListSelectedSide *{
+  color:var(--text-main);
+}
+
+.theme-lavender #CurrentDocumentInfo{
+  background-color: var(--bg-main);
+}
+
+.theme-lavender .InfoLinkRowDiv{
+  /* background-color: rgb(65, 65, 65); */
+}
+
+.theme-lavender #CurrentDocumentMainCollageCanvas,
+.theme-lavender .OneCollageCanvas{
+  background-color: var(--bg-main);
+}
+
+.theme-lavender .DocumentTopBarButtonWrapper,
+.theme-lavender .DocumentTopBarButtonWrapper *{
+  color:rgb(35, 16, 41);
+}
+
+.theme-lavender .TopPanelOptionLinkSelected{
+  color:red;
+}
+
+.theme-lavender .CurrentDocumentInfoButtonCountDivIncomplete{
+  color:red;
+}
+
+.theme-lavender .selectedIcon *{
+  color:white;
+}
+  
+  /* Paragraphs */
+  .theme-lavender p {
+    margin: 1em 0;
+    font-size: 1.05em;
+    color: var(--text-main);
+  }
+  
+  /* Headings */
+  .theme-lavender h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
+    font-weight: var(--font-headers-weight, 600);
+    line-height: var(--font-headers-line-height, 1.3);
+    margin: 1.6em 0 0.6em;
+    color: var(--heading);
+  }
+  
+  .theme-lavender h1 {
+    font-size: 2.2em;
+    /* border-bottom: 2px solid #f2f2f2; */
+    padding-bottom: 0.3em;
+  }
+  
+  .theme-lavender h2 {
+    font-size: 1.8em;
+    margin-top: 2em;
+  }
+  
+  .theme-lavender h3 {
+    font-size: 1.4em;
+    margin-top: 1.5em;
+  }
+  
+  /* Links */
+  .theme-lavender a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .theme-lavender a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+
+  .theme-lavender a[data-static] {
+    color: rgb(26, 125, 54);
+  }
+
+.theme-lavender a.multiple-links-popup-row{
+    color: var(--text-main);
+  }
+
+   .theme-lavender a.multiple-links-popup-row:hover{
+    text-decoration: none;
+  }
+  
+  
+  
+  
+  
+  
+  /* Code snippets */
+  .theme-lavender pre,
+  .theme-lavender code {
+      font-family: var(--font-code-family, "Fira Code", monospace);
+      color: #42175b;
+      /* darker brown text */
+  }
+  
+  .theme-lavender pre {
+    background-color: #f2e6f6;
+    border-radius: 6px;
+    padding: 1em;
+    border: 1px solid #d2badb;
+    overflow-x: auto;
+  }
+
+  .theme-lavender code {
+      background-color: #f2e6f6;
+      border-radius: 3px;
+  }
+
+  
+  .theme-lavender blockquote {
+    position: relative;
+    margin: 1em 0;
+    padding: 1em 1.2em;
+    padding-left: 2em; /* space for the quote mark */
+    background-color: #f9edfb;
+    border-left: 5px solid var(--blockquote-accent);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-style: italic;
+    font-family: var(--font-quotes-family, Georgia, serif);
+    line-height: var(--font-quotes-line-height, 1.6);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  
+  /* Add a decorative quote mark */
+  .theme-lavender blockquote::before {
+    
+    position: absolute;
+    left: 10px;
+    top: 0;
+    font-size: 3em;
+    line-height: 1;
+    color: #4a90e2;
+    font-family: var(--font-quotes-family, Georgia, serif);
+  }
+  
+  .theme-lavender blockquote ol {
+    padding-left: 10px;
+    padding-right: 10px;
+    list-style-position: inside;
+  }
+  
+  
+  /* Basic table styling */
+  .theme-lavender table {
+    /* width: 100%; */
+    border-collapse: collapse; /* remove double borders */
+    margin: 1.5em 0;
+    font-family: var(--font-quotes-family, "Georgia", serif);
+    font-size: 16px;
+    line-height: 1.5;
+    color: #303030;
+    border-color: var(--border);
+  }
+  
+  /* Table header */
+  .theme-lavender th {
+    background-color: #dab6e0;
+    color: #303030;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #efefef;
+  }
+  
+  /* Table cells */
+  .theme-lavender td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #efefef;
+  }
+  
+  /* Alternating row colors */
+  .theme-lavender tr:nth-child(even) {
+    background-color: #ffffff;
+  }
+  
+  /* Hover effect for rows */
+  .theme-lavender tr:hover {
+    background-color: #ffffff;
+  }
+
+.theme-lavender .media-card {
+    display: inline-block;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 6px 0;
+    background-color: #ffffff;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.theme-lavender .media-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.theme-lavender .load-button {
+    color:white;
+    background-color: #357ABD;
+}
+
+.theme-lavender pre::-webkit-scrollbar,
+.theme-lavender .DocumentColumn::-webkit-scrollbar,
+.theme-lavender #SourceCodeTextDiv::-webkit-scrollbar,
+.theme-lavender .StaticCommentsSection::-webkit-scrollbar{
+    width: 15px;
+    height: 15px;
+}
+
+.theme-lavender pre::-webkit-scrollbar-track,
+.theme-lavender .DocumentColumn::-webkit-scrollbar-track,
+.theme-lavender #SourceCodeTextDiv::-webkit-scrollbar-track,
+.theme-lavender .StaticCommentsSection::-webkit-scrollbar-track{
+    background: #f5e9f8;
+    /* slightly darker than page background */
+}
+
+
+.theme-lavender pre::-webkit-scrollbar-thumb,
+.theme-lavender .DocumentColumn::-webkit-scrollbar-thumb,
+.theme-lavender #SourceCodeTextDiv::-webkit-scrollbar-thumb,
+.theme-lavender .StaticCommentsSection::-webkit-scrollbar-thumb{
+    background: #b798c6;
+    /* thumb color */
+    border: 4px solid transparent;
+    /* creates the gap */
+    background-clip: content-box;
+    /* ensures color doesn't paint over the border */
+    border-radius: 10px;
+    /* still rounded */
+}
+
+.theme-lavender pre::-webkit-scrollbar-thumb:hover,
+.theme-lavender .DocumentColumn::-webkit-scrollbar-thumb:hover,
+.theme-lavender #SourceCodeTextDiv::-webkit-scrollbar-thumb:hover,
+.theme-lavender .StaticCommentsSection::-webkit-scrollbar-thumb:hover{
+    background: #926fa3;
+    border: 4px solid transparent;
+    /* creates the gap */
+    background-clip: content-box;
+    border-radius: 10px;
+}
+
+.theme-lavender pre::-webkit-scrollbar-corner,
+.theme-lavender .DocumentColumn::-webkit-scrollbar-corner,
+.theme-lavender #SourceCodeTextDiv::-webkit-scrollbar-corner,
+.theme-lavender .StaticCommentsSection::-webkit-scrollbar-corner{
+    background: #f5e9f8;
+    /* same as track */
+}
+
+.theme-lavender .comments-title {
+    margin-top: 10px;
+}
+
+.theme-lavender .no-comments-text {
+    align-self: center;
+    margin-top: 15px;
+    font-size: 25px;
+}
+
+.theme-lavender .swp-leave-comment-btn {
+  color:var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.theme-lavender .swp-load-more-btn {
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.theme-lavender .swp-reply-btn{
+  color: var(--accent);
+  opacity: 0.8;
+
+}
