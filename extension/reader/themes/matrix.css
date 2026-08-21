@@ -8,7 +8,6 @@
     --header-footer-bg: #254c32;
     --borders: #55e7869e;
     --page-backdrop: #1a3623;
-    --deep-surface: #050a07;
     --surface-1: #152d1d;
     --surface-2: #1c3a26;
     --surface-3: #264e33;
@@ -87,7 +86,7 @@
 }
 
 .theme-matrix #CurrentDocumentInfo{
-  background-color: var(--deep-surface);
+  background-color: var(--bg-main);
 }
 
 .theme-matrix .InfoLinkRowDiv{
@@ -118,11 +117,9 @@
 }
 
 
-.theme-matrix #CurrentDocumentExportContainer{
-  background-color: var(--deep-surface);
-}
+.theme-matrix #CurrentDocumentExportContainer,
 .theme-matrix #RightDocumentExportContainer{
-  background-color: var(--deep-surface);
+  background-color: var(--bg-main);
 }
 
 .theme-matrix #SourceCodeTextDiv{

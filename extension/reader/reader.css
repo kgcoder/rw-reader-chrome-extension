@@ -1964,7 +1964,7 @@ div.MenuHorizontalLine {
     color: #191919;
     border: 1px solid #191919;
     border-radius: 4px;
-    opacity: 0.75;
+    /* opacity: 0.75; */
 }
 .swp-load-more-btn:hover {
     opacity: 1;

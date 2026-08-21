@@ -8,7 +8,6 @@
     --header-footer-bg: #25354c;
     --borders: #5592e79e;
     --page-backdrop: #1a2636;
-    --deep-surface: #05070a;
     --surface-1: #151f2d;
     --surface-2: #1c283a;
     --surface-3: #26374e;
@@ -87,7 +86,7 @@
 }
 
 .theme-navy #CurrentDocumentInfo{
-  background-color: var(--deep-surface);
+  background-color: var(--bg-main);
 }
 
 .theme-navy .InfoLinkRowDiv{
@@ -118,12 +117,12 @@
 }
 
 
-.theme-navy #CurrentDocumentExportContainer{
-  background-color: var(--deep-surface);
-}
+.theme-navy #CurrentDocumentExportContainer,
 .theme-navy #RightDocumentExportContainer{
-  background-color: var(--deep-surface);
+  background-color: var(--bg-main);
 }
+
+
 
 .theme-navy #SourceCodeTextDiv{
   background-color: var(--info-surface);
