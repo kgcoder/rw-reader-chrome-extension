@@ -310,10 +310,6 @@
 
 
 
-  .theme-matrix a[data-static] {
-    color: rgb(36, 176, 76);
-  }
-
   /* Code snippets */
   .theme-matrix pre,
   .theme-matrix code {

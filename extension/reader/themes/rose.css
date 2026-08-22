@@ -274,9 +274,6 @@
     text-decoration: underline;
   }
 
-  .theme-rose a[data-static] {
-    color: rgb(26, 125, 54);
-  }
 
 .theme-rose a.multiple-links-popup-row{
     color: var(--text-main);

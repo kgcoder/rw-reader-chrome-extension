@@ -273,9 +273,6 @@
     text-decoration: underline;
   }
 
-  .theme-olive a[data-static] {
-    color: rgb(26, 125, 54);
-  }
 
 .theme-olive a.multiple-links-popup-row{
     color: var(--text-main);

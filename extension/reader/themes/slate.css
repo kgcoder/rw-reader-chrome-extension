@@ -274,9 +274,6 @@
     text-decoration: underline;
   }
 
-  .theme-slate a[data-static] {
-    color: rgb(26, 125, 54);
-  }
 
 .theme-slate a.multiple-links-popup-row{
     color: var(--text-main);

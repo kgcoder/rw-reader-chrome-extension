@@ -273,9 +273,7 @@
     text-decoration: underline;
   }
 
-  .theme-mint a[data-static] {
-    color: rgb(26, 125, 54);
-  }
+
 
 .theme-mint a.multiple-links-popup-row{
     color: var(--text-main);

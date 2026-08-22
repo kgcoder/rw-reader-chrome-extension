@@ -312,11 +312,6 @@
   }
 
 
-
-  .theme-navy a[data-static] {
-    color: rgb(36, 176, 76);
-  }
-
   /* Code snippets */
   .theme-navy pre,
   .theme-navy code {

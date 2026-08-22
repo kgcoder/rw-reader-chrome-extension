@@ -274,9 +274,6 @@
     text-decoration: underline;
   }
 
-  .theme-ocean a[data-static] {
-    color: rgb(26, 125, 54);
-  }
 
 .theme-ocean a.multiple-links-popup-row{
     color: var(--text-main);

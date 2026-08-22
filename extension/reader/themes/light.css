@@ -195,9 +195,6 @@
   text-decoration: underline;
 }
 
-.theme-light a[data-static] {
-  color: rgb(36, 176, 76);
-}
 
 .theme-light a.multiple-links-popup-row{
   color: var(--text-main);

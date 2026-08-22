@@ -273,9 +273,6 @@
     text-decoration: underline;
   }
 
-  .theme-sepia a[data-static] {
-    color: rgb(26, 125, 54);
-  }
 
 .theme-sepia a.multiple-links-popup-row{
     color: var(--text-main);
