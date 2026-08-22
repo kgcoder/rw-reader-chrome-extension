@@ -415,7 +415,7 @@ function updatePageMetadata(response) {
     let favoritesDropdown
 
     const fontDropdown = createCustomDropdown({
-        label: 'Font',
+        label: 'Fonts',
         options: kFontRoleSets.map(set => ({ value: set.id, set })),
         selectedValue: currentFontSet,
         renderOption: renderFontOption,
