@@ -90,9 +90,14 @@ Example:
 ```json
 "panels": {
   "top": {
-    "site-name": "My website",
-    "home-url": "https://example.com",
-    "site-logo": "https://example.com/icon.png",
+    "logo": {
+      "src": "https://example.com/icon.png",
+      "href": "https://example.com"
+    },
+    "site-name": {
+      "text": "My website",
+      "href": "https://example.com"
+    },
     "links": [
       { "href": "https://example.com/archive", "text": "Archive" }
     ]

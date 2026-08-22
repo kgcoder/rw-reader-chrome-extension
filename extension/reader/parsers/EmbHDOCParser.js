@@ -60,7 +60,7 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
                 if(siteNameJSON.text) siteName = siteNameJSON.text
                 if(siteNameJSON.href) siteUrl = siteNameJSON.href
             }
-            const siteLogo = topPanelJSON["site-logo"]
+            const logoJSON = topPanelJSON["logo"]
             
             let topLinksString = ''
             let topLinks = []
@@ -80,8 +80,9 @@ export function parseHtmlPageWithEmbeddedHDoc(httpPageUrl, contentString, hdocDa
         
 
             let siteNameString = ''
-            if (siteLogo && siteUrl) {
-               siteNameString = `<logo src="${escapeXml(siteLogo)}" href="${escapeXml(siteUrl)}"/>`
+            if (logoJSON && logoJSON.src) {
+                const logoHrefAttr = logoJSON.href ? ` href="${escapeXml(logoJSON.href)}"` : ''
+                siteNameString = `<logo src="${escapeXml(logoJSON.src)}"${logoHrefAttr}/>`
             } else if (siteName && siteUrl) {
                 siteNameString = `<site-name href="${escapeXml(siteUrl)}">${escapeXml(siteName)}</site-name>`
             }
