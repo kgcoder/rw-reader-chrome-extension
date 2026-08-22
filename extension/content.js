@@ -467,8 +467,8 @@ async function showReaderOverlay() {
     exportPageCSSLink.rel = "stylesheet"
     document.head.appendChild(exportPageCSSLink)
 
-    const kAdditionalThemeNames = ['light', 'dark', 'sepia', 'matrix', 'mint', 'navy', 'ocean', 'lavender', 'rose', 'slate', 'olive']
-    for (const themeName of kAdditionalThemeNames) {
+    const kThemeNames = ['light', 'dark', 'sepia', 'matrix', 'mint', 'navy', 'ocean', 'lavender', 'rose', 'slate', 'olive']
+    for (const themeName of kThemeNames) {
         const themeLink = document.createElement('link')
         themeLink.href = chrome.runtime.getURL(`reader/themes/${themeName}.css`)
         themeLink.rel = "stylesheet"

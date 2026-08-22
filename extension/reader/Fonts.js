@@ -315,12 +315,14 @@ export function resolveFontSetId(value) {
     return kFontRoleSets.find(s => s.id === value)?.id ?? kFontRoleSets[0].id
 }
 
-export async function setFontSet(idOrLegacyIndex, shouldSave = false) {
-    const resolvedId = resolveFontSetId(idOrLegacyIndex)
-    applyFonts(kFontRoleSets.find(s => s.id === resolvedId))
-    g.currentFontSet = resolvedId
+export async function setFontSet(id, shouldSave = false) {
+    const fontId = kFontRoleSets.find(s => s.id === id)?.id ?? kFontRoleSets[0].id
+    applyFonts(kFontRoleSets.find(s => s.id === fontId))
+    g.currentFontSet = fontId
 
     if (shouldSave) {
-        saveObjectInLocalStorage('fontSet', resolvedId)
+        saveObjectInLocalStorage('fontSet', fontId)
     }
 }
+
+
