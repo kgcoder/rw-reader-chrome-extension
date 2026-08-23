@@ -1011,7 +1011,7 @@ setupFlinksCanvasDPR(){
     
                 //right stub
                 g.flinksCtx.beginPath()
-                g.flinksCtx.fillStyle = flink.color05
+                g.flinksCtx.fillStyle = flink.isSelected ? 'blue' : flink.color05
                 g.flinksCtx.moveTo(rightMinX - kFlinkHorizontalThickness,rightTop)
                 g.flinksCtx.lineTo(rightMinX,rightTop)
                 g.flinksCtx.lineTo(rightMinX,rightBottom)
