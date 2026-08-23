@@ -18,7 +18,7 @@ import CollageViewer from "./CollageViewer.js";
 import { loadStaticContentFromUrl } from "./parsers/ParsingManager.js";
 import FLTextEnd from "./models/FLTextEnd.js";
 import FLPointEnd from "./models/FLPointEnd.js";
-import { getFlinkColorsForTheme, getUseOutlineOnlyForTheme, kSidebarWidthToScreenWidthRatio, maxFlinksNumberBeforeOptimization } from "./constants.js";
+import { getFlinkColorsForTheme, getPartialLinkColorForTheme, getUseOutlineOnlyForTheme, kSidebarWidthToScreenWidthRatio, maxFlinksNumberBeforeOptimization } from "./constants.js";
 import { showMultipleLinksPopup } from "./MultipleLinksPopupManager.js";
 const kFlinkHorizontalThickness = 5
 
@@ -1350,6 +1350,9 @@ setupFlinksCanvasDPR(){
                 flink.color03 = addTransparencyToHexColor(connection.color, 0.3)
             }
         }
+
+        this.removeLeftPartialLink()
+        this.removeRightPartialLink()
     }
 
 
@@ -3382,7 +3385,7 @@ setupFlinksCanvasDPR(){
             startIndex,
             length,
             leftRects,
-            color03:addTransparencyToHexColor('#000000',0.3),
+            color03:getPartialLinkColorForTheme(g.currentTheme),
             leftTop:leftRects[0].top,
             leftBottom:leftBottomRect.top + leftBottomRect.height
         }
@@ -3394,7 +3397,7 @@ setupFlinksCanvasDPR(){
         const top = this.partialLeftLink.leftTop
         const height = this.partialLeftLink.leftBottom - this.partialLeftLink.leftTop 
 
-        this.addOneHightlightToDiv(notePresentationDiv,'something','leftDocPartialLinkCanvas',fillColor,undefined,isFlinkBroken,top,height,this.partialLeftLink.leftRects,isInsidePre)
+        this.addOneHightlightToDiv(notePresentationDiv,'something','leftDocPartialLinkCanvas',fillColor,this.partialLeftLink.color03,isFlinkBroken,top,height,this.partialLeftLink.leftRects,isInsidePre)
 
     }
 
@@ -3422,7 +3425,7 @@ setupFlinksCanvasDPR(){
             startIndex,
             length,
             rightRects,
-            color03:addTransparencyToHexColor('#000000',0.3),
+            color03:getPartialLinkColorForTheme(g.currentTheme),
             rightTop:rightRects[0].top,
             rightBottom:rightBottomRect.top + rightBottomRect.height
         }
@@ -3434,9 +3437,11 @@ setupFlinksCanvasDPR(){
         const top =  this.partialRightLink.rightTop
         const height =  this.partialRightLink.rightBottom -  this.partialRightLink.rightTop 
 
-        this.addOneHightlightToDiv(notePresentationDiv,'something','rightDocPartialLinkCanvas',fillColor,undefined,isFlinkBroken,top,height,this.partialRightLink.rightRects,isInsidePre)
+        this.addOneHightlightToDiv(notePresentationDiv,'something','rightDocPartialLinkCanvas',fillColor,this.partialRightLink.color03,isFlinkBroken,top,height,this.partialRightLink.rightRects,isInsidePre)
 
     }
+
+  
 
 
     removeLeftPartialLink(){

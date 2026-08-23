@@ -10,6 +10,7 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/readers-web-specs
 */
 
+
 export const kMinVisibleElementSize = 5
 
 export const minSizeForNoteDivToBeVisible = 2000000
@@ -31,9 +32,9 @@ export const kColorsForFlinks = ['#FF0000', '#0000FF', '#FF8000', '#8000FF','#11
 // back to false). dark/matrix/navy are the only themes with a genuinely dark background,
 // where translucent color fills behind highlighted text look bad.
 export const kFlinkThemeSettings = {
-    dark:   { useOutlineOnlyHighlights: true },
-    matrix: { useOutlineOnlyHighlights: true },
-    navy:   { useOutlineOnlyHighlights: true },
+    dark:   { useOutlineOnlyHighlights: true, partialLinkColor:'#d9d9d9' },
+    matrix: { useOutlineOnlyHighlights: true, partialLinkColor:'#d9d9d9' },
+    navy:   { useOutlineOnlyHighlights: true, partialLinkColor:'#d9d9d9' },
     lavender: {colors:['#e139a6', '#0000FF', '#FF8000', '#8000FF','#119FFF','#FF41A0','#36B952','#F3655C']}
 }
 
@@ -42,10 +43,16 @@ export function getFlinkColorsForTheme(themeName) {
     return (settings && settings.colors) ? settings.colors : kColorsForFlinks
 }
 
+export function getPartialLinkColorForTheme(themeName) {
+    const settings = kFlinkThemeSettings[themeName]
+    return (settings && settings.partialLinkColor) ? settings.partialLinkColor : 'rgba(0,0,0,0.3)'
+}
+
 export function getUseOutlineOnlyForTheme(themeName) {
     const settings = kFlinkThemeSettings[themeName]
     return !!(settings && settings.useOutlineOnlyHighlights)
 }
+
 
 
 
