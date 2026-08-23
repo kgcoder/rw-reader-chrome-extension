@@ -11,7 +11,6 @@ https://github.com/kgcoder/readers-web-specs
 */
 
 import { loadCollageContentFromFile } from './CollageDataLoader.js'
-import { themeColors } from './constants.js'
 import g from './Globals.js'
 import { hideUrlInTheCorner, interpolate, isDotInsideFrame, mapUrlWithMappings, sanitizeUrl, showUrlInTheCorner, timestamp } from './helpers.js'
 import Crosshair from './models/Crosshair.js'
@@ -93,22 +92,9 @@ class CollageViewer{
         this.canvas.width = this.canvasWidth
         this.canvas.height = this.canvasHeight
 
-        // this.canvas.style.backgroundColor = themeColors.squareBackground
-
-
-        
-        // if(docId){
-
-            
         this.loadContent(xmlString,url,callback)
             
-           
-            
-            
-         
-            
-
-        // }
+       
     }
 
 
@@ -697,7 +683,7 @@ class CollageViewer{
 
 
         this.ctx.beginPath()
-        this.ctx.strokeStyle = themeColors.documentBorder
+        this.ctx.strokeStyle = '#C5C5C5'
         this.ctx.rect(x,y,rWidth,rHeight)
         this.ctx.stroke()
     }

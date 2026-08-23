@@ -43,11 +43,22 @@
 
 .theme-slate #CurrentDocumentTopBar{
   background-color: var(--top-bars);
-  border-bottom: none;
+  border-bottom-color: var(--borders);
 }
 
 .theme-slate #RightDocumentsTopBar{
   background-color: var(--top-bars);
+  border-bottom-color: var(--borders);
+}
+
+.theme-slate #OneDocumentContainer {
+    background-color: var(--bg-main);
+    border-right-color: var(--borders);
+}
+
+.theme-slate #AllRightDocumentsContainer {
+    background-color: var(--bg-main);
+    border-left-color: var(--borders);
 }
 
 .theme-slate #multiple-links-popup{

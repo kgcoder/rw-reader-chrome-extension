@@ -26,25 +26,27 @@ export const kSidebarWidthToScreenWidthRatio = 0.2
 
 export const kColorsForFlinks = ['#FF0000', '#0000FF', '#FF8000', '#8000FF','#119FFF','#FF41A0','#36B952','#F3655C']
 
-
-// export const themeColors = {
-//     darkBackground:'LightSlateGray',
-//     squareBackground:'#D4D4D4',
-//     places:'azure',
-//     exportFrames:'cyan',
-//     jumpLink:'#4E53CC',
-//     staticLink:'#319019',
-//     localLink:'Brown'
-// }
-
-export const themeColors = {
-    darkBackground:'LightSlateGray',
-    squareBackground:'#E6E6E6',
-    places:'azure',
-    exportFrames:'cyan',
-    jumpLink:'#4E53CC',
-    staticLink:'#319019',
-    localLink:'Brown',
-    documentBorder:'#C5C5C5'
+// Per-theme overrides for flink colors/rendering. A theme entry may override `colors`
+// (falls back to kColorsForFlinks when absent) and/or `useOutlineOnlyHighlights` (falls
+// back to false). dark/matrix/navy are the only themes with a genuinely dark background,
+// where translucent color fills behind highlighted text look bad.
+export const kFlinkThemeSettings = {
+    dark:   { useOutlineOnlyHighlights: true },
+    matrix: { useOutlineOnlyHighlights: true },
+    navy:   { useOutlineOnlyHighlights: true },
+    lavender: {colors:['#e139a6', '#0000FF', '#FF8000', '#8000FF','#119FFF','#FF41A0','#36B952','#F3655C']}
 }
+
+export function getFlinkColorsForTheme(themeName) {
+    const settings = kFlinkThemeSettings[themeName]
+    return (settings && settings.colors) ? settings.colors : kColorsForFlinks
+}
+
+export function getUseOutlineOnlyForTheme(themeName) {
+    const settings = kFlinkThemeSettings[themeName]
+    return !!(settings && settings.useOutlineOnlyHighlights)
+}
+
+
+
 

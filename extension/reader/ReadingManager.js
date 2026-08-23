@@ -18,7 +18,7 @@ import CollageViewer from "./CollageViewer.js";
 import { loadStaticContentFromUrl } from "./parsers/ParsingManager.js";
 import FLTextEnd from "./models/FLTextEnd.js";
 import FLPointEnd from "./models/FLPointEnd.js";
-import { kSidebarWidthToScreenWidthRatio, maxFlinksNumberBeforeOptimization } from "./constants.js";
+import { getFlinkColorsForTheme, getUseOutlineOnlyForTheme, kSidebarWidthToScreenWidthRatio, maxFlinksNumberBeforeOptimization } from "./constants.js";
 import { showMultipleLinksPopup } from "./MultipleLinksPopupManager.js";
 const kFlinkHorizontalThickness = 5
 
@@ -704,7 +704,7 @@ setupFlinksCanvasDPR(){
                 if(this.flinkStyle !== 'invisible'){
                     //left part
                     g.flinksCtx.beginPath()
-                    g.flinksCtx.fillStyle = flink.color05
+                    g.flinksCtx.fillStyle = flink.isSelected ? 'blue' : flink.color05
                     g.flinksCtx.moveTo(mainDocRightX,leftTop)
                     g.flinksCtx.lineTo(mainDocRightX + kFlinkHorizontalThickness,leftTop)
                     g.flinksCtx.lineTo(mainDocRightX + kFlinkHorizontalThickness,leftBottom)
@@ -715,11 +715,7 @@ setupFlinksCanvasDPR(){
                 }
 
 
-                if(flink.isSelected){
-                    g.flinksCtx.lineWidth = 1
-                    g.flinksCtx.strokeStyle = 'blue'
-                    g.flinksCtx.stroke()
-                }
+        
 
 
                 if(rightStatus !== "invisible" && this.flinkStyle !== 'invisible'){
@@ -734,16 +730,7 @@ setupFlinksCanvasDPR(){
 
                 }
 
-                if(flink.isSelected){
-                    g.flinksCtx.lineWidth = 1
-                    g.flinksCtx.strokeStyle = 'blue'
-                    g.flinksCtx.stroke()
-                }
-                // else if(flink.leftSideIsBroken || flink.rightSideIsBroken){
-                //     g.flinksCtx.lineWidth = 1
-                //     g.flinksCtx.strokeStyle = 'red'
-                //     g.flinksCtx.stroke()
-                // }
+              
 
                 g.flinksCtx.beginPath()
                 g.flinksCtx.strokeStyle = flink.isSelected ? 'blue' : flink.color05
@@ -761,7 +748,7 @@ setupFlinksCanvasDPR(){
 
                     }else if(this.flinkStyle == 'thick'){
                         g.flinksCtx.beginPath()
-                        g.flinksCtx.fillStyle = flink.color05
+                        g.flinksCtx.fillStyle = flink.isSelected ? 'blue' : flink.color05
                         g.flinksCtx.moveTo(mainDocRightX + kFlinkHorizontalThickness,leftTop)
                    
                         g.flinksCtx.lineTo(rightX - kFlinkHorizontalThickness,rightTop)
@@ -916,7 +903,7 @@ setupFlinksCanvasDPR(){
              
                 //left stub
                 g.flinksCtx.beginPath()
-                g.flinksCtx.fillStyle = flink.color05
+                g.flinksCtx.fillStyle = flink.isSelected ? 'blue' : flink.color05
                 g.flinksCtx.moveTo(mainDocRightX,leftTop)
                 g.flinksCtx.lineTo(mainDocRightX + kFlinkHorizontalThickness,leftTop)
                 g.flinksCtx.lineTo(mainDocRightX + kFlinkHorizontalThickness,leftBottom)
@@ -1347,6 +1334,24 @@ setupFlinksCanvasDPR(){
             })
     }
 
+    recolorConnectionsForCurrentTheme() {
+        if (!this.connections || !this.connections.length) return
+
+        const colors = getFlinkColorsForTheme(g.currentTheme)
+
+        for (const connection of this.connections) {
+            if (typeof connection.colorIndex !== 'number') continue
+            connection.color = colors[connection.colorIndex % colors.length]
+
+            if (!connection.activeFlinks) continue
+            for (const flink of connection.activeFlinks) {
+                flink.color = connection.color
+                flink.color05 = addTransparencyToHexColor(connection.color, 0.5)
+                flink.color03 = addTransparencyToHexColor(connection.color, 0.3)
+            }
+        }
+    }
+
 
     checkIfFlinksWereChangedOnTheLeftSide = () => {
         if(this.mainDocType !== 'h')return
@@ -1555,7 +1560,9 @@ setupFlinksCanvasDPR(){
 
         const padding = g.pdm.getMainDocumentPadding()
 
-        const rightX = window.innerWidth - padding 
+        const panelsInfo = g.readingManager.mainDocPanels
+        
+        const rightX = (g.isMobileMode || !g.readingManager.isFullScreen || !panelsInfo.sidebarPanel || !panelsInfo.sidebarPanel.side === 'left')  ? window.innerWidth - padding : window.innerWidth * 0.8 - padding 
 
         const currentDocTopOffset = g.pdm.getCurrentDocTopOffset()
 
@@ -1712,7 +1719,7 @@ setupFlinksCanvasDPR(){
                 const lineRects = flink.leftRects
         
 
-                this.addOneHightlightToDiv(firstPresentationDiv,`leftDocFlinkCanvas${i}_${j}`,'leftDocFlinkCanvas',fillColor,isFlinkBroken,top,height,lineRects,flink.isLeftEndInsidePre)
+                this.addOneHightlightToDiv(firstPresentationDiv,`leftDocFlinkCanvas${i}_${j}`,'leftDocFlinkCanvas',fillColor,flink.color,isFlinkBroken,top,height,lineRects,flink.isLeftEndInsidePre)
                 flink.isLeftSideDrawn = true
                 j++
             }
@@ -1762,7 +1769,7 @@ setupFlinksCanvasDPR(){
             const height = flink.rightBottom - flink.rightTop
             const lineRects = flink.rightRects
 
-            this.addOneHightlightToDiv(presentationDiv,`rightDocFlinkCanvas${i}`,'rightDocFlinkCanvas',fillColor,isFlinkBroken,top,height,lineRects,flink.isRightEndInsidePre)
+            this.addOneHightlightToDiv(presentationDiv,`rightDocFlinkCanvas${i}`,'rightDocFlinkCanvas',fillColor,flink.color,isFlinkBroken,top,height,lineRects,flink.isRightEndInsidePre)
             flink.isRightSideDrawn = true
         
             i++
@@ -1773,17 +1780,20 @@ setupFlinksCanvasDPR(){
 
 
 
-    addOneHightlightToDiv(div,id,className,fillColor,isFlinkBroken,top,height,lineRects,isInsidePre = false){
+    addOneHightlightToDiv(div,id,className,fillColor,flinkColor,isFlinkBroken,top,height,lineRects,isInsidePre = false){
 
-   
+
         const borderColorForBrokenLink = 'red'
         const lineWidthForBrokenFlink = 2
         const lineDashForBrokenFlink = [5, 5]
+        const lineWidthForOutline = 2
 
+        const useOutlineOnly = !isFlinkBroken && getUseOutlineOnlyForTheme(g.currentTheme) && flinkColor
 
         const lineDash = isFlinkBroken ? lineDashForBrokenFlink : []
-        const borderColor = isFlinkBroken ? borderColorForBrokenLink : undefined
-        const lineWidth = isFlinkBroken ? lineWidthForBrokenFlink : 0
+        const borderColor = isFlinkBroken ? borderColorForBrokenLink : (useOutlineOnly ? flinkColor : undefined)
+        const lineWidth = isFlinkBroken ? lineWidthForBrokenFlink : (useOutlineOnly ? lineWidthForOutline : 0)
+        const effectiveFillColor = useOutlineOnly ? undefined : fillColor
 
         const width = div.clientWidth
 
@@ -1822,7 +1832,7 @@ setupFlinksCanvasDPR(){
                 const lineRect = lineRects[0]
                 const topY = lineRect.top - top + lineWidth / 2
                 const rect = {left:lineRect.left,top:topY,width:lineRect.width,height:lineRect.height}
-                this.addColorsToFlinkRect(context,rect,fillColor,borderColor,lineWidth,lineDash)
+                this.addColorsToFlinkRect(context,rect,effectiveFillColor,borderColor,lineWidth,lineDash)
             }else if(lineRects.length === 2){
                 const topLineRect = lineRects[0]
                 const bottomLineRect = lineRects[1]
@@ -1831,15 +1841,15 @@ setupFlinksCanvasDPR(){
                     const top1Y = topLineRect.top - top + lineWidth / 2
                     const rect1 = {left:topLineRect.left,top:top1Y,width:topLineRect.width,height:topLineRect.height}
                     
-                    this.addColorsToFlinkRect(context,rect1,fillColor,borderColor,lineWidth,lineDash)
+                    this.addColorsToFlinkRect(context,rect1,effectiveFillColor,borderColor,lineWidth,lineDash)
                     const top2Y = bottomLineRect.top - top
                     const rect2 = {left:bottomLineRect.left,top:top2Y,width:bottomLineRect.width,height:bottomLineRect.height}
-                    this.addColorsToFlinkRect(context,rect2,fillColor,borderColor,lineWidth,lineDash)
+                    this.addColorsToFlinkRect(context,rect2,effectiveFillColor,borderColor,lineWidth,lineDash)
                 }else{
                     const topY = topLineRect.top - top + lineWidth / 2
                     context.beginPath()
                     context.strokeStyle = borderColor
-                    context.fillStyle = fillColor
+                    if(effectiveFillColor){ context.fillStyle = effectiveFillColor }
                     context.lineWidth = lineWidth
                     context.setLineDash(lineDash)
                     context.moveTo(topLineRect.left,topY)
@@ -1853,12 +1863,12 @@ setupFlinksCanvasDPR(){
                     context.lineTo(topLineRect.left,topY + topLineRect.height)
     
                     context.closePath()
-                    
-                    context.fill()
-                    if(isFlinkBroken){
+
+                    if(effectiveFillColor){ context.fill() }
+                    if(borderColor && lineWidth){
                         context.stroke()
                     }
-    
+
                 }
             }else if(lineRects.length === 3){
                 const topLineRect = lineRects[0]
@@ -1869,7 +1879,7 @@ setupFlinksCanvasDPR(){
     
                 context.beginPath()
                 context.strokeStyle = borderColor
-                context.fillStyle = fillColor
+                if(effectiveFillColor){ context.fillStyle = effectiveFillColor }
                 context.lineWidth = lineWidth
                 context.setLineDash(lineDash)
                 context.moveTo(topLineRect.left,topY)
@@ -1881,9 +1891,9 @@ setupFlinksCanvasDPR(){
                 context.lineTo(bottomLineRect.left,topY + topLineRect.height)
                 context.lineTo(topLineRect.left,topY + topLineRect.height)
                 context.closePath()
-                
-                context.fill()
-                if(isFlinkBroken){
+
+                if(effectiveFillColor){ context.fill() }
+                if(borderColor && lineWidth){
                     context.stroke()
                 }
     
@@ -1900,7 +1910,9 @@ setupFlinksCanvasDPR(){
 
     addColorsToFlinkRect(context,rect,color,borderColor,lineWidth,lineDash = undefined){
         context.beginPath()
-        context.fillStyle = color
+        if(color){
+            context.fillStyle = color
+        }
         if(borderColor && lineWidth){
             context.strokeStyle = borderColor
             context.lineWidth = lineWidth
@@ -1911,7 +1923,9 @@ setupFlinksCanvasDPR(){
 
         context.rect(rect.left, rect.top, rect.width, rect.height)
 
-        context.fill()
+        if(color){
+            context.fill()
+        }
         if(borderColor && lineWidth){
             context.stroke()
         }
@@ -3311,7 +3325,7 @@ setupFlinksCanvasDPR(){
             const heightLeft = floatingLink.leftBottom - floatingLink.leftTop 
             
             if(isLeftText){
-                this.addOneHightlightToDiv(leftDiv,'something','leftDocFlinkCanvas',fillColor,isFlinkBroken,topLeft,heightLeft,floatingLink.leftRects,floatingLink.isLeftEndInsidePre)
+                this.addOneHightlightToDiv(leftDiv,'something','leftDocFlinkCanvas',fillColor,floatingLink.color,isFlinkBroken,topLeft,heightLeft,floatingLink.leftRects,floatingLink.isLeftEndInsidePre)
                 floatingLink.isLeftSideDrawn = true
             }
             
@@ -3321,7 +3335,7 @@ setupFlinksCanvasDPR(){
             
             
             if(isRightText){
-                this.addOneHightlightToDiv(rightDiv,'something','rightDocFlinkCanvas',fillColor,isFlinkBroken,topRight,heightRight,floatingLink.rightRects,floatingLink.isRightEndInsidePre)
+                this.addOneHightlightToDiv(rightDiv,'something','rightDocFlinkCanvas',fillColor,floatingLink.color,isFlinkBroken,topRight,heightRight,floatingLink.rightRects,floatingLink.isRightEndInsidePre)
                 floatingLink.isRightSideDrawn = true
             }
 
@@ -3380,7 +3394,7 @@ setupFlinksCanvasDPR(){
         const top = this.partialLeftLink.leftTop
         const height = this.partialLeftLink.leftBottom - this.partialLeftLink.leftTop 
 
-        this.addOneHightlightToDiv(notePresentationDiv,'something','leftDocPartialLinkCanvas',fillColor,isFlinkBroken,top,height,this.partialLeftLink.leftRects,isInsidePre)
+        this.addOneHightlightToDiv(notePresentationDiv,'something','leftDocPartialLinkCanvas',fillColor,undefined,isFlinkBroken,top,height,this.partialLeftLink.leftRects,isInsidePre)
 
     }
 
@@ -3420,7 +3434,7 @@ setupFlinksCanvasDPR(){
         const top =  this.partialRightLink.rightTop
         const height =  this.partialRightLink.rightBottom -  this.partialRightLink.rightTop 
 
-        this.addOneHightlightToDiv(notePresentationDiv,'something','rightDocPartialLinkCanvas',fillColor,isFlinkBroken,top,height,this.partialRightLink.rightRects,isInsidePre)
+        this.addOneHightlightToDiv(notePresentationDiv,'something','rightDocPartialLinkCanvas',fillColor,undefined,isFlinkBroken,top,height,this.partialRightLink.rightRects,isInsidePre)
 
     }
 

@@ -43,11 +43,22 @@
 
 .theme-rose #CurrentDocumentTopBar{
   background-color: var(--top-bars);
-  border-bottom: none;
+  border-bottom-color: var(--borders);
 }
 
 .theme-rose #RightDocumentsTopBar{
   background-color: var(--top-bars);
+  border-bottom-color: var(--borders);
+}
+
+.theme-rose #OneDocumentContainer {
+    background-color: var(--bg-main);
+    border-right-color: var(--borders);
+}
+
+.theme-rose #AllRightDocumentsContainer {
+    background-color: var(--bg-main);
+    border-left-color: var(--borders);
 }
 
 .theme-rose #multiple-links-popup{

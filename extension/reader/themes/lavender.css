@@ -5,7 +5,7 @@
     --heading: #42175b;
     --accent: #7a3baa;
     --accent-hover: #632f8e;
-    --borders: #d3b8da;
+    --borders: #caa0d4;
     --top-bars: #f1bffa;
     --header-footer-bg: #f7e5fa;
     --blockquote-accent: #9a4ac5;
@@ -43,11 +43,22 @@
 
 .theme-lavender #CurrentDocumentTopBar{
   background-color: var(--top-bars);
-  border-bottom: none;
+  border-bottom-color: var(--borders);
 }
 
 .theme-lavender #RightDocumentsTopBar{
   background-color: var(--top-bars);
+  border-bottom-color: var(--borders);
+}
+
+.theme-lavender #OneDocumentContainer {
+    background-color: var(--bg-main);
+    border-right-color: var(--borders);
+}
+
+.theme-lavender #AllRightDocumentsContainer {
+    background-color: var(--bg-main);
+    border-left-color: var(--borders);
 }
 
 .theme-lavender #multiple-links-popup{

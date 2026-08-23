@@ -42,6 +42,8 @@ export async function setTheme(themeName, shouldSave = false) {
         saveObjectInLocalStorage('theme',themeName)
     }
 
+    g.readingManager.recolorConnectionsForCurrentTheme()
+
     g.readingManager.applyFlinksOnTheLeft()
 
     g.readingManager.applyFlinksOnTheRight()

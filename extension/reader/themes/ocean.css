@@ -5,8 +5,8 @@
     --heading: #0f3556;
     --accent: #2c709e;
     --accent-hover: #225f84;
-    --borders: #94abce;
-    --top-bars: #85abff;
+    --borders: #426eb1;
+    --top-bars: #7497e1;
     --header-footer-bg: #afc6f6;
     --blockquote-accent: #307abf;
     --blockquote-bg: #b8cdf5;
@@ -43,11 +43,22 @@
 
 .theme-ocean #CurrentDocumentTopBar{
   background-color: var(--top-bars);
-  border-bottom: none;
+  border-bottom-color: var(--borders);
 }
 
 .theme-ocean #RightDocumentsTopBar{
   background-color: var(--top-bars);
+  border-bottom-color: var(--borders);
+}
+
+.theme-ocean #OneDocumentContainer {
+    background-color: var(--bg-main);
+    border-right-color: var(--borders);
+}
+
+.theme-ocean #AllRightDocumentsContainer {
+    background-color: var(--bg-main);
+    border-left-color: var(--borders);
 }
 
 .theme-ocean #multiple-links-popup{
@@ -99,7 +110,7 @@
 .theme-ocean .DocumentTopPanel{
     background-color: var(--header-footer-bg);
     /* border-top: 1px solid #e0e0e0; */
-    border-bottom: 1px solid var(--borders);
+    border-bottom: none;
     /* box-shadow: 0 2px 4px rgba(0,0,0,0.05); */
     /* padding: 1rem 2rem; */
     font-family: var(--font-headers-family, "Helvetica Neue", Arial, sans-serif);
