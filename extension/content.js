@@ -24,6 +24,8 @@ let fetchMode = 'strict'
 let isShowingReader = false
 let isShowingParsingRulesConstructor = false
 let isUnforcedEmbeddedHDOC = false
+
+const RELOAD_SUPPRESS_WINDOW_MS = 2000
     
     
 document.addEventListener('DOMContentLoaded', onLoad);
@@ -77,14 +79,12 @@ async function onLoad() {
 
 
 
-    const result = await chrome.storage.local.get('justReloaded')
-    const justReloaded = !!result.justReloaded
+    const result = await chrome.storage.local.get('justReloadedAt')
+    const justReloadedAt = result.justReloadedAt || 0
+    const closedRecently = (Date.now() - justReloadedAt) < RELOAD_SUPPRESS_WINDOW_MS
 
-    if (justReloaded) {
-        chrome.storage.local.set({ justReloaded: false });
-    } else {
+    if (!closedRecently) {
         showReaderOverlay()
-        
     }
 
 }

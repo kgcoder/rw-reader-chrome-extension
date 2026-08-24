@@ -139,7 +139,7 @@ window.addEventListener("message", async (event) => {
     }
 
     if (type === "RELOAD_PAGE") {
-        chrome.storage.local.set({ justReloaded: true })
+        chrome.storage.local.set({ justReloadedAt: Date.now() })
         location.reload()
     }
 
