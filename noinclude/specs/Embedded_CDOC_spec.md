@@ -70,7 +70,7 @@ A minimal example of what the `source` string contains (shown here unescaped for
 </svg>
 
 <connections>
-  <doc url="https://example.com/page" title="Page Title" hash="d79712">
+  <doc url="https://example.com/page" title="Page Title">
 i:769;l:256;h:ff3d6e;e:Vy4=_p|x:42.5;y:118.3;r:0.147
   </doc>
 </connections>

@@ -215,14 +215,13 @@ export async function parseCDOC(url,contentString){
                 const flinkSet = flinkSets[i];
                 const flinkSetUrl = sanitizeUrl(flinkSet.getAttribute('url'))
                 const flinkSetTitle = stripHtmlTags(flinkSet.getAttribute('title'))
-                const flinkSetHash = flinkSet.getAttribute('hash')
                 const flinksString = flinkSet.textContent
 
-         
+
                 const flinks = flinksString ? flinksString.split('\n').map(line => FloatingLink.fromExportString(line.trim())).filter(flink => !!flink) : []
 
                 if(flinkSetUrl){
-                    connectedDocsData.push({url:flinkSetUrl,title:flinkSetTitle,hash:flinkSetHash,flinks})
+                    connectedDocsData.push({url:flinkSetUrl,title:flinkSetTitle,flinks})
             
                 }
             }

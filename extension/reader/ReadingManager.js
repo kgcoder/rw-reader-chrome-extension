@@ -187,43 +187,20 @@ setupFlinksCanvasDPR(){
             if(!flinksData){
 
                 let title
-                let hash
-
-                
 
                 if(dataObject.docSubtype === 5 || dataObject.docSubtype === 8){
                     title = dataObject.title
-
-                    const svgMatch = dataObject.xmlString.match(/<svg\b[^>]*>[\s\S]*?<\/svg>/)
-                    if(svgMatch){
-                        const svgText = svgMatch[0]
-                        hash = getShortHash(svgText)
-                    }
-
                 }else{
                     const headerInfo = dataObject.headerInfo
                     title = headerInfo.h1Text
-
-                    const div = document.createElement('div')
-                    div.innerHTML = dataObject.html
-                    const text = div.textContent
-    
-           
-                    hash = getShortHash(text)
                 }
-                
-
-
-
 
                 flinksData = {
                     url,
                     title,
                     flinks:[],
                     activeFlinks:[],
-                    color:'red',
-                    hash
-
+                    color:'red'
                 }
 
                 g.readingManager.connections.push(flinksData)

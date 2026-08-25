@@ -203,7 +203,6 @@ Embedded HDOC connections follow the same structure as HDOC floating links:
   {
     "url": "https://example.com/dates",
     "title": "Dates",
-    "hash": "d79712",
     "flinks": [
       "i:769;l:256;h:ff3d6e;e:Vy4=_i:0;l:8;h:e68ee0;e:RXM=",
       "i:1278;l:16;h:512358;e:THM=_i:35;l:11;h:1e5fac;e:Y3M="
@@ -212,7 +211,6 @@ Embedded HDOC connections follow the same structure as HDOC floating links:
   {
     "url": "https://example.com/collage",
     "title": "Collage",
-    "hash": "54dfa4",
     "flinks": [
       "i:2029;l:97;h:72bcf5;e:RS4=_p|x:79.772;y:142.467;r:0.147",
       "i:2423;l:79;h:7f7a20;e:Qi4=_p|x:81.226;y:142.1;r:0.147"

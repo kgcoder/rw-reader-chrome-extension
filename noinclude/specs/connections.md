@@ -31,16 +31,6 @@ Represents a document that this document connects to.
 | --------- | -------- | -------------------------------------------------------------------------------------------------------- |
 | `url`     | Yes      | URL of the connected document.                                                                           |
 | `title`   | No       | Title of the connected document (informational only).                                                    |
-| `hash`    | No       | SHA-256 hash of the connected document’s content. Used to detect whether floating links may be outdated. |
-
-**Hashing rules:**
-
-* **HDOC:** Hash is computed over the `textContent` of the HDOC, *not* its HTML serialization.
-  (Whitespace and markup differences must not shift indices.)
-* **CDOC:** Hash is computed over the entire `<svg>` element, including the `<svg>` tag itself.
-
-**Hash verification:**
-Hash generation is implemented in current tooling but verification on load is not yet required. Future client implementations *should* verify the hash and mark connections as potentially outdated if the hash does not match.
 
 ---
 
@@ -178,13 +168,13 @@ The CONNECTIONS format is intentionally extensible. Possible future additions:
 
   <connections>
 
-    <doc url="https://example.com/dates" title="Dates" hash="d79712">
+    <doc url="https://example.com/dates" title="Dates">
       i:6771;l:22;h:abb7b7;e:MjE=_i:35;l:22
       i:7494;l:34;h:7ac799;e:TzI=_i:59;l:28;h:3fa088
       i:47703;l:33;h:c85272;e:QTI=_i:116;l:27;h:8de52f
     </doc>
 
-    <doc url="https://example.com/collage" title="Collage" hash="54dfa4">
+    <doc url="https://example.com/collage" title="Collage">
       i:611629;l:149;h:f01591;e:VGw=_p|x:31.166;y:209.243;r:0.297
       i:238781;hi:238774;l:12;hl:19;h:858f4c;e:dmE=_p|x:45.462;y:218.567;r:0.209
     </doc>

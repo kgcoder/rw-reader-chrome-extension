@@ -726,9 +726,6 @@ export function getConnectionsJSON() {
         if (flinkSet.title) {
             flinksetEl.title = unescapeHTML(flinkSet.title)
         }
-        if(flinkSet.hash){
-            flinksetEl.hash = flinkSet.hash
-        }
 
         flinksetEl.flinks = []
     
@@ -769,10 +766,7 @@ export function getConnectionsString(){
         if (flinkSet.title) {
             flinksetEl.setAttribute('title', unescapeHTML(flinkSet.title))
         }
-        if(flinkSet.hash){
-            flinksetEl.setAttribute('hash', flinkSet.hash)
-        }
-    
+
         const flinkLines = []
 
         for (let flink of flinkSet.activeFlinks) {
@@ -908,8 +902,6 @@ export function getXMlAndDataArrayFromJSONConnections(mainDataJSON) {
             const url = item.url
             if (!url) return ''
             const title = item.title != null ? item.title : ''
-            const hash = item.hash != null ? item.hash : ''
-            
 
             const flinksFromJSON = item.flinks
 
@@ -924,10 +916,10 @@ export function getXMlAndDataArrayFromJSONConnections(mainDataJSON) {
 
             const cleanUrl = sanitizeUrl(url)
             if (cleanUrl) {
-                connectedDocsData.push({url:cleanUrl,title:stripHtmlTags(title),hash,flinks})
+                connectedDocsData.push({url:cleanUrl,title:stripHtmlTags(title),flinks})
             }
 
-            return `<doc url="${escapeXml(url)}"${title ? ` title="${escapeXml(title)}"` : ''}${hash ? ` hash="${hash}"` : ''}>${flinksString}</doc>`
+            return `<doc url="${escapeXml(url)}"${title ? ` title="${escapeXml(title)}"` : ''}>${flinksString}</doc>`
 
         }).filter(item => !!item).join('\n')
 
