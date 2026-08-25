@@ -36,9 +36,26 @@ document.onkeydown = onKeyPress
 
 async function onKeyPress(e) {
       if(e.key === ']' && e.ctrlKey){
-        
+
+        const showAlert = () => {
+            alert('There are no saved parsing rules for this website')
+        }
+
+
+        const contentEl  = document.querySelector('.hdoc-content')
+        const dataScript = document.getElementById("hdoc-data");
+
+        if (contentEl && dataScript) {
+            await chrome.storage.local.set({showUnforcedHdocAnyway:true})
+            window.location.reload()
+            return
+        }
+    
         const result = await chrome.storage.local.get('parsingRulesObject')
-        if(!result || !result.parsingRulesObject)return
+        if(!result || !result.parsingRulesObject){
+            showAlert()
+            return
+        }
 
         const rules = await getSavedParsingRulesForLocation(currentLocation)
 
@@ -47,7 +64,7 @@ async function onKeyPress(e) {
             await chrome.storage.local.set({useSavedParsingRules:true})
             window.location.reload()
         }else{
-            alert('There are no saved parsing rules for this website')
+            showAlert()
         }
         
 
@@ -283,7 +300,15 @@ async function showReaderOverlay() {
 
                 isUnforcedEmbeddedHDOC = !hdocDataJSON.forced
 
-                if(isUnforcedEmbeddedHDOC)return
+                if(isUnforcedEmbeddedHDOC){
+                    const result = await chrome.storage.local.get('showUnforcedHdocAnyway')
+                    if(result.showUnforcedHdocAnyway){
+                        await chrome.storage.local.set({showUnforcedHdocAnyway:false})
+                    }else{
+                        return
+                    }
+
+                }
 
                 const header = hdocDataJSON.header
                 if (header) {
