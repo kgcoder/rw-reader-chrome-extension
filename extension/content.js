@@ -36,6 +36,7 @@ document.onkeydown = onKeyPress
 
 async function onKeyPress(e) {
       if(e.key === ']' && e.ctrlKey){
+        if(isShowingReader)return
 
         const showAlert = () => {
             alert('There are no saved parsing rules for this website')
