@@ -186,6 +186,12 @@
   color: #444;
 }
 
+
+.theme-light hr {
+  background-color: var(--borders);
+}
+
+
 /* Links */
 .theme-light a {
   color: var(--accent);

@@ -263,6 +263,10 @@
     margin-top: 1.5em;
   }
 
+  .theme-sepia hr {
+    background-color: var(--borders);
+  }
+
   /* Links */
   .theme-sepia a {
     color: var(--accent);

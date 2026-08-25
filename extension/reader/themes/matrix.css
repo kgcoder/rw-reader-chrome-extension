@@ -300,6 +300,10 @@
     color: var(--h3-dim);
   }
 
+  .theme-matrix hr {
+    background-color: var(--borders);
+  }
+
   /* Links */
   .theme-matrix a {
     color: var(--link);

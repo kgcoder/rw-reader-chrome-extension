@@ -263,6 +263,10 @@
     margin-top: 1.5em;
   }
 
+  .theme-olive hr {
+    background-color: var(--borders);
+  }
+
   /* Links */
   .theme-olive a {
     color: var(--accent);

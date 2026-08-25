@@ -275,6 +275,10 @@
     margin-top: 1.5em;
   }
 
+  .theme-slate hr {
+    background-color: var(--borders);
+  }
+
   /* Links */
   .theme-slate a {
     color: var(--accent);

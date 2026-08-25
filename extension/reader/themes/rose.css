@@ -275,6 +275,10 @@
     margin-top: 1.5em;
   }
 
+  .theme-rose hr {
+    background-color: var(--borders);
+  }
+
   /* Links */
   .theme-rose a {
     color: var(--accent);

@@ -263,6 +263,9 @@
     margin-top: 1.5em;
   }
 
+  .theme-mint hr {
+    background-color: var(--borders);
+  }
   /* Links */
   .theme-mint a {
     color: var(--accent);

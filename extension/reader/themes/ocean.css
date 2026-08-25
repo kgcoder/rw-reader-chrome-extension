@@ -275,6 +275,10 @@
     margin-top: 1.5em;
   }
 
+  .theme-ocean hr {
+    background-color: var(--borders);
+  }
+
   /* Links */
   .theme-ocean a {
     color: var(--accent);

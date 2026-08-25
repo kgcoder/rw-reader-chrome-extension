@@ -275,6 +275,10 @@
     margin-top: 1.5em;
   }
 
+  .theme-lavender hr {
+    background-color: var(--borders);
+  }
+
   /* Links */
   .theme-lavender a {
     color: var(--accent);
