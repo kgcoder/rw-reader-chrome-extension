@@ -486,5 +486,9 @@
 .theme-lavender .swp-reply-btn{
   color: var(--accent);
   opacity: 0.8;
+}
 
+.theme-lavender .swp-open-in-new-tab-btn {
+  color: var(--accent);
+  border-color: var(--accent);
 }

@@ -492,3 +492,9 @@
 .theme-matrix .swp-reply-btn{
   color:var(--heading);
 }
+
+
+.theme-matrix .swp-open-in-new-tab-btn {
+  color: var(--accent);
+  border-color: var(--accent);
+}

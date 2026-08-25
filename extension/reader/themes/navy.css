@@ -494,3 +494,8 @@
 .theme-navy .swp-reply-btn{
   color:var(--heading);
 }
+
+.theme-navy .swp-open-in-new-tab-btn {
+  color: var(--accent);
+  border-color: var(--accent);
+}

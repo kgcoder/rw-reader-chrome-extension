@@ -486,5 +486,10 @@
 .theme-rose .swp-reply-btn{
   color: var(--accent);
   opacity: 0.8;
+}
 
+
+.theme-rose .swp-open-in-new-tab-btn {
+  color: var(--accent);
+  border-color: var(--accent);
 }
