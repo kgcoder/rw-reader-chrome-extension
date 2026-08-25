@@ -2137,6 +2137,10 @@ p {
 
 
 hr {
-    border: none;
-    height: 2px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border: none !important;
+    height: 2px !important;
 }
