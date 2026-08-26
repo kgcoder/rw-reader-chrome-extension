@@ -1,0 +1,18 @@
+<hdoc>
+  <metadata>
+    <title>Basic HDOC</title>
+    <republishing-policy>allow</republishing-policy>
+  </metadata>
+  <header>
+    <h1>Basic HDOC</h1>
+    <author>Test Corpus</author>
+    <date>2026-01-05</date>
+  </header>
+  <content>
+    <p>This is a minimal, well-formed standalone HDOC document. It exists to prove the
+    parser's happy path: a header, a short paragraph of body content, and nothing else
+    unusual.</p>
+    <p>A second paragraph, so there is more than one text node to anchor a connection to
+    later.</p>
+  </content>
+</hdoc>

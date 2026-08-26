@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Script injection — embedded HDOC</title>
+</head>
+<body>
+  <div class="hdoc-content">
+    <p onclick="window.__pwned = true">Click me.</p>
+    <script>window.__pwned = true;</script>
+    <img src="x" onerror="window.__pwned = true" />
+    <a href="javascript:window.__pwned = true">bad link</a>
+  </div>
+
+  <script type="application/json" id="hdoc-data">
+  {
+    "header": {
+      "h1": "Script injection embedded HDOC"
+    }
+  }
+  </script>
+</body>
+</html>

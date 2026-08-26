@@ -1,0 +1,46 @@
+# Copy to config.sh and fill in. config.sh is gitignored.
+
+# Absolute path to the WordPress install (ABSPATH). For a Local by Flywheel site this is
+# the "app/public" folder shown in Local's site info panel.
+WP_PATH="/path/to/local-site/app/public"
+
+# Optional: wp-cli binary or wrapper if `wp` isn't on PATH (e.g. Local's shell provides
+# its own `wp`; a remote/staging setup might need an SSH wrapper here instead).
+WP_CLI_BIN="wp"
+
+# Optional pair: set BOTH to bypass WP_CLI_BIN entirely and invoke this exact PHP binary
+# directly against this exact wp-cli.phar file, instead of letting a shebang line
+# (`#!/usr/bin/env php`) pick whatever `php` is first on PATH. Needed if a dotfile (e.g.
+# `brew shellenv` in .bash_profile) puts a different PHP install ahead of Local by
+# Flywheel's own PHP for this site — that mismatch causes PHP extension API-version errors
+# (opcache/xdebug/imagick) the moment the wrong PHP boots and loads this site's ini, which
+# a later re-exec can't undo. Leave both blank to use WP_CLI_BIN/PATH as-is.
+#
+# WP_CLI_PHP: find the right path for your site under
+# ~/Library/Application Support/Local/lightning-services/php-<version>/bin/<platform>/bin/php
+# (match the PHP version shown in Local's site info panel).
+#WP_CLI_PHP="/Users/you/Library/Application Support/Local/lightning-services/php-8.2.29+0/bin/darwin-arm64/bin/php"
+#
+# WP_CLI_PHAR: Local's bundled wp-cli.phar, shared across all sites (same path for
+# everyone on the same Local install, no site-specific version number).
+#WP_CLI_PHAR="/Applications/Local.app/Contents/Resources/extraResources/bin/wp-cli/wp-cli.phar"
+
+# Safety gate (see scripts/lib/safety-check.sh): deploy scripts refuse to run unless the
+# site's URL contains this substring. Prevents an accidental run against a real/production
+# site.
+SAFE_URL_PATTERN=".local"
+
+# Set to 1 to skip the safety gate entirely (e.g. a disposable staging box that doesn't
+# match SAFE_URL_PATTERN). Never set this for a real site.
+SKIP_SAFETY_CHECK=0
+
+# Absolute filesystem path to mirror embedded/ and hostile-embedded/ into. Embedded
+# HDOC/CDOC/CONDOC piggyback on arbitrary HTML pages and don't require WordPress at all,
+# so this is deliberately independent of WP_PATH — point it at another site's docroot, or
+# any folder served by a plain web/file server.
+EMBEDDED_DEPLOY_PATH="/path/to/some-other-docroot"
+
+# The URL prefix under which EMBEDDED_DEPLOY_PATH is served. Used to build links in the
+# generated table-of-contents page. Cannot be derived from `wp option get siteurl` since
+# this path is outside WordPress entirely.
+EMBEDDED_BASE_URL="http://some-other-site.local"

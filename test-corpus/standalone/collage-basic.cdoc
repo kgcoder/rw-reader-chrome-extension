@@ -1,0 +1,11 @@
+<cdoc>
+  <metadata>
+    <title>Basic CDOC collage</title>
+    <republishing-policy>allow</republishing-policy>
+  </metadata>
+  <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
+    <rect x="0" y="0" width="400" height="300" fill="#f2f2f2" />
+    <circle cx="200" cy="120" r="60" fill="#4a90d9" />
+    <text x="200" y="220" text-anchor="middle" font-size="20">Basic collage</text>
+  </svg>
+</cdoc>

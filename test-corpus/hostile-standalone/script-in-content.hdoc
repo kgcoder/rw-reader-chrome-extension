@@ -1,0 +1,11 @@
+<hdoc>
+  <header>
+    <h1>Script in content</h1>
+  </header>
+  <content>
+    <p onerror="window.__pwned = true" onclick="window.__pwned = true">Click me.</p>
+    <script>window.__pwned = true;</script>
+    <img src="x" onerror="window.__pwned = true" />
+    <a href="javascript:window.__pwned = true">bad link</a>
+  </content>
+</hdoc>

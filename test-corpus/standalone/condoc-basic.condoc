@@ -1,0 +1,5 @@
+<condoc>
+  <title>Basic CONDOC</title>
+  <description>Wraps an external page with visible connections, without modifying it.</description>
+  <main>https://example.com/</main>
+</condoc>

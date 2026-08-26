@@ -1,0 +1,11 @@
+<hdoc>
+  <header>
+    <h1>Broken XML
+  </header>
+  <content>
+    <p>The header above is missing its closing h1 tag. HDOCParser regex-extracts and
+    strips &lt;content&gt; before XML-parsing the remaining skeleton, so this file is
+    deliberately broken outside of &lt;content&gt; to actually reach the DOMParser and
+    trigger a &lt;parsererror&gt;.</p>
+  </content>
+</hdoc>

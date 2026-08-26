@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Forced embedded HDOC — publisher page</title>
+</head>
+<body>
+  <div class="hdoc-content">
+    <p>Same piggyback shape as the basic embedded fixture, but the JSON below sets
+    <code>"forced": true</code> — the extension should render this as HDOC even when it is
+    the main, left-side document (not just when opened from a connection).</p>
+  </div>
+
+  <script type="application/json" id="hdoc-data">
+  {
+    "header": {
+      "h1": "Forced embedded HDOC",
+      "author": "Test Corpus",
+      "date": "2026-01-05"
+    },
+    "forced": true,
+    "republishing-policy": "allow"
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Basic embedded HDOC — publisher page</title>
+  <style>body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; }</style>
+</head>
+<body>
+  <header>
+    <nav><a href="/">Example Publisher</a> / <a href="/blog/">Blog</a></nav>
+  </header>
+
+  <article class="hdoc-content">
+    <p>This page piggybacks on ordinary HTML: an unaware visitor just sees a normal
+    article, while an HDOC-aware client reads the structured data below instead.</p>
+    <p>A second paragraph of body content.</p>
+  </article>
+
+  <footer>
+    <p>&copy; 2026 Example Publisher</p>
+  </footer>
+
+  <script type="application/json" id="hdoc-data">
+  {
+    "header": {
+      "h1": "Basic embedded HDOC",
+      "author": "Test Corpus",
+      "date": "2026-01-05"
+    },
+    "republishing-policy": "allow"
+  }
+  </script>
+</body>
+</html>

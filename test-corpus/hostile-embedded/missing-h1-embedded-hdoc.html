@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Missing h1 — embedded HDOC</title>
+</head>
+<body>
+  <div class="hdoc-content">
+    <p>This page has a valid .hdoc-content element and a parseable #hdoc-data JSON blob,
+    but the JSON's header object has no h1 key. EmbHDOCParser must fail closed here
+    (return false + show a toast) rather than throwing or rendering a broken document.</p>
+  </div>
+
+  <script type="application/json" id="hdoc-data">
+  {
+    "header": {
+      "author": "Test Corpus",
+      "date": "2026-01-05"
+    }
+  }
+  </script>
+</body>
+</html>
