@@ -1,6 +1,6 @@
 #!/bin/sh
 # Builds/updates a single table-of-contents page linking to everything deploy-standalone.sh,
-# deploy-embedded.sh, and deploy-posts.sh just deployed. Must run after all three.
+# deploy-embedded.sh, deploy-posts.sh, and deploy-pages.sh just deployed. Must run last.
 set -e
 cd "$(dirname "$0")"
 . ./lib/config.sh
@@ -44,17 +44,20 @@ embedded_list_html() {
   echo "</ul>"
 }
 
-posts_list_html() {
-  # $1 = toc_group value, $2 = heading
+content_list_html() {
+  # $1 = toc_group value, $2 = heading. Covers both posts/hostile-posts (post_type=post)
+  # and pages/hostile-pages (post_type=page) — excludes the ToC page itself, which never
+  # gets a _test_corpus_toc_group value.
   group="$1"
   heading="$2"
   echo "<h3>$heading</h3><ul>"
-  for id in $(wp post list --meta_key=_test_corpus_slug --post_type=page --post_status=any --field=ID | grep -E '^[0-9]+$'); do
+  for id in $(wp post list --meta_key=_test_corpus_slug --post_type=any --post_status=any --field=ID | grep -E '^[0-9]+$'); do
     tg=$(wp post meta get "$id" _test_corpus_toc_group 2>/dev/null | tail -n1)
     if [ "$tg" = "$group" ]; then
-      url=$(wp post list --post__in="$id" --post_type=page --post_status=any --field=url | tail -n1)
-      title=$(wp post list --post__in="$id" --post_type=page --post_status=any --field=post_title | tail -n1)
-      echo "<li><a href=\"$url\">$title</a></li>"
+      url=$(wp post list --post__in="$id" --post_type=any --post_status=any --field=url | tail -n1)
+      title=$(wp post list --post__in="$id" --post_type=any --post_status=any --field=post_title | tail -n1)
+      post_type=$(wp post list --post__in="$id" --post_type=any --post_status=any --field=post_type | tail -n1)
+      echo "<li><a href=\"$url\">$title</a> ($post_type)</li>"
     fi
   done
   echo "</ul>"
@@ -71,10 +74,10 @@ $(file_list_html hostile-standalone "Hostile standalone")
 $(embedded_list_html embedded "Embedded")
 $(embedded_list_html hostile-embedded "Hostile embedded")
 
-<h2>Posts</h2>
-$(posts_list_html starter "Starter")
-$(posts_list_html full "Full")
-$(posts_list_html hostile "Hostile")
+<h2>Posts &amp; pages</h2>
+$(content_list_html starter "Starter")
+$(content_list_html full "Full")
+$(content_list_html hostile "Hostile")
 HTML
 )
 

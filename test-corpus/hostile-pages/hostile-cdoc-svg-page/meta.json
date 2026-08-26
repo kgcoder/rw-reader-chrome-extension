@@ -1,0 +1,15 @@
+{
+  "slug": "hostile-cdoc-svg-page",
+  "title": "Hostile CDOC SVG meta value (page)",
+  "toc_group": "hostile",
+  "doc_type": "CDOC",
+  "display_mode": "doc_in_reader",
+  "author_name_display": "default",
+  "publish_date_display": "default",
+  "republishing_policy": "default",
+  "sidebar": "default",
+  "connections_file": null,
+  "cdoc_svg_file": "cdoc.svg",
+  "condoc_main_url": null,
+  "condoc_description": null
+}

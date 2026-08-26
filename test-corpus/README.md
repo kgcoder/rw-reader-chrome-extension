@@ -7,11 +7,15 @@ A versioned set of Reader's Web test documents, consumed two ways:
 - **`embedded/` + `hostile-embedded/`** → mirrored via `deploy-embedded.sh` into a
   separate, independently configured location (`EMBEDDED_DEPLOY_PATH`), since embedded
   HDOC/CDOC/CONDOC piggyback on arbitrary HTML pages and don't require WordPress at all.
-- **`posts/` + `hostile-posts/`** → turned into WordPress pages (with meta) via
+- **`posts/` + `hostile-posts/`** → turned into WordPress **posts** (with meta) via
   `deploy-posts.sh`.
+- **`pages/` + `hostile-pages/`** → turned into WordPress **pages** (with meta) via
+  `deploy-pages.sh`. Same fixture set and slug-based identity as `posts/`, just deployed
+  as the `page` post type instead of `post` — for exercising plugin behavior that should
+  work identically regardless of post type.
 
 Re-running `deploy-all.sh` is safe and idempotent: editing a fixture and re-deploying
-updates the same WP page / mirrored file in place — no duplicate pages, no manual cleanup.
+updates the same WP post/page / mirrored file in place — no duplicates, no manual cleanup.
 `generate-toc.sh` (run last, automatically via `deploy-all.sh`) (re)builds a single
 table-of-contents page linking to everything just deployed.
 
@@ -32,10 +36,11 @@ deploy scripts from there, not from a regular Terminal window.
 directory (including Local's Site Shell) you can just run:
 
 ```sh
-rw-deploy-all          # deploy-standalone.sh + deploy-embedded.sh + deploy-posts.sh + generate-toc.sh, in order
+rw-deploy-all          # all deploy-*.sh scripts below + generate-toc.sh, in order
 rw-deploy-standalone    # standalone/ + hostile-standalone/ -> static-documents/
 rw-deploy-embedded      # embedded/ + hostile-embedded/ -> EMBEDDED_DEPLOY_PATH
-rw-deploy-posts         # posts/ + hostile-posts/ -> WP pages
+rw-deploy-posts         # posts/ + hostile-posts/ -> WP posts
+rw-deploy-pages         # pages/ + hostile-pages/ -> WP pages
 rw-generate-toc         # rebuild the table-of-contents page (run after the others)
 ```
 
@@ -86,6 +91,11 @@ Smoke case numbers refer to `Testing_roadmap.md` §3 (plugin repo, `noinclude/`)
   parses it (distinct from a hostile *file's* connections block).
 - `hostile-cdoc-svg-post` — script injection in the `_cdoc_svg` meta value; the plugin's
   own SVG sanitizer must strip it independently of the extension's `sanitizeCdocSvg`.
+
+### `pages/` and `hostile-pages/`
+Exact mirror of `posts/`/`hostile-posts/` (same slugs with `-page` instead of `-post`,
+same doc types/display modes/hostile payloads), deployed as WP post type `page` instead of
+`post` — for exercising plugin behavior that's supposed to be post-type-agnostic.
 
 ## Not yet covered (add as needed)
 

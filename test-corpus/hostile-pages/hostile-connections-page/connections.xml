@@ -1,0 +1,6 @@
+<connections>
+  <doc url="javascript:alert(1)" title="&lt;img src=x onerror=alert(1)&gt;" onclick="alert(1)">
+i:0;l:5
+  </doc>
+  <script>alert(1)</script>
+</connections>

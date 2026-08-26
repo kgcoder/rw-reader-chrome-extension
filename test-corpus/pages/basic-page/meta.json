@@ -1,0 +1,15 @@
+{
+  "slug": "basic-page",
+  "title": "Basic HDOC page",
+  "toc_group": "starter",
+  "doc_type": "HDOC",
+  "display_mode": "default",
+  "author_name_display": "default",
+  "publish_date_display": "default",
+  "republishing_policy": "default",
+  "sidebar": "default",
+  "connections_file": "connections.xml",
+  "cdoc_svg_file": null,
+  "condoc_main_url": null,
+  "condoc_description": null
+}

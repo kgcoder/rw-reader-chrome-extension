@@ -1,0 +1,15 @@
+{
+  "slug": "embedded-hdoc-forced-page",
+  "title": "Embedded HDOC forced display mode (page)",
+  "toc_group": "starter",
+  "doc_type": "HDOC",
+  "display_mode": "embedded_hdoc_forced",
+  "author_name_display": "default",
+  "publish_date_display": "default",
+  "republishing_policy": "default",
+  "sidebar": "default",
+  "connections_file": null,
+  "cdoc_svg_file": null,
+  "condoc_main_url": null,
+  "condoc_description": null
+}
