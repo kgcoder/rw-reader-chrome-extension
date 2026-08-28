@@ -11,7 +11,6 @@ https://github.com/kgcoder/readers-web-specs
 */
 
 import g from "./Globals.js"
-import { saveObjectInLocalStorage } from "./LocalStorageManager.js"
 
 // Each entry is a full set of font roles, mapped to CSS custom properties
 // (--font-<role>-family / -weight / -line-height) consumed by reader.css,
@@ -321,7 +320,7 @@ export async function setFontSet(id, shouldSave = false) {
     g.currentFontSet = fontId
 
     if (shouldSave) {
-        saveObjectInLocalStorage('fontSet', fontId)
+        g.hostAdapter.saveSetting('fontSet', fontId)
     }
 }
 

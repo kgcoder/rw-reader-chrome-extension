@@ -13,9 +13,11 @@ https://github.com/kgcoder/readers-web-specs
 import g from "../reader/Globals.js"
 import { copyDataToClipboard, getProtocolAndDomainFromUrl, replaceMediaTagsWithLinksInDiv, sanitizeHtml, showToastMessage, escapeXml, escapeHTML } from "../reader/helpers.js";
 import IconsInfo from "../reader/Icons.js";
-import { getObjectFromLocalStorage, saveObjectInLocalStorage } from "../reader/LocalStorageManager.js";
+import HostAdapter from "../adapter/HostAdapter.js";
 import { getSelectorsFromConfigString, parseHtmlStringWithConfig } from "../reader/parsers/HtmlPageParser.js";
 import { populateHeaderDiv } from "../reader/HeaderMethods.js";
+
+const hostAdapter = new HostAdapter()
 
 const kNoSavedRulesMessage = 'There are no saved parsing rules for this website'
 let originalContentString
@@ -278,7 +280,7 @@ window.addEventListener('initParsingRulesConstructor', async (e) => {
 
 
    
-        saveObjectInLocalStorage('parsingRulesObject',parsingRulesObject)
+        hostAdapter.saveSetting('parsingRulesObject',parsingRulesObject)
 
         showToastMessage("Parsing rules are saved for all websites")
     })
@@ -693,7 +695,7 @@ function showBlankPage(){
 
 
 async function getListOfParsingRules() {
-    const {value:result} = await getObjectFromLocalStorage('parsingRulesObject')
+    const result = await hostAdapter.getSetting('parsingRulesObject')
     const parsingRulesObject = result ?? {}
 
     const array = Object.entries(parsingRulesObject)
@@ -706,24 +708,24 @@ async function getListOfParsingRules() {
 
 
 async function getParsingRulesForHostname(hostname) {
-    const {value:result} = await getObjectFromLocalStorage('parsingRulesObject')
+    const result = await hostAdapter.getSetting('parsingRulesObject')
     const parsingRulesObject = result ?? {}
     return parsingRulesObject[hostname] ?? ''
 }
 
 
 async function saveParsingRulesForHostname(hostname, prString) {
-    const {value:result} = await getObjectFromLocalStorage('parsingRulesObject')
+    const result = await hostAdapter.getSetting('parsingRulesObject')
 
     const parsingRulesObject = result ?? {}
-   
+
     if (!prString) {
         delete parsingRulesObject[hostname]
     } else {
         parsingRulesObject[hostname] = prString
     }
-    
-    saveObjectInLocalStorage('parsingRulesObject',parsingRulesObject)
+
+    hostAdapter.saveSetting('parsingRulesObject',parsingRulesObject)
 
 }
 

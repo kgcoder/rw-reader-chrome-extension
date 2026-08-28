@@ -12,7 +12,6 @@ https://github.com/kgcoder/readers-web-specs
 
 import g from "./Globals.js"
 import SHA256 from './hashing/sha256-es/src/sha256.js'
-import { saveObjectInLocalStorage } from "./LocalStorageManager.js";
 import DOMPurify from './dompurify/purify.es.mjs';
 import FloatingLink from "./models/FloatingLink.js";
 
@@ -39,7 +38,7 @@ export async function setTheme(themeName, shouldSave = false) {
     g.currentTheme = themeName
     
     if (shouldSave) {
-        saveObjectInLocalStorage('theme',themeName)
+        g.hostAdapter.saveSetting('theme', themeName)
     }
 
     g.readingManager.recolorConnectionsForCurrentTheme()

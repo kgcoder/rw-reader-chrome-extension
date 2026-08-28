@@ -28,7 +28,7 @@ export async function loadStaticContentFromUrl(originalUrl, isUserSpecifiedUrl =
     
 
 
-    const result = await fetchWebPage(urlToCall, isUserSpecifiedUrl)
+    const result = await fetchWebPage(urlToCall, { isUserSpecifiedUrl })
 
     if (!result) {
         if (!muteErrorMessage) {

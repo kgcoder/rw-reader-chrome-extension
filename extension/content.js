@@ -463,7 +463,7 @@ async function showReaderOverlay() {
 
     const script = document.createElement('script');
     script.type = "module";
-    script.src = chrome.runtime.getURL('reader/readerStartUp.js');
+    script.src = chrome.runtime.getURL('adapter/startup.js');
     script.onload = () => {
         window.dispatchEvent(new CustomEvent('initReader', {detail:{ contentString, url:currentLocation, useThinLinks, savedParsingRules }}));
     };
@@ -535,7 +535,7 @@ async function showParsingRulesConstructor(){
 
     const script = document.createElement('script');
     script.type = "module";
-    script.src = chrome.runtime.getURL('prconstructor/prConstructorStartUp.js');
+    script.src = chrome.runtime.getURL('prconstructor/prConstructorStartup.js');
     script.onload = () => {
         window.dispatchEvent(new CustomEvent('initParsingRulesConstructor', {detail:{ contentString, url:currentLocation }}));
     };

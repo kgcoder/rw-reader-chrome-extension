@@ -19,7 +19,6 @@ import { fetchWebPage } from './NetworkManager.js'
 import ExportPageManager from './ExportPageManager.js'
 import { loadStaticContentFromUrl } from './parsers/ParsingManager.js'
 import { hideMultipleLinksPopup } from './MultipleLinksPopupManager.js'
-import { saveObjectInLocalStorage } from './LocalStorageManager.js'
 
 export const kMiddleGap = 50
 export const kMinDocWidthForDesktop = 430
@@ -468,7 +467,7 @@ class PopupDocumentManager{
 
         if(diff != 0){
             showToastMessage(`Font size: ${this.fontSize}${this.fontSize === kDefaultFontSize ? ' (default)' : ''}`)
-            saveObjectInLocalStorage('fontSize', this.fontSize)
+            g.hostAdapter.saveSetting('fontSize', this.fontSize)
         }
     }
 

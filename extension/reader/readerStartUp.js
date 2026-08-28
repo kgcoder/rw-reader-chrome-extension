@@ -16,7 +16,6 @@ import { setFontSet } from "./Fonts.js";
 import IconsInfo from "./Icons.js";
 import { parseStaticContent } from "./parsers/ParsingManager.js";
 import { checkKey } from "./KeyboardManager.js";
-import { getObjectFromLocalStorage } from "./LocalStorageManager.js";
 
 let mainDocData
 window.addEventListener("message", (event) => {
@@ -147,7 +146,7 @@ async function loadUIAndIcons() {
 
 
 async function useSavedTheme() {
-    let { value: saved } = await getObjectFromLocalStorage('theme')
+    let saved = await g.hostAdapter.getSetting('theme')
     if (!saved) {
         saved = "light"
     }
@@ -157,19 +156,19 @@ async function useSavedTheme() {
 
 
 async function useSavedFontSet() {
-    const { value: saved } = await getObjectFromLocalStorage('fontSet')
+    const saved = await g.hostAdapter.getSetting('fontSet')
     await setFontSet(saved, false)
 }
 
 
 async function useSavedFavorites() {
-    const { value: saved } = await getObjectFromLocalStorage('favorites')
+    const saved = await g.hostAdapter.getSetting('favorites')
     g.favorites = saved ?? []
 }
 
 
 async function useSavedFontSize() {
-    const { value: saved } = await getObjectFromLocalStorage('fontSize')
+    const saved = await g.hostAdapter.getSetting('fontSize')
     if (saved) {
         g.pdm.fontSize = saved
     }
