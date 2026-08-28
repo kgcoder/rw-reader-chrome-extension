@@ -42,7 +42,9 @@
         {
             "resources": [
                 "images/*",
-                "reader/*"
+                "adapter/*",
+                "reader/*",
+                "prconstructor/*"
             ],
             "matches": [
                 "<all_urls>"

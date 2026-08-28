@@ -438,7 +438,7 @@ async function showReaderOverlay() {
 
     }
 
-    const res = await fetch(chrome.runtime.getURL("reader/reader.html"));
+    const res = await fetch(chrome.runtime.getURL("adapter/reader.html"));
     const html = await res.text();
     
 
@@ -513,7 +513,7 @@ async function showParsingRulesConstructor(){
     const contentString = document.documentElement.outerHTML
 
 
-    const res = await fetch(chrome.runtime.getURL("reader/prconstructor.html"));
+    const res = await fetch(chrome.runtime.getURL("prconstructor/prconstructor.html"));
     const html = await res.text();
     
 
@@ -535,14 +535,14 @@ async function showParsingRulesConstructor(){
 
     const script = document.createElement('script');
     script.type = "module";
-    script.src = chrome.runtime.getURL('reader/prConstructorStartUp.js');
+    script.src = chrome.runtime.getURL('prconstructor/prConstructorStartUp.js');
     script.onload = () => {
         window.dispatchEvent(new CustomEvent('initParsingRulesConstructor', {detail:{ contentString, url:currentLocation }}));
     };
     document.body.appendChild(script);
 
     const cssLink = document.createElement('link')
-    cssLink.href = chrome.runtime.getURL('reader/prconstructor.css')
+    cssLink.href = chrome.runtime.getURL('prconstructor/prconstructor.css')
     cssLink.rel = "stylesheet"
     document.head.appendChild(cssLink)
 

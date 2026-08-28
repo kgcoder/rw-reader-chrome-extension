@@ -10,12 +10,12 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/readers-web-specs
 */
 
-import g from "./Globals.js"
-import { copyDataToClipboard, getProtocolAndDomainFromUrl, replaceMediaTagsWithLinksInDiv, sanitizeHtml, showToastMessage, escapeXml, escapeHTML } from "./helpers.js";
-import IconsInfo from "./Icons.js";
-import { getObjectFromLocalStorage, saveObjectInLocalStorage } from "./LocalStorageManager.js";
-import { getSelectorsFromConfigString, parseHtmlStringWithConfig } from "./parsers/HtmlPageParser.js";
-import { populateHeaderDiv } from "./HeaderMethods.js";
+import g from "../reader/Globals.js"
+import { copyDataToClipboard, getProtocolAndDomainFromUrl, replaceMediaTagsWithLinksInDiv, sanitizeHtml, showToastMessage, escapeXml, escapeHTML } from "../reader/helpers.js";
+import IconsInfo from "../reader/Icons.js";
+import { getObjectFromLocalStorage, saveObjectInLocalStorage } from "../reader/LocalStorageManager.js";
+import { getSelectorsFromConfigString, parseHtmlStringWithConfig } from "../reader/parsers/HtmlPageParser.js";
+import { populateHeaderDiv } from "../reader/HeaderMethods.js";
 
 const kNoSavedRulesMessage = 'There are no saved parsing rules for this website'
 let originalContentString
