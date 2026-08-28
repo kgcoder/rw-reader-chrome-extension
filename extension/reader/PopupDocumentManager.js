@@ -162,7 +162,7 @@ class PopupDocumentManager{
 
 
     
-        const infoButton = document.getElementById("CurrentDocumentInfoButton")
+        const infoButton = document.getElementById(g.hostAdapter.mainDocumentInfoButtonId)
         this.createOneSVGIconComponent(infoButton,g.iconsInfo.svgIcons.infoIcon,'Reader-InfoButton')
         infoButton.addEventListener('click', this.infoButtonPressed)
         
@@ -599,7 +599,7 @@ class PopupDocumentManager{
         const optionalTitle = document.getElementById("CurrentDocumentOptionalTitleSpan")
         optionalTitle.innerText = this.mainDocTitle
 
-        const titleSpan = document.getElementById("CurrentDocumentTitleSpan")
+        const titleSpan = document.getElementById(g.hostAdapter.mainDocumentTitleSpanId)
         titleSpan.innerText = mainPageUrl
 
         const leftTitleLink = document.getElementById("CurrentDocumentTitleLink")
@@ -735,7 +735,7 @@ class PopupDocumentManager{
 
         if (!g.readingManager.mainCollageViewer?.content) return
         
-        const titleSpan = document.getElementById("CurrentDocumentTitleSpan")
+        const titleSpan = document.getElementById(g.hostAdapter.mainDocumentTitleSpanId)
         const optionalTitleSpan = document.getElementById("CurrentDocumentOptionalTitleSpan")
 
         const collageContent = g.readingManager.mainCollageViewer.content
@@ -849,7 +849,7 @@ class PopupDocumentManager{
         downloadAllButton.style.display = count < total ? 'flex' : 'none'
         
   
-        const titleSpan = document.getElementById("CurrentDocumentTitleSpan")
+        const titleSpan = document.getElementById(g.hostAdapter.mainDocumentTitleSpanId)
 
         const optionalTitleSpan = document.getElementById("CurrentDocumentOptionalTitleSpan")
 
@@ -1991,7 +1991,7 @@ class PopupDocumentManager{
      
         const buttonDivWrapper = document.getElementById("CurrentDocumentInfoButtonWrapper")
 
-        const buttonDiv = document.getElementById("CurrentDocumentInfoButton")
+        const buttonDiv = document.getElementById(g.hostAdapter.mainDocumentInfoButtonId)
 
         const countDiv = document.getElementById("CurrentDocumentInfoButtonCountDiv")
         const countText = countDiv.textContent  

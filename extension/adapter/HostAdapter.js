@@ -39,6 +39,9 @@ window.postMessage({ type: 'READER_READY' }, '*')
 
 export default class HostAdapter {
 
+    mainDocumentTitleSpanId = "CurrentDocumentTitleSpan"
+    mainDocumentInfoButtonId = "CurrentDocumentInfoButton"
+
     async fetchWebPage(url, options = {}) {
         await _portReady
 

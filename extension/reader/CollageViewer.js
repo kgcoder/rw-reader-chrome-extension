@@ -243,7 +243,7 @@ class CollageViewer{
 
     getTitleSpan(title){
         if(this.rightDocIndex < 0){
-            return document.getElementById("CurrentDocumentTitleSpan")
+            return document.getElementById(g.hostAdapter.mainDocumentTitleSpanId)
         }else{
             const noteData = g.readingManager.rightNotesData[this.rightDocIndex]
             noteData.title = title
