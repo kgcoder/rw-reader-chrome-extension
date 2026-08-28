@@ -493,7 +493,7 @@ export function sanitizeHtml(htmlString, additionalForbiddenTags = []) {
 
 
 
-    return purifiedHtml ?? ''
+    return purifiedHtml ?? ''//@@@
 
 
 
@@ -528,7 +528,7 @@ export function removeTitleFromContent(htmlString, titleText, titleSelector) {
     const htmlDoc = htmlParser.parseFromString(htmlString, 'text/html');
 
     try{
-        const titleEl = htmlDoc.querySelector(titleSelector ?? 'h1')
+        const titleEl = htmlDoc.querySelector(titleSelector ?? 'h1')//@@@
         if (titleEl && titleEl.textContent.trim() === titleText.trim()) {
             titleEl.parentElement.removeChild(titleEl)  
         }
@@ -545,7 +545,7 @@ export function removeTitleFromContent(htmlString, titleText, titleSelector) {
 export function getH1TitleFromDoc(htmlDoc, titleSelector) {
 
     try{
-        const headerEl = htmlDoc.querySelector(titleSelector ?? 'h1')
+        const headerEl = htmlDoc.querySelector(titleSelector ?? 'h1')//@@@
 
         if (headerEl) {
             return headerEl.textContent
