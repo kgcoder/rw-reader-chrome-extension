@@ -14,6 +14,7 @@ import g from './Globals.js'
 import { cleanConnectedDocURL, createOneIconComponent, createOneSVGIconComponent, getDataFromCondocXML, getDesiredConnectionsFromHdocDataJson, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, getTextFromDiv, hideUrlInTheCorner, isDotInsideFrame, isoToHumanReadableDate, removeAllChildren, sanitizeHtml, sanitizeUrl, showToastMessage, showUrlInTheCorner, stripHtmlTags } from './helpers.js'
 import PageInfoManager from './PageInfoManager.js'
 import CollageViewer from './CollageViewer.js'
+//@@@
 import { getFlinkColorsForTheme, kSidebarWidthToScreenWidthRatio } from './constants.js'
 import { fetchWebPage } from './NetworkManager.js'
 import ExportPageManager from './ExportPageManager.js'
@@ -135,7 +136,7 @@ class PopupDocumentManager{
     
         const iconPaths = g.iconsInfo.iconPaths
       
-
+        //@@@ - add if
         const downloadLink = document.getElementById("MainDocDownloadLink")
         downloadLink.addEventListener('click', (e) => {
             e.preventDefault()
@@ -146,7 +147,7 @@ class PopupDocumentManager{
         })
     
       
-    
+        //@@@
         const closeButton = document.getElementById("CurrentDocumentCloseButton")
         this.createOneSVGIconComponent(closeButton,g.iconsInfo.svgIcons.closeIcon,'Reader-CloseButton')
 
@@ -163,28 +164,34 @@ class PopupDocumentManager{
 
     
         const infoButton = document.getElementById(g.hostAdapter.mainDocumentInfoButtonId)
+        //@@@
         this.createOneSVGIconComponent(infoButton,g.iconsInfo.svgIcons.infoIcon,'Reader-InfoButton')
+        //@@@
         infoButton.addEventListener('click', this.infoButtonPressed)
         
         const downloadAllButton = document.getElementById("CurrentDocumentDownloadAllDocsButton")
-
+        //@@@
 
         this.createOneSVGIconComponent(downloadAllButton,g.iconsInfo.svgIcons.downloadAll,'Reader-DownloadAllButton')
+        //@@@
         downloadAllButton.addEventListener('click',g.readingManager.downloadAllPages)
     
         const fullScreenButton = document.getElementById("CurrentDocumentFullScreenButton")
+        //@@@
         this.createOneSVGIconComponent(fullScreenButton,g.iconsInfo.svgIcons.fullscreenOffIcon,'Reader-FullscreenButton')
 
         fullScreenButton.addEventListener('click', this.fullScreenButtonPressed)
         fullScreenButton.style.display = 'none'
     
         const exportButton = document.getElementById("CurrentDocumentExportButton")
+        //@@@
         this.createOneSVGIconComponent(exportButton,g.iconsInfo.svgIcons.exportIcon,'Reader-ExportButton')
 
         exportButton.addEventListener('click', this.exportButtonPressed)
         exportButton.style.display = 'none'
 
         const sourceCodeButton = document.getElementById("CurrentDocumentSourceCodeButton")
+        //@@@
         this.createOneSVGIconComponent(sourceCodeButton,g.iconsInfo.svgIcons.sourceCode,'Reader-SourceCodeButton')
 
         sourceCodeButton.addEventListener('click', this.sourceCodeButtonPressed)
@@ -467,7 +474,7 @@ class PopupDocumentManager{
   
     }
 
-
+    //@@@
     updateFontSize = (diff) => {
         this.setFontSize(this.fontSize + diff)
 
@@ -477,7 +484,7 @@ class PopupDocumentManager{
         }
     }
 
-
+    //@@@
     setFontSize = (value) => {
         this.fontSize = value
 
@@ -640,7 +647,7 @@ class PopupDocumentManager{
 
     async downloadMainDocInCondoc(mainPageUrl, successCallback) {
          g.pdm.showMainDocSpinner()
-        const embeddedDataObject = await loadStaticContentFromUrl(mainPageUrl)
+        const embeddedDataObject = await loadStaticContentFromUrl(mainPageUrl)//@@@
         g.pdm.hideMainDocSpinner()
         
 
@@ -739,7 +746,7 @@ class PopupDocumentManager{
 
     collageLoadedCallback = async () => {
 
-        if (!g.readingManager.mainCollageViewer?.content) return
+        if (!g.readingManager.mainCollageViewer?.content) return//@@@
         
         const titleSpan = document.getElementById(g.hostAdapter.mainDocumentTitleSpanId)
         const optionalTitleSpan = document.getElementById("CurrentDocumentOptionalTitleSpan")
@@ -780,6 +787,7 @@ class PopupDocumentManager{
       
 
         setTimeout(() => {
+            //@@@
             g.readingManager.drawFlinksOnTheLeftOnly()  
         
             if (!g.readingManager.isFullScreen) {
@@ -951,6 +959,7 @@ class PopupDocumentManager{
 
 
         setTimeout(() => {
+            //@@@
             g.readingManager.drawFlinksOnTheLeftOnly()  
          
             if (!g.readingManager.isFullScreen) {
@@ -1023,7 +1032,7 @@ class PopupDocumentManager{
             g.readingManager.connections.forEach(con => con.isOriginal = true)
         }
 
-        const colors = getFlinkColorsForTheme(g.currentTheme)
+        const colors = getFlinkColorsForTheme(g.currentTheme)//@@@
 
         let j = 0
         for (let i = 0; i < g.readingManager.connections.length; i++){
@@ -2109,7 +2118,7 @@ class PopupDocumentManager{
             this.populatePanelsOfOneRightDoc()
 
             if(g.readingManager.rightNotesData.length === 1){
-                optionalTitleSpan.innerText = noteData.title ?? ''
+                optionalTitleSpan.innerText = noteData.title ?? ''//@@@
                 optionalTitleSpan.style.display = 'block'
 
             }else{
@@ -2117,7 +2126,7 @@ class PopupDocumentManager{
             }
 
             const titleSpan = document.getElementById("RightDocumentTitleSpan")
-            titleSpan.innerText = noteData.url ?? ''
+            titleSpan.innerText = noteData.url ?? ''//@@@
          
 
         }else{
@@ -2213,7 +2222,7 @@ class PopupDocumentManager{
     getCurrentDocTopOffset() {
         
         if (g.readingManager.mainDocType === 'c') {
-            return this.currentDocTopPanelShowing ? 50 : 0
+            return this.currentDocTopPanelShowing ? 50 : 0//@@@
         }
 
         const parent = document.getElementById("CurrentDocument");
@@ -2224,14 +2233,14 @@ class PopupDocumentManager{
         const childRect = child.getBoundingClientRect();
 
    
-        return childRect.top - parentRect.top + parent.scrollTop;
+        return childRect.top - parentRect.top + parent.scrollTop;//@@@
  
     }
 
 
     getRightDocTopOffset(noteData) {
         if (noteData.docType === 'c') {
-            return noteData.currentDocTopPanelShowing ? 50 : 0
+            return noteData.currentDocTopPanelShowing ? 50 : 0//@@@
         }
         
         const parent = noteData.scrollDiv
@@ -2242,7 +2251,7 @@ class PopupDocumentManager{
         const childRect = child.getBoundingClientRect();
 
   
-        return childRect.top - parentRect.top + parent.scrollTop;
+        return childRect.top - parentRect.top + parent.scrollTop;//@@@
  
     }
 
@@ -2267,21 +2276,21 @@ class PopupDocumentManager{
         const iconPaths = g.iconsInfo.iconPaths
         const flinksListContainerDiv = document.getElementById("LinksListContainerDiv")
         const flinksContainerWidth = isFullscreenList ? window.innerWidth : kMaxListWidth 
-        flinksListContainerDiv.style.top = (kLeftDivTop + 1) + 'px'
+        flinksListContainerDiv.style.top = (kLeftDivTop + 1) + 'px'//@@@
         flinksListContainerDiv.style.width = `${isFullscreenList ? window.innerWidth : kMaxListWidth}px`
-        flinksListContainerDiv.style.maxHeight = `${window.innerHeight - kLeftDivTop }px`
+        flinksListContainerDiv.style.maxHeight = `${window.innerHeight - kLeftDivTop }px`//@@@
         
-        const leftOffset = this.getMainLeftOffset()
+        const leftOffset = this.getMainLeftOffset()//@@@
         
         if(g.isMobileMode && isFullscreenList){
-            flinksListContainerDiv.style.left = `${-leftOffset}px`
+            flinksListContainerDiv.style.left = `${-leftOffset}px`//@@@
             flinksListContainerDiv.style.right = '0px'
         }else if(g.isMobileMode){
             if(leftOffset >=0){
                 flinksListContainerDiv.style.left = ''
                 flinksListContainerDiv.style.right = '0px'
             }else{
-                flinksListContainerDiv.style.left = `${-leftOffset}px`
+                flinksListContainerDiv.style.left = `${-leftOffset}px`//@@@
                 flinksListContainerDiv.style.right = ''
             }
         }else{
@@ -2692,6 +2701,7 @@ class PopupDocumentManager{
 
     getComments = async (commentsDiv, commentsUrl, commentsTitle, noCommentsMessage, listenersOwner, leaveCommentUrl, replyLabel, leaveCommentLabel, page = 1, loadMoreLabel = '') => {
         if (page === 1) {
+            //@@@
             listenersOwner.commentsDiv = commentsDiv
             listenersOwner.commentsUrl = commentsUrl
             listenersOwner.currentCommentsPage = 1
@@ -2905,7 +2915,7 @@ class PopupDocumentManager{
         commentsDiv.appendChild(oneCommentDiv)
     }
 
-    openCommentPopup = (url, onSuccess, pageOrigin) => {
+    openCommentPopup = (url, onSuccess, pageOrigin) => {//@@@
         const overlay = document.createElement('div')
         overlay.className = 'swp-comment-popup-overlay'
 
@@ -2917,6 +2927,7 @@ class PopupDocumentManager{
         closeBtn.textContent = '✕'
         closeBtn.addEventListener('click', () => overlay.remove())
 
+        //@@@
         popup.appendChild(closeBtn)
 
         let formOrigin
@@ -2932,7 +2943,7 @@ class PopupDocumentManager{
         const iframe = document.createElement('iframe')
         iframe.src = url
         iframe.className = 'swp-comment-popup-iframe'
-
+        //@@@
         popup.appendChild(iframe)
         overlay.appendChild(popup)
         overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove() })
