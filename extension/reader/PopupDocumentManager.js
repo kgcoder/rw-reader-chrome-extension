@@ -447,8 +447,14 @@ class PopupDocumentManager{
         rightDocumentCenterCollageButton.style.display = 'none'
     
         
+        if(g.hostAdapter.isPromotionalButtonSupported){
+            const promotionButton = document.getElementById("PromotionButton")
+            if(promotionButton){
+                this.createOneSVGIconComponent(promotionButton,g.iconsInfo.svgIcons.extensionLogo,'Reader-PromotionButton')
+                promotionButton.addEventListener('click', this.promotionButtonPressed)
     
-  
+            }
+        }
     
 
         const rightDocumentCopyButton = document.getElementById("RightDocumentCopyButton")
@@ -626,7 +632,7 @@ class PopupDocumentManager{
         downloadAllButton.style.display = count < total ? 'flex' : 'none'
 
 
-        this.downloadMainDocInCondoc(mainPageUrl)
+        g.hostAdapter.executeAfterOptionalDelay(() => this.downloadMainDocInCondoc(mainPageUrl))
        
 
     }
@@ -1203,9 +1209,19 @@ class PopupDocumentManager{
             const hasComments = !!(commentsPanel && commentsPanel.commentsUrl)
             belowContentCommentsDiv.style.display = hasComments ? 'block' : 'none'
             if(hasComments){
-                this.getComments(belowContentCommentsDiv, commentsPanel.commentsUrl, commentsPanel.commentsTitle,
-                    commentsPanel.noCommentsMessage, dataObject, commentsPanel.leaveCommentUrl,
-                    commentsPanel.commentsReplyLabel, commentsPanel.commentsLeaveLabel, 1, commentsPanel.commentsLoadMoreLabel)
+                const currentPageHostname = new URL(g.readingManager.mainDocData.url).hostname
+                const requestedPageHostname = new URL(commentsPanel.commentsUrl).hostname
+                if(g.hostAdapter.shouldBlockCrossOriginCommentsRequests && requestedPageHostname !== currentPageHostname){
+                    const targetUrl = isRight ? dataObject.url : (g.readingManager.embeddedDocData ? g.readingManager.embeddedDocData.url : g.readingManager.mainDocData.url)
+                    this.renderOpenInNewTabComments(belowContentCommentsDiv, targetUrl, commentsPanel.commentsTitle)
+                }else{
+                    g.hostAdapter.executeAfterOptionalDelay(() =>
+                         this.getComments(belowContentCommentsDiv, commentsPanel.commentsUrl, commentsPanel.commentsTitle,
+                                commentsPanel.noCommentsMessage, dataObject, commentsPanel.leaveCommentUrl,
+                                commentsPanel.commentsReplyLabel, commentsPanel.commentsLeaveLabel, 1, commentsPanel.commentsLoadMoreLabel)
+
+                    )
+                }
             }else{
                 this.cleanCommentsDiv(belowContentCommentsDiv)
             }
@@ -2595,6 +2611,76 @@ class PopupDocumentManager{
     }
 
  
+    promotionButtonPressed = () => {
+        this.openPromotionPopup()
+    }
+
+    openPromotionPopup = () => {
+        const PROMOTION_URL = 'https://readersweb.org/uploads/readers-web-promo-popup.html'
+
+        const overlay = document.createElement('div')
+        overlay.className = 'swp-comment-popup-overlay'
+
+        const popup = document.createElement('div')
+        popup.className = 'swp-comment-popup'
+
+        const closeBtn = document.createElement('button')
+        closeBtn.className = 'swp-comment-popup-close'
+        closeBtn.textContent = '✕'
+        closeBtn.addEventListener('click', () => overlay.remove())
+
+        const iframe = document.createElement('iframe')
+        iframe.src = PROMOTION_URL
+        iframe.className = 'swp-comment-popup-iframe'
+
+        iframe.addEventListener('load', () => {
+            try {
+                const links = iframe.contentDocument.querySelectorAll('a')
+                links.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        if (link.getAttribute('target') === '_blank') return
+                        e.preventDefault()
+                        overlay.remove()
+                        window.location.href = link.href
+                    })
+                })
+            } catch (_) {
+                // cross-origin: links behave as-is inside iframe
+            }
+        })
+
+        popup.appendChild(closeBtn)
+        popup.appendChild(iframe)
+        overlay.appendChild(popup)
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove() })
+        document.body.appendChild(overlay)
+    }
+
+
+    renderOpenInNewTabComments = (commentsDiv, targetUrl, commentsTitle) => {
+        const parsed = new URL(targetUrl)
+        parsed.hash = ''
+        const cleanUrl = parsed.toString()
+
+        const label = g.hostAdapter.getOpenCommentsInNewTabLabel()
+
+        this.cleanCommentsDiv(commentsDiv)
+
+        if (commentsTitle) {
+            const h2 = document.createElement('h2')
+            h2.className = 'comments-title'
+            h2.textContent = commentsTitle
+            commentsDiv.appendChild(h2)
+
+        }
+
+
+        const openBtn = document.createElement('button')
+        openBtn.className = 'swp-leave-comment-btn'
+        openBtn.textContent = label
+        openBtn.addEventListener('click', () => window.open(cleanUrl, '_blank'))
+        commentsDiv.appendChild(openBtn)
+    }
     
 
     cleanCommentsDiv(commentsDiv) {

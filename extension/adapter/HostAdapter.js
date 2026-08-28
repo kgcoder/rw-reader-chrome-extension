@@ -42,6 +42,9 @@ export default class HostAdapter {
     mainDocumentTitleSpanId = "CurrentDocumentTitleSpan"
     mainDocumentInfoButtonId = "CurrentDocumentInfoButton"
 
+    shouldBlockCrossOriginCommentsRequests = false
+    isPromotionalButtonSupported = false
+
     async fetchWebPage(url, options = {}) {
         await _portReady
 
@@ -59,6 +62,12 @@ export default class HostAdapter {
             _port.addEventListener("message", handleResponse)
             _port.postMessage({ type: "FETCH_WEB_PAGE", url, id, isUserSpecifiedUrl: options.isUserSpecifiedUrl })
         })
+    }
+
+
+    executeAfterOptionalDelay(func,delay = 500){
+        //delay is only needed in the plugin
+        func()  
     }
 
     getSetting(key) {
@@ -81,5 +90,11 @@ export default class HostAdapter {
 
     saveSetting(key, value) {
         window.postMessage({ type: "SAVE_OBJECT_IN_LOCAL_STORAGE", objectName: key, object: value }, "*")
+    }
+
+
+
+    getOpenCommentsInNewTabLabel(){
+        return ''
     }
 }
