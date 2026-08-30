@@ -322,6 +322,11 @@ export async function setFontSet(id, shouldSave = false) {
     if (shouldSave) {
         g.hostAdapter.saveSetting('fontSet', fontId)
     }
+
+    g.readingManager.applyFlinksOnTheLeft()
+
+    g.readingManager.applyFlinksOnTheRight()
+
 }
 
 
