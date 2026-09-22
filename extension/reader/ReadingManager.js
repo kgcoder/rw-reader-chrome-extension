@@ -2128,7 +2128,7 @@ setupFlinksCanvasDPR(){
                     const leftEnd = flink.leftEnds[0]
                     const {x:dotAbsX,y:dotAbsY,radius} = leftEnd
                     const collageViewer = this.mainCollageViewer
-                     const relCoordinates = collageViewer.getRelativePoint(dotAbsX,dotAbsY) 
+                    const relCoordinates = collageViewer.getRelativePoint(dotAbsX,dotAbsY) 
                     if(!relCoordinates)continue
                     const {xRel, yRel} = relCoordinates
                     const distance = Math.sqrt(Math.pow(xRel - x, 2) + Math.pow(yRel - y, 2))
@@ -2137,16 +2137,32 @@ setupFlinksCanvasDPR(){
                         const noteDataIndex = this.getNoteIndexByUrl(flinksData.url)
 
                         if (noteDataIndex === -1) {
-     
-                         
+                              
                             await g.readingManager.downloadOnePage(flinksData.url)
 
-                            const noteData = this.rightNotesData[this.rightNotesData.length - 1]
-                            if (noteData.docType === 'h') { 
-                                const rightDotTopPanelHeight = g.pdm.getRightDocTopOffset(noteData)
-                                const secondScrollDiv = noteData.scrollDiv
-                                this.scrollRightDocInPositionForPoint(flink,yRel + kLeftDivTop, secondScrollDiv,rightDotTopPanelHeight)
-                            }
+                        
+                            setTimeout(() => {
+                                g.readingManager.moveLeftCollageToCenterTheDot(flink, kLeftDivTop, 0)
+                                
+                                const noteData = this.rightNotesData[this.rightNotesData.length - 1]
+                                if (noteData.docType === 'h') { 
+                                    const rightDotTopPanelHeight = g.pdm.getRightDocTopOffset(noteData)
+                                    const secondScrollDiv = noteData.scrollDiv
+    
+                                 
+                                    setTimeout(() => {
+    
+    
+                                        const relCoordinates = collageViewer.getRelativePoint(dotAbsX,dotAbsY) 
+                                        const {yRel} = relCoordinates
+    
+                                        g.readingManager.scrollRightDocInPositionForPoint(flink,yRel + kLeftDivTop, secondScrollDiv,rightDotTopPanelHeight)
+                                    },100)
+                                    
+                                }
+                            },300)
+                            
+
                             return
                         }
                         
@@ -2157,14 +2173,32 @@ setupFlinksCanvasDPR(){
 
                         }else if(noteData.docType === 'h'){
 
+                            let shouldDelayRightScroll = false
+                            if(g.readingManager.isFullScreen){
+                                await g.pdm.toggleFullScreen()
+
+                                shouldDelayRightScroll = true
+
+                                g.readingManager.moveLeftCollageToCenterTheDot(flink, kLeftDivTop, 0)
+                               
+                            }
+
+
                             if(this.selectedRightDocIndex !== noteDataIndex){
                                 g.pdm.showTab(noteDataIndex)
                                 g.readingManager.redrawFlinks()
                             }
 
+
+
                             const rightDotTopPanelHeight = g.pdm.getRightDocTopOffset(noteData)
                             const secondScrollDiv = noteData.scrollDiv
-                            this.scrollRightDocInPositionForPoint(flink,yRel + kLeftDivTop, secondScrollDiv,rightDotTopPanelHeight)
+                            setTimeout(() => {
+                                const relCoordinates = collageViewer.getRelativePoint(dotAbsX,dotAbsY) 
+                                const {yRel} = relCoordinates
+                                this.scrollRightDocInPositionForPoint(flink,yRel + kLeftDivTop, secondScrollDiv,rightDotTopPanelHeight)
+                            },shouldDelayRightScroll ? 400 : 0)
+                            
                         }
                         return
                     }
@@ -2563,23 +2597,37 @@ setupFlinksCanvasDPR(){
 
         if (noteDataIndex === -1) {
             await g.readingManager.downloadOnePage(flinksData.url)
-            const noteData = this.rightNotesData[this.rightNotesData.length - 1]
+            setTimeout(() => {
+                g.readingManager.scrollMainDocToShowFlink(flink,0)
+                
+                const noteData = this.rightNotesData[this.rightNotesData.length - 1]
+    
+                setTimeout(() => {
+                    if(noteData){
+                        if (noteData.docType === 'c') {
+                            this.moveRightCollageInPositionForLink(flink,mainScrollDocDiv.scrollTop, topPanelHeight)
+                        }else if(noteData.docType === 'h'){
+                            const secondScrollDiv = noteData.scrollDiv
+                            this.scrollRightDocInPositionForLink(flink,mainScrollDocDiv.scrollTop,secondScrollDiv,noteData)
+                        }
+        
+                    }
 
-            if(noteData){
-                if (noteData.docType === 'c') {
-                    this.moveRightCollageInPositionForLink(flink,mainScrollDocDiv.scrollTop, topPanelHeight)
-                }else if(noteData.docType === 'h'){
-                    const secondScrollDiv = noteData.scrollDiv
-                    this.scrollRightDocInPositionForLink(flink,mainScrollDocDiv.scrollTop,secondScrollDiv,noteData)
-                }
+                },100)
+            },300)
 
-            }
             return
         }
         const noteData = this.rightNotesData[noteDataIndex]
 
+        let shouldDelayRightScroll = false
         if (this.isFullScreen) {
             g.pdm.toggleFullScreen()
+
+            setTimeout(() => {
+                g.readingManager.scrollMainDocToShowFlink(flink,0)
+            },300)
+            shouldDelayRightScroll = true
         }
         
         if (noteData.docType === 'c') {
@@ -2589,7 +2637,9 @@ setupFlinksCanvasDPR(){
                 g.readingManager.redrawFlinks()
             }
 
-            this.moveRightCollageInPositionForLink(flink,mainScrollDocDiv.scrollTop, topPanelHeight)
+            setTimeout(() => {
+                this.moveRightCollageInPositionForLink(flink,mainScrollDocDiv.scrollTop, topPanelHeight)
+            },shouldDelayRightScroll ? 400 : 0)
 
 
         }else if(noteData.docType === 'h'){
@@ -2601,7 +2651,9 @@ setupFlinksCanvasDPR(){
             }
 
             const secondScrollDiv = noteData.scrollDiv
-            this.scrollRightDocInPositionForLink(flink,mainScrollDocDiv.scrollTop,secondScrollDiv,noteData)
+            setTimeout(() => {
+                this.scrollRightDocInPositionForLink(flink,mainScrollDocDiv.scrollTop,secondScrollDiv,noteData)
+            },shouldDelayRightScroll ? 400 : 0)
             
         }
     }
@@ -2625,6 +2677,7 @@ setupFlinksCanvasDPR(){
             this.animateScroll(rightScrollDiv,neededRightScrollTop)
             return
         }
+
 
         const {rightTop,rightBottom} = flink
 
@@ -2717,13 +2770,13 @@ setupFlinksCanvasDPR(){
     }
 
 
-    moveLeftCollageToCenterTheDot(flink,topPanelHeight){
+    moveLeftCollageToCenterTheDot(flink,topPanelHeight, duration = 500){
         const topOffset = g.adminBarHeight
         const {rightTop,rightBottom} = flink
         const leftEnd = flink.leftEnds[0]
         const {x,y,radius} = leftEnd
         const centerY = (window.innerHeight - topOffset - topPanelHeight) / 2
-        this.mainCollageViewer.movePointToCenter(x,y,radius,centerY)
+        this.mainCollageViewer.movePointToCenter(x,y,radius,centerY, duration)
     }
 
 
@@ -2790,8 +2843,7 @@ setupFlinksCanvasDPR(){
 
     }
 
-    scrollMainDocToShowFlink(flink){
-      
+    scrollMainDocToShowFlink(flink, duration = 300){
         const leftScrollDiv = document.getElementById("CurrentDocument")
 
         if(flink.leftEndOutOfBounds){
@@ -2811,15 +2863,15 @@ setupFlinksCanvasDPR(){
 
         const neededLeftScrollTop =  -rightY + leftScrollDiv.scrollTop + currentLeftY
 
-        this.animateScroll(leftScrollDiv,neededLeftScrollTop)
+        this.animateScroll(leftScrollDiv,neededLeftScrollTop, duration)
 
 
     }
 
 
 
-      animateScroll(scrollableDiv,targetScrollTop) {
-        const duration = 300; // Animation duration in milliseconds
+      animateScroll(scrollableDiv,targetScrollTop, duration = 300) {
+        // Animation duration in milliseconds
       
         const startTime = performance.now();
         const startScrollTop = scrollableDiv.scrollTop;

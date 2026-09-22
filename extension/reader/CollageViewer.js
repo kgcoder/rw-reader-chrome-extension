@@ -284,7 +284,7 @@ class CollageViewer{
 
     }
 
-    movePointToCenter(x,y,radius,targetYRel){
+    movePointToCenter(x,y,radius,targetYRel, duration = 500){
 
         if(!this.viewport)return
         const targetK = 10 / radius
@@ -308,17 +308,16 @@ class CollageViewer{
 
    
         
-        this.animateViewPort(startX1,startY1,startY2,endX1,endY1,endY2)
+        this.animateViewPort(startX1,startY1,startY2,endX1,endY1,endY2, duration)
         
     }
 
 
-    animateViewPort(startX1,startY1,startY2,endX1,endY1,endY2){
-        const time = 500
+    animateViewPort(startX1,startY1,startY2,endX1,endY1,endY2, duration = 500){
     
         const animationStartTime = Date.now()
 
-        this.navigationAnimationParams = {startX1,startY1,startY2,endX1,endY1,endY2,animationStartTime,animationTime:time}
+        this.navigationAnimationParams = {startX1,startY1,startY2,endX1,endY1,endY2,animationStartTime,animationTime:duration}
 
         
         this.isAnimatingNavigation = true
