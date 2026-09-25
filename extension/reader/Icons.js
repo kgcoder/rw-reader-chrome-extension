@@ -38,9 +38,9 @@ class IconsInfo{
     pathForImage(src1x) {
         let result = ''
         if (pixelRatio >= 3) {
-            result = src1x.replace('.png','@3x.png')
+            result = src1x.replace('.png','_3x.png')
         } else if (pixelRatio > 1) {
-            result = src1x.replace('.png','@2x.png')
+            result = src1x.replace('.png','_2x.png')
         } else {
             result = src1x;
         }
