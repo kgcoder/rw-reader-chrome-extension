@@ -134,17 +134,17 @@ class PopupDocumentManager{
         const allDocumentsContainer = document.getElementById("AllDocumentsContainer")
         allDocumentsContainer.style.width = `${window.innerWidth}px`
     
-        const iconPaths = g.iconsInfo.iconPaths
       
-        //@@@ - add if
         const downloadLink = document.getElementById("MainDocDownloadLink")
-        downloadLink.addEventListener('click', (e) => {
-            e.preventDefault()
-            e.stopPropagation()
-
-            this.downloadMainDocInCondoc(g.readingManager.mainDocData.needsMainDocWithUrl)
-            
-        })
+        if(downloadLink){
+            downloadLink.addEventListener('click', (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+    
+                this.downloadMainDocInCondoc(g.readingManager.mainDocData.needsMainDocWithUrl)
+                
+            })
+        }
     
       
         //@@@
@@ -788,7 +788,7 @@ class PopupDocumentManager{
       
 
         setTimeout(() => {
-            //@@@
+            if(g.extensionTookControl)return
             g.readingManager.drawFlinksOnTheLeftOnly()  
         
             if (!g.readingManager.isFullScreen) {
@@ -960,7 +960,7 @@ class PopupDocumentManager{
 
 
         setTimeout(() => {
-            //@@@
+            if(g.extensionTookControl)return
             g.readingManager.drawFlinksOnTheLeftOnly()  
          
             if (!g.readingManager.isFullScreen) {

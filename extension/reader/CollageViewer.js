@@ -151,7 +151,7 @@ class CollageViewer{
       //  const {url,width,height} = this.content.info
         if(this.content){
             this.collageInfo = this.content.info
-            const title = this.content.title ?? ''
+            const title = this.content.title != null ? this.content.title : ''
             const titleSpan = this.getTitleSpan(title)
             if(titleSpan){
                 if(this.rightDocIndex < 0){
