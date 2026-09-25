@@ -59,7 +59,7 @@ window.addEventListener("message", (event) => {
             }
       }
       if (msg.type === "FAVORITES_CHANGED") {
-            g.favorites = msg.favorites ?? []
+            g.favorites = msg.favorites != null ? msg.favorites : []
       }
 });
 
@@ -163,7 +163,7 @@ async function useSavedFontSet() {
 
 async function useSavedFavorites() {
     const saved = await g.hostAdapter.getSetting('favorites')
-    g.favorites = saved ?? []
+    g.favorites = saved != null ? saved : []
 }
 
 
