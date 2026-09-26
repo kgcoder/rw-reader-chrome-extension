@@ -39,7 +39,7 @@ class ExportPageManager{
         this.isRightDoc = isRightDoc
         removeAllChildren(mainDiv)
 
-        const containerHeight =  window.innerHeight - kLeftDivTop
+        const containerHeight =  window.innerHeight - kLeftDivTop - g.adminBarHeight
         mainDiv.style.height = containerHeight + 'px'
 
         let text = noteData.xmlString

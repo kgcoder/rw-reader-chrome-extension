@@ -2223,7 +2223,7 @@ class PopupDocumentManager{
     getCurrentDocTopOffset() {
         
         if (g.readingManager.mainDocType === 'c') {
-            return this.currentDocTopPanelShowing ? 50 : 0//@@@
+            return this.currentDocTopPanelShowing ? g.adminBarHeight + 50 : g.adminBarHeight
         }
 
         const parent = document.getElementById("CurrentDocument");
@@ -2234,14 +2234,14 @@ class PopupDocumentManager{
         const childRect = child.getBoundingClientRect();
 
    
-        return childRect.top - parentRect.top + parent.scrollTop;//@@@
+        return g.adminBarHeight + childRect.top - parentRect.top + parent.scrollTop;
  
     }
 
 
     getRightDocTopOffset(noteData) {
         if (noteData.docType === 'c') {
-            return noteData.currentDocTopPanelShowing ? 50 : 0//@@@
+            return noteData.currentDocTopPanelShowing ? g.adminBarHeight + 50 : g.adminBarHeight
         }
         
         const parent = noteData.scrollDiv
@@ -2252,7 +2252,7 @@ class PopupDocumentManager{
         const childRect = child.getBoundingClientRect();
 
   
-        return childRect.top - parentRect.top + parent.scrollTop;//@@@
+        return g.adminBarHeight + childRect.top - parentRect.top + parent.scrollTop;
  
     }
 
@@ -2277,9 +2277,9 @@ class PopupDocumentManager{
         const iconPaths = g.iconsInfo.iconPaths
         const flinksListContainerDiv = document.getElementById("LinksListContainerDiv")
         const flinksContainerWidth = isFullscreenList ? window.innerWidth : kMaxListWidth 
-        flinksListContainerDiv.style.top = (kLeftDivTop + 1) + 'px'//@@@
+        flinksListContainerDiv.style.top = (kLeftDivTop + 1 + g.adminBarHeight) + 'px'
         flinksListContainerDiv.style.width = `${isFullscreenList ? window.innerWidth : kMaxListWidth}px`
-        flinksListContainerDiv.style.maxHeight = `${window.innerHeight - kLeftDivTop }px`//@@@
+        flinksListContainerDiv.style.maxHeight = `${window.innerHeight - kLeftDivTop - g.adminBarHeight}px`
         
         const leftOffset = this.getMainLeftOffset()//@@@
         

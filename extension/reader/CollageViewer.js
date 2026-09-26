@@ -622,7 +622,7 @@ class CollageViewer{
         if(g.readingManager.isSelectingFlinkXY){
             const {x,y} = this.crosshair
             this.ctx.beginPath()
-            this.ctx.arc(x, y, this.kRLinkCircleRadius , 0, 2 * Math.PI);
+            this.ctx.arc(x, y - g.adminBarHeight, this.kRLinkCircleRadius , 0, 2 * Math.PI);
             this.ctx.fillStyle = "orange";
             this.ctx.fill();
         }
@@ -867,7 +867,7 @@ class CollageViewer{
             if(!this.mouseMoved){
                 if(g.readingManager.isSelectingFlinkXY){
                     const mouseX = e.pageX - this.leftX - g.pdm.getMainLeftOffset()
-                    const mouseY = e.pageY - this.topY
+                    const mouseY = e.pageY - this.topY - g.adminBarHeight
 
                     const {x,y} = this.getAbsolutePoint(mouseX,mouseY)
 
