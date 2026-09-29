@@ -10,6 +10,12 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/readers-web-specs
 */
 
+import g from '../reader/Globals.js'
+import { setFontSet } from "../reader/Fonts.js"
+import { setTheme } from "../reader/helpers.js"
+import { addListenersToContainer, applyAllSavedSettings, dispatchReaderReady, loadUIAndIcons } from '../reader/readerStartUp.js'
+import { parseStaticContent } from '../reader/parsers/ParsingManager.js'
+
 
 // _portReady resolves when the private port arrives from bridge.js via the VC_INIT handshake.
 // fetchWebPage awaits this, so calls that arrive before the handshake completes are queued naturally.
@@ -47,6 +53,106 @@ export default class HostAdapter {
 
     shouldBlockCrossOriginCommentsRequests = false
     isPromotionalButtonSupported = false
+
+    
+    constructor(){
+        this.initReader()
+    }
+
+
+    initReader(){
+        window.addEventListener("message", (event) => {
+            if (event.source !== window) return;
+            const msg = event.data;
+                if (msg.type === "FLINK_THICKNESS_UPDATED") {
+                    const useThinLinks = msg.useThinLinks
+                    g.readingManager.flinkStyle = useThinLinks ? 'thin' : 'thick'
+                    g.readingManager.redrawFlinks()
+
+            }
+            if(msg.type === "DOWNLOAD_USER_SPECIFIED_PAGE"){
+
+                    const url = msg.url
+
+                    if(!url || !url.trim())return
+
+                    g.readingManager.downloadOnePage(url, false, true)
+
+            }
+            if (msg.type === "THEME_CHANGED") {
+                    const newTheme = msg.theme
+                    // shouldSave is hardcoded false: receiving a broadcast must never re-trigger
+                    // a storage write — only the user-initiated Ctrl+[ path in KeyboardManager.js saves.
+                    if (newTheme && newTheme !== g.currentTheme) {
+                        setTheme(newTheme, false)
+                    }
+            }
+            if (msg.type === "FONT_SIZE_CHANGED") {
+                    const newFontSize = msg.fontSize
+                    if (newFontSize && newFontSize !== g.pdm.fontSize) {
+                        g.pdm.setFontSize(newFontSize)
+                    }
+            }
+            if (msg.type === "FONT_SET_CHANGED") {
+                    const newFontSet = msg.fontSet
+                    // shouldSave-equivalent: broadcasts never re-trigger a storage write,
+                    // only the user-initiated popup selection saves.
+                    if (newFontSet !== undefined && newFontSet !== g.currentFontSet) {
+                        setFontSet(newFontSet, false)
+                    }
+            }
+            if (msg.type === "FAVORITES_CHANGED") {
+                    g.favorites = msg.favorites != null ? msg.favorites : []
+            }
+        });
+
+
+        window.addEventListener('initReader', async (e) => {
+            const { url, contentString, useThinLinks, savedParsingRules } = e.detail;
+            g.readingManager.flinkStyle = useThinLinks ? 'thin' : 'thick'
+
+            const {dataObject,error} = await parseStaticContent(contentString,url, savedParsingRules)
+
+
+            if(dataObject && !error){
+                await loadUIAndIcons()
+                await applyAllSavedSettings()
+           
+            }
+
+
+            
+
+            const container = document.body
+
+            addListenersToContainer(container)
+        
+            if(!dataObject){
+            setTimeout(() => {
+                g.hostAdapter.reloadPage()
+            },1000)
+            }else if (dataObject.docType === 'c') {
+                await g.pdm.loadCollage(dataObject)
+            } else if(dataObject.docType === 'h'){
+                await g.pdm.loadDocument(dataObject) 
+            } else if (dataObject.docType === 'condoc') {
+                g.pdm.showEmptyCondoc(dataObject)
+            }
+
+
+            dispatchReaderReady(url)
+
+
+
+        });
+
+
+
+    }
+
+    getAssetsUrl(){
+        return null
+    }
 
     async fetchWebPage(url, options = {}) {
         await _portReady

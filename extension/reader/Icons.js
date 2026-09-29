@@ -10,6 +10,8 @@ For the official list of document types and specifications, see:
 https://github.com/kgcoder/readers-web-specs
 */
 
+import g from './Globals.js'
+
 const pixelRatio = window.devicePixelRatio;
 
 class IconsInfo{
@@ -45,6 +47,10 @@ class IconsInfo{
             result = src1x;
         }
         
+        const assetsUrl = g.hostAdapter.getAssetsUrl()
+        if (assetsUrl != null) {
+            return assetsUrl + result.replace('./images/', '')
+        }
      
         return new URL(result, import.meta.url).href;
 
