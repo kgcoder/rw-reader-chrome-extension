@@ -1314,7 +1314,7 @@ setupFlinksCanvasDPR(){
     recolorConnectionsForCurrentTheme() {
         if (!this.connections || !this.connections.length) return
 
-        const colors = getFlinkColorsForTheme(g.currentTheme)
+        const colors = getFlinkColorsForTheme(g.hostAdapter.getCurrentThemeName())
 
         for (const connection of this.connections) {
             if (typeof connection.colorIndex !== 'number') continue
@@ -1768,7 +1768,7 @@ setupFlinksCanvasDPR(){
         const lineDashForBrokenFlink = [5, 5]
         const lineWidthForOutline = 2
 
-        const useOutlineOnly = !isFlinkBroken && getUseOutlineOnlyForTheme(g.currentTheme) && flinkColor
+        const useOutlineOnly = !isFlinkBroken && getUseOutlineOnlyForTheme(g.hostAdapter.getCurrentThemeName()) && flinkColor
 
         const lineDash = isFlinkBroken ? lineDashForBrokenFlink : []
         const borderColor = isFlinkBroken ? borderColorForBrokenLink : (useOutlineOnly ? flinkColor : undefined)
@@ -3410,7 +3410,7 @@ setupFlinksCanvasDPR(){
             startIndex,
             length,
             leftRects,
-            color03:getPartialLinkColorForTheme(g.currentTheme),
+            color03:getPartialLinkColorForTheme(g.hostAdapter.getCurrentThemeName()),
             leftTop:leftRects[0].top,
             leftBottom:leftBottomRect.top + leftBottomRect.height
         }
@@ -3450,7 +3450,7 @@ setupFlinksCanvasDPR(){
             startIndex,
             length,
             rightRects,
-            color03:getPartialLinkColorForTheme(g.currentTheme),
+            color03:getPartialLinkColorForTheme(g.hostAdapter.getCurrentThemeName()),
             rightTop:rightRects[0].top,
             rightBottom:rightBottomRect.top + rightBottomRect.height
         }

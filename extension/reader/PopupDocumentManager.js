@@ -14,9 +14,8 @@ import g from './Globals.js'
 import { cleanConnectedDocURL, createOneIconComponent, createOneSVGIconComponent, getDataFromCondocXML, getDesiredConnectionsFromHdocDataJson, getHeaderDivFrom, getPresentationDivFrom, getTextColumnWidth, getTextFromDiv, hideUrlInTheCorner, isDotInsideFrame, isoToHumanReadableDate, removeAllChildren, sanitizeHtml, sanitizeUrl, showToastMessage, showUrlInTheCorner, stripHtmlTags } from './helpers.js'
 import PageInfoManager from './PageInfoManager.js'
 import CollageViewer from './CollageViewer.js'
-//@@@
 import { getFlinkColorsForTheme, kSidebarWidthToScreenWidthRatio } from './constants.js'
-import { fetchWebPage } from './NetworkManager.js'
+import { fetchWebPage, invalidateCacheForUrl } from './NetworkManager.js'
 import ExportPageManager from './ExportPageManager.js'
 import { loadStaticContentFromUrl } from './parsers/ParsingManager.js'
 import { hideMultipleLinksPopup } from './MultipleLinksPopupManager.js'
@@ -1036,7 +1035,7 @@ class PopupDocumentManager{
             g.readingManager.connections.forEach(con => con.isOriginal = true)
         }
 
-        const colors = getFlinkColorsForTheme(g.currentTheme)//@@@
+        const colors = getFlinkColorsForTheme(g.hostAdapter.getCurrentThemeName())
 
         let j = 0
         for (let i = 0; i < g.readingManager.connections.length; i++){
@@ -2705,7 +2704,7 @@ class PopupDocumentManager{
 
     getComments = async (commentsDiv, commentsUrl, commentsTitle, noCommentsMessage, listenersOwner, leaveCommentUrl, replyLabel, leaveCommentLabel, page = 1, loadMoreLabel = '') => {
         if (page === 1) {
-            //@@@
+            invalidateCacheForUrl(commentsUrl)
             listenersOwner.commentsDiv = commentsDiv
             listenersOwner.commentsUrl = commentsUrl
             listenersOwner.currentCommentsPage = 1

@@ -203,11 +203,17 @@ export default class HostAdapter {
 
 
 
-    getOpenCommentsInNewTabLabel(){
-        return ''
+    
+    getCurrentThemeName() {
+        return g.currentTheme
     }
-
+    
     reloadPage(){
         window.postMessage({ type: "RELOAD_PAGE" }, "*");
+    }
+
+
+    getOpenCommentsInNewTabLabel(){
+        return ''
     }
 }
