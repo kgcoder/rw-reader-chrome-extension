@@ -11,8 +11,10 @@ https://github.com/kgcoder/readers-web-specs
 */
 
 import g from "./Globals.js"
+//@@@
 import { addScrollEndListener, setTheme } from "./helpers.js";
 import { setFontSet } from "./Fonts.js";
+//@@@
 import IconsInfo from "./Icons.js";
 import { checkKey } from "./KeyboardManager.js";
 

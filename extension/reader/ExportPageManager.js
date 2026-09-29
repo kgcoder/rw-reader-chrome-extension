@@ -183,7 +183,7 @@ class ExportPageManager{
        // textDiv.className = "ExportTextContainer"
         containerDiv.appendChild(textDiv)
 
-        textDiv.innerText = text
+        textDiv.textContent = text
 
 
         // const input = document.createElement('input')
@@ -201,7 +201,7 @@ class ExportPageManager{
         this.header = title.trim() ? `\n\n<header>\n<h1>${escapeXml(title.trim())}</h1>\n</header>` : ''
 
         const exportTextDiv = document.getElementById("ExportTextDiv")
-        exportTextDiv.innerText = this.firstContentPart + this.docmeta + this.header + this.secondContentPart
+        exportTextDiv.textContent = this.firstContentPart + this.docmeta + this.header + this.secondContentPart
     }
 
 
@@ -250,11 +250,11 @@ class ExportPageManager{
 
         const sourceCodeTextDiv = document.querySelector("#SourceCodeTextDiv")
 
-        sourceCodeTextDiv.innerText = g.readingManager.mainDocData.xmlString
+        sourceCodeTextDiv.textContent = g.readingManager.mainDocData.xmlString
 
         const titleEl = document.querySelector("#SourceCodeTitleDiv")
 
-        titleEl.innerText = this.getSourceCodeTitleByDocSybtype(g.readingManager.mainDocData.docSubtype) 
+        titleEl.textContent = this.getSourceCodeTitleByDocSybtype(g.readingManager.mainDocData.docSubtype) 
 
 
 
