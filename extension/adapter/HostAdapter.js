@@ -100,4 +100,8 @@ export default class HostAdapter {
     getOpenCommentsInNewTabLabel(){
         return ''
     }
+
+    reloadPage(){
+        window.postMessage({ type: "RELOAD_PAGE" }, "*");
+    }
 }
