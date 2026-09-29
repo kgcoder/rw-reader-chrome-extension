@@ -39,6 +39,9 @@ window.postMessage({ type: 'READER_READY' }, '*')
 
 export default class HostAdapter {
 
+    allowFontResizing = true
+    allowDynamicThemeChange = true
+
     mainDocumentTitleSpanId = "CurrentDocumentTitleSpan"
     mainDocumentInfoButtonId = "CurrentDocumentInfoButton"
 

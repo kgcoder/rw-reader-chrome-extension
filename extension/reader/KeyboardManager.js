@@ -18,10 +18,12 @@ import { setFontSet } from './Fonts.js'
 export const checkKey = async (e) => {
 
     if ((e.metaKey || e.ctrlKey) && e.key === '-') {
+        if(!g.hostAdapter.allowFontResizing)return
         e.preventDefault()
         g.pdm.updateFontSize(-1)   
     }
     if ((e.metaKey || e.ctrlKey) && e.key === '=') {
+        if(!g.hostAdapter.allowFontResizing)return
         e.preventDefault()
         g.pdm.updateFontSize(1)
         
@@ -39,6 +41,8 @@ export const checkKey = async (e) => {
         }
     }
     if (e.key === '[' && e.ctrlKey) {
+
+        if(!g.hostAdapter.allowDynamicThemeChange)return
 
         if (!g.favorites || !g.favorites.length) return
 
