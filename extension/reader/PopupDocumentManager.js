@@ -649,7 +649,7 @@ class PopupDocumentManager{
 
     async downloadMainDocInCondoc(mainPageUrl, successCallback) {
          g.pdm.showMainDocSpinner()
-        const embeddedDataObject = await loadStaticContentFromUrl(mainPageUrl)//@@@
+        const embeddedDataObject = await loadStaticContentFromUrl(mainPageUrl, { isForCondoc: true })
         g.pdm.hideMainDocSpinner()
         
 
@@ -2281,7 +2281,7 @@ class PopupDocumentManager{
         const flinksContainerWidth = isFullscreenList ? window.innerWidth : kMaxListWidth 
         flinksListContainerDiv.style.top = (kLeftDivTop + 1 + g.adminBarHeight) + 'px'
         flinksListContainerDiv.style.width = `${isFullscreenList ? window.innerWidth : kMaxListWidth}px`
-        flinksListContainerDiv.style.maxHeight = `${window.innerHeight - kLeftDivTop - g.adminBarHeight}px`//@@@
+        flinksListContainerDiv.style.maxHeight = `${window.innerHeight - kLeftDivTop - 1 - g.adminBarHeight}px`
         
         const leftOffset = this.getMainLeftOffset()
         

@@ -18,7 +18,6 @@ import CollageViewer from "./CollageViewer.js";
 import { loadStaticContentFromUrl } from "./parsers/ParsingManager.js";
 import FLTextEnd from "./models/FLTextEnd.js";
 import FLPointEnd from "./models/FLPointEnd.js";
-//@@@
 import { getFlinkColorsForTheme, getPartialLinkColorForTheme, getUseOutlineOnlyForTheme, kSidebarWidthToScreenWidthRatio, maxFlinksNumberBeforeOptimization } from "./constants.js";
 import { showMultipleLinksPopup } from "./MultipleLinksPopupManager.js";
 const kFlinkHorizontalThickness = 5
@@ -54,7 +53,7 @@ class ReadingManager {
     partialRightLink = null
     docWidth = 0
     rightDocTop = 0
-    flinkStyle = 'thin' //'thin', 'thick', 'invisible'
+    flinkStyle = 'thick' //'thin', 'thick', 'invisible'
 
 
 
@@ -163,10 +162,9 @@ setupFlinksCanvasDPR(){
 
     }
 
-    //@@@
     downloadOnePage = async (url, hideSpinner = false, isUserSpecifiedUrl = false) => {
         if(!hideSpinner)g.pdm.showMainDocSpinner()
-        const dataObject = await loadStaticContentFromUrl(url, isUserSpecifiedUrl)//@@@
+        const dataObject = await loadStaticContentFromUrl(url, { isUserSpecifiedUrl })
 
         if(!dataObject){
             showToastMessage("Something is wrong")
@@ -613,24 +611,23 @@ setupFlinksCanvasDPR(){
 
 
 
-//@@@
-    
+        const mainContainerTopOffset = g.adminBarHeight
 
 
         const mainDocScrollDiv = document.getElementById("CurrentDocument")
                
 
      if(isLeftText && !isRightText && noteObj.collageViewer && !!noteObj.collageViewer.viewport){
-        this.drawTextToPointFlinks(noteObj)//@@@
+        this.drawTextToPointFlinks(noteObj,mainContainerTopOffset)
         return
      } else if (!isLeftText && this.mainCollageViewer && !!this.mainCollageViewer.viewport) {
-         this.drawAllPointsOnLeftCollage()
+         this.drawAllPointsOnLeftCollage(mainContainerTopOffset)
          if (isRightText) {
-             this.drawPointToTextFlinks(noteObj)  //@@@ 
+             this.drawPointToTextFlinks(noteObj,mainContainerTopOffset)
          } 
         return
     }else if(!isLeftText || !isRightText){
-        this.drawPointToPointFlinks(noteObj)//@@@
+        this.drawPointToPointFlinks(noteObj,mainContainerTopOffset)
         return
     }
 
@@ -652,8 +649,8 @@ setupFlinksCanvasDPR(){
            
                 let {leftTop,leftBottom} = flink// this.getLeftRectsTopAndBottom(presentationDiv, flink.leftRects, true, flink.color03, flink.leftSideIsBroken)
                 
-                leftTop += topPanelHeight - mainDocScrollDiv.scrollTop //+ kLeftDivTop. @@@
-                leftBottom += topPanelHeight - mainDocScrollDiv.scrollTop// + kLeftDivTop. @@@
+                leftTop += topPanelHeight - mainDocScrollDiv.scrollTop - mainContainerTopOffset
+                leftBottom += topPanelHeight - mainDocScrollDiv.scrollTop - mainContainerTopOffset
 
 
                 leftBottom -= flink.bottomIndentHeight
@@ -664,8 +661,8 @@ setupFlinksCanvasDPR(){
 
                 let {rightTop,rightBottom} = flink
 
-                rightTop += secondTopPanelHeight - secondDocScrollDiv.scrollTop //@@@
-                rightBottom += secondTopPanelHeight - secondDocScrollDiv.scrollTop //@@@
+                rightTop += secondTopPanelHeight - secondDocScrollDiv.scrollTop - mainContainerTopOffset
+                rightBottom += secondTopPanelHeight - secondDocScrollDiv.scrollTop - mainContainerTopOffset
 
                 rightTop += flink.topIndentHeight
                 
@@ -833,7 +830,7 @@ setupFlinksCanvasDPR(){
 
 
 
-    drawTextToPointFlinks(noteObj) { //@@@
+    drawTextToPointFlinks(noteObj,topOffset) {
         const mainDocScrollDiv = document.getElementById("CurrentDocument")
 
         const mainDocRightX = this.docWidth
@@ -870,8 +867,8 @@ setupFlinksCanvasDPR(){
 
                 let {leftTop,leftBottom} = flink
                 
-                leftTop += -mainDocScrollDiv.scrollTop + topPanelHeight //@@@
-                leftBottom += -mainDocScrollDiv.scrollTop + topPanelHeight //@@@
+                leftTop += -mainDocScrollDiv.scrollTop + topPanelHeight - topOffset
+                leftBottom += -mainDocScrollDiv.scrollTop + topPanelHeight - topOffset
 
                 leftBottom -= flink.bottomIndentHeight
 
@@ -940,7 +937,7 @@ setupFlinksCanvasDPR(){
           }
     }
 
-    drawPointToTextFlinks(noteObj) { //@@@
+    drawPointToTextFlinks(noteObj, topOffset) {
         
     
         const mainDocRightX = this.docWidth
@@ -976,8 +973,8 @@ setupFlinksCanvasDPR(){
              
                 let {rightTop,rightBottom} = flink
     
-                rightTop += -secondDiv.scrollTop + rightTopPanelHeight //@@@
-                rightBottom += -secondDiv.scrollTop + rightTopPanelHeight //@@@
+                rightTop += -secondDiv.scrollTop + rightTopPanelHeight - topOffset
+                rightBottom += -secondDiv.scrollTop + rightTopPanelHeight - topOffset
     
                 rightTop += flink.topIndentHeight
                 
@@ -1043,12 +1040,12 @@ setupFlinksCanvasDPR(){
 
     }
 
-    drawPointToPointFlinks(noteObj){//@@@
+    drawPointToPointFlinks(noteObj,topOffset){
 
     }
 
 
-    drawAllPointsOnLeftCollage() {//@@@
+    drawAllPointsOnLeftCollage(topOffset) {
 
         const collageViewer = g.readingManager.mainCollageViewer
 
@@ -1313,7 +1310,6 @@ setupFlinksCanvasDPR(){
             })
     }
 
-    //@@@
     recolorConnectionsForCurrentTheme() {
         if (!this.connections || !this.connections.length) return
 
@@ -3277,7 +3273,7 @@ setupFlinksCanvasDPR(){
 
             
             floatingLink = new FloatingLink([leftEnd],[rightEnd],false) 
-            floatingLink.isLeftEndInsidePre = this.partialLeftLink.isLeftEndInsidePre//@@@
+            floatingLink.isLeftEndInsidePre = this.partialLeftLink.isInsidePre
 
         }else{
 
@@ -3292,7 +3288,7 @@ setupFlinksCanvasDPR(){
             new FLPointEnd(this.partialRightLink.x,this.partialRightLink.y,this.partialRightLink.radius)
 
             floatingLink = new FloatingLink([leftEnd],[rightEnd],false)
-            floatingLink.isRightEndInsidePre = this.partialRightLink.isInsidePre//@@@
+            floatingLink.isRightEndInsidePre = this.partialRightLink.isInsidePre
 
         }
 
@@ -3317,9 +3313,9 @@ setupFlinksCanvasDPR(){
         
                 const divX = 0
 
-                const padding = g.pdm.getMainDocumentPadding()//@@@
+                const padding = g.pdm.getMainDocumentPadding()
 
-                const rightX = window.innerWidth - padding//@@@
+                const rightX = window.innerWidth - padding
 
         
                 const topPanelHeight = g.pdm.getCurrentDocTopOffset()
@@ -3330,7 +3326,7 @@ setupFlinksCanvasDPR(){
                 const fullTextLength = textNodesArray.reduce((total, node) => total + node.data.length, 0);
 
 
-                this.prepareOneLeftLink(floatingLink,noteScrollDiv,textNodesArray,divX,topY,rightX,padding,fullTextLength)//@@@
+                this.prepareOneLeftLink(floatingLink,noteScrollDiv,textNodesArray,divX,topY,rightX,padding,fullTextLength)
                 
             }
             

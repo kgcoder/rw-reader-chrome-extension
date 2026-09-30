@@ -70,8 +70,8 @@ export function getActionsFromConfigString(configString){
     }
     
 
-    const selectorAction = actions.find(item => item.action === 'c')//@@@
-    const selector = selectorAction ? selectorAction.text : undefined//@@@
+    const selectorAction = actions.find(item => item.action === 'c')
+    const selector = selectorAction ? selectorAction.text : undefined
     
     if (!selector) {
         showToastMessage('Something is wrong with the parsing config of the URL')

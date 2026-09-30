@@ -20,15 +20,15 @@ import { parseHtmlPage } from "./HtmlPageParser.js";
 import { parsePlainTextPage } from "./PlainTextParser.js";
 
 
-//@@@
-export async function loadStaticContentFromUrl(originalUrl, isUserSpecifiedUrl = false, muteErrorMessage = false){
+
+export async function loadStaticContentFromUrl(originalUrl, fetchOptions = {}, muteErrorMessage = false){
 
 
     const urlToCall = originalUrl.split('#')[0].replace(/\?$/,'')
     
 
-//@@@
-    const result = await fetchWebPage(urlToCall, { isUserSpecifiedUrl })
+
+    const result = await fetchWebPage(urlToCall, fetchOptions)
 
     if (!result) {
         if (!muteErrorMessage) {
@@ -80,8 +80,8 @@ export async function loadStaticContentFromUrl(originalUrl, isUserSpecifiedUrl =
             }
     
         }
-//@@@
-        if(dataObject.docSubtype === 7 && !dataObject.needsMainDocWithUrl){
+
+        if((dataObject.docSubtype === 7 || dataObject.docSubtype === 9) && !dataObject.needsMainDocWithUrl){
             showToastMessage('Something is wrong with the URL of the main document in this CONDOC')
             return
         }
