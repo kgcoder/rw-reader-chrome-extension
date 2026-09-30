@@ -41,7 +41,7 @@ class CollageViewer{
     lastMouseDownTime = 0
     mouseMoved = false
     kRLinkCircleRadius = 10
-//@@@
+
     currentTouchState = touchState.NOTHING
 
     numberOfFingers = 0
