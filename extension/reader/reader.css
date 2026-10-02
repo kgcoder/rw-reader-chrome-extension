@@ -8,12 +8,24 @@ body {
     height: 100%;
     width: 100%;
     flex: 1;
-    padding: 0;
-    margin: 0;
+ 
+    padding: 0 !important;
+    margin: 0 !important;
+
+   
     position: fixed;
     
     
 }
+
+body::before,
+body::after {
+    display: none !important;
+    content: none !important;
+    height: 0 !important;
+}
+
+
 
 body {
     touch-action: auto;
@@ -29,7 +41,7 @@ body {
 
     font-family: var(--font-main-family, Arial, Helvetica, sans-serif) !important;
     line-height: var(--font-main-line-height, 1.55);
-    -webkit-overflow-scrolling: touch;
+
 }
 
 
@@ -63,19 +75,6 @@ canvas {
     flex: 1
 }
 
-#top-canvas {
-    /* display: none; */
-    display: flex;
-    background-color: transparent;
-    /* flex:1; */
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    pointer-events: none;
-    z-index: 3000;
-}
 
 #flinks-canvas {
     /* display: none; */
@@ -333,7 +332,7 @@ canvas {
     cursor: default;
 }
 
-.ActionButton {
+#ui-root .ActionButton {
     display: flex;
     flex: 1;
     height: 40px;
@@ -349,29 +348,29 @@ canvas {
     border-width: 0;
 }
 
-.CancelButton:hover {
+#ui-root .CancelButton:hover {
     background-color: rgba(37, 38, 39, 0.05);
     border-color: rgba(37, 38, 39, 0.5);
 
 }
 
-.CancelButton:active {
+#ui-root .CancelButton:active {
     outline: 4px solid rgba(103, 110, 118, 0.16);
 }
 
 
 
-.ActionButton:hover {
+#ui-root .ActionButton:hover {
     color: rgb(246, 247, 251);
     background-color: rgb(76, 100, 255);
 }
 
 
-.ActionButton:active {
+#ui-root .ActionButton:active {
     outline: 4px solid rgba(72, 77, 233, 0.16);
 }
 
-.ActionButton:disabled {
+#ui-root .ActionButton:disabled {
     color: rgb(246, 247, 251);
     background-color: rgba(72, 77, 233, 0.5);
     border-width: 0;
@@ -581,7 +580,7 @@ code {
 
 }
 
-.SimpleBlueButton {
+#ui-root .SimpleBlueButton {
     font-family: var(--font-navigation-family, 'Inter', sans-serif);
     font-size: 16px;
     font-weight: 500;
@@ -1051,7 +1050,7 @@ code {
     background-color: #eee;
 }
 
-.load-button {
+#ui-root .load-button {
     display: flex;
     cursor: pointer;
     /* padding: 10px 20px; */
@@ -1069,26 +1068,7 @@ code {
 }
 
 
-.text-color-red {
-    color: red;
-}
 
-
-
-
-#DataTransferDiv {
-    display: flex;
-    position: absolute;
-    top: 3000px;
-    /* background-color: blue; */
-}
-
-#DataTransferCanvas {
-    display: flex;
-    /* flex:1; */
-    /* background-color: red; */
-    background-color: #ffffff;
-}
 
 #AllDocumentsContainer {
     display: flex;

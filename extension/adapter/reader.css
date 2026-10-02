@@ -1,0 +1,8 @@
+
+
+#ui-root {
+     /* don't use -webkit-overflow-scrolling: touch in the plugin: on iOS it promotes ui-root to
+       a composited scroll layer, which breaks Safari's status-bar tinting in
+       the light theme; horizontal snapping will work without momentum in older browsers */
+    -webkit-overflow-scrolling: touch;
+}
