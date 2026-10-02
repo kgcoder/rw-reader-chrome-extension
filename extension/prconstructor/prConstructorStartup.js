@@ -207,6 +207,7 @@ window.addEventListener('initParsingRulesConstructor', async (e) => {
 
 
 
+    g.hostAdapter = hostAdapter
 
 
     loadUIAndIcons()
@@ -519,6 +520,7 @@ function loadParsingRulesFromString(prString){
 
 
 function loadUIAndIcons() {
+
   
     g.iconsInfo = new IconsInfo()
 
