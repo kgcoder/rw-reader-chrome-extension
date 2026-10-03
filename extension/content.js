@@ -494,7 +494,7 @@ async function showReaderOverlay() {
     document.head.appendChild(pageInfoCSSLink)
 
     const exportPageCSSLink = document.createElement('link')
-    exportPageCSSLink.href = chrome.runtime.getURL('reader/exportPage.css')
+    exportPageCSSLink.href = chrome.runtime.getURL('reader/ExportPage.css')
     exportPageCSSLink.rel = "stylesheet"
     document.head.appendChild(exportPageCSSLink)
 
