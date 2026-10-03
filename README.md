@@ -73,6 +73,16 @@ This project aims to bring some of those ideas to life, starting with visible co
 
 ## Development
 
+The reader UI in `extension/reader/` is a git submodule ([rw-reader-ui](https://github.com/kgcoder/rw-reader-ui)), shared with the Reader's Web Publisher WordPress plugin. Clone with:
+
+```sh
+git clone --recurse-submodules https://github.com/kgcoder/visible-connections-chrome-extension
+# or, in an existing clone:
+git submodule update --init
+```
+
+When zipping `extension/` for the Chrome Web Store, leave out `extension/reader/.git` and any `.DS_Store` files.
+
 The code in this repository is licensed under MIT.
 
 Document types used by this extension are part of the **Reader's Web project** and are licensed under **CC BY-ND 4.0**.

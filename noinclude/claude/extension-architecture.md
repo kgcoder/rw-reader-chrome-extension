@@ -6,20 +6,22 @@
 | `extension/bridge.js` | Communication bridge between content script and page context. |
 | `extension/background.js` | Service worker. Proxies `fetchWebPage` messages to bypass CORS. |
 | `extension/popup.html` / `popup.js` | Extension action popup. |
-| `extension/adapter/reader.html` | Main reader UI. Entry point: `extension/reader/readerStartUp.js`. |
+| `extension/adapter/reader.html` | Main reader UI markup. Entry script (injected by `content.js`): `extension/adapter/startup.js`. |
 | `extension/prconstructor/prconstructor.html` | Parsing Rules Constructor. Entry: `prConstructorStartup.js`. Lets users define CSS selectors to extract content from any website as a generated HDOC (subtype 3). |
+
+## Host adapter
+
+The extension's implementation of the reader's `g.hostAdapter` interface lives in [extension/adapter/](../../extension/adapter/):
+
+| File | Role |
+|------|------|
+| `HostAdapter.js` | Implements `g.hostAdapter`. `fetchWebPage` goes through a private `MessagePort` handed over by `bridge.js` (`READER_READY` → `VC_INIT` handshake) to `background.js`. `getSetting`/`saveSetting` use `chrome.storage.local` via `bridge.js`. `initReader()` starts the reader on the `initReader` window event dispatched by `content.js`, and handles the `THEME_CHANGED`/`FONT_SIZE_CHANGED`/`FONT_SET_CHANGED`/`FAVORITES_CHANGED`/`FLINK_THICKNESS_UPDATED`/`DOWNLOAD_USER_SPECIFIED_PAGE` messages. |
+| `startup.js` | Module entry point: sets `g.hostAdapter = new HostAdapter()` and imports `reader/readerStartUp.js`. |
+| `reader.html` | Reader DOM spliced into the page by `content.js`. |
+| `reader.css` | Extension-specific reader styles. |
+
+`popup.js` (font sets) and `prconstructor/` also import modules from `extension/reader/`.
 
 ## Reader (Frontend)
 
-All paths below are relative to `extension/reader/`.
-
-- **Core managers:** `PopupDocumentManager.js`, `ReadingManager.js`, `NoteDivsMethods.js`, `CollageViewer.js`, `CollageDataLoader.js`, `PageInfoManager.js`, `ExportPageManager.js`.
-- **Parsers:** `parsers/HDOCParser.js`, `parsers/EmbHDOCParser.js`, `parsers/CDOCParser.js`, `parsers/CondocParser.js`, `parsers/HtmlPageParser.js`, `parsers/PlainTextParser.js`, `parsers/ParsingManager.js`.
-- **Models:** `models/FloatingLink.js`, `models/FLEnd.js`, `models/FLTextEnd.js`, `models/FLPointEnd.js`, `models/Line.js`, `models/Crosshair.js`, `models/ImageView.js`, `models/Viewport.js`.
-- **Utilities:** `helpers.js`, `constants.js`, `Globals.js`, `NetworkManager.js`, `KeyboardManager.js`, `HeaderMethods.js`, `MultipleLinksPopupManager.js`, `Icons.js`, `LocalStorageManager.js`.
-- **Styles:** `reader.css`, `ExportPage.css`, `PageInfo.css`, `hdocStyles.css`, `themes/light.css`, `themes/dark.css`, `themes/sepia.css`.
-- **Third-party:** `dompurify/purify.es.mjs` (HTML sanitizer), `hashing/sha256-es/` (SHA-256 for floating link hashing).
-
-Global state lives in [extension/reader/Globals.js](../../extension/reader/Globals.js): `g.pdm` (PopupDocumentManager), `g.readingManager`, `g.noteDivsManager`.
-
-Document subtypes: `0`=local hdoc, `1`=standalone hdoc, `2`=embedded hdoc, `3`=generated hdoc (parsing rules), `4`=generated hdoc (Readability), `5`=cdoc, `6`=sdoc (not yet), `7`=condoc, `8`=embedded cdoc, `9`=embedded condoc.
+[extension/reader/](../../extension/reader/) is the shared [rw-reader-ui](https://github.com/kgcoder/rw-reader-ui) submodule. Its modules, global state (`g.*`) and document subtype numbers are documented in [extension/reader/docs/architecture.md](../../extension/reader/docs/architecture.md), and the adapter interface in [extension/reader/docs/host-adapter.md](../../extension/reader/docs/host-adapter.md).

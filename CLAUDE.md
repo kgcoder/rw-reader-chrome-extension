@@ -15,5 +15,12 @@ The **RW Reader** Chrome extension (on the Chrome Web Store) is the primary clie
 Read the relevant file before working in that area:
 
 - [noinclude/claude/readers-web.md](noinclude/claude/readers-web.md) — the Reader's Web, document formats (standalone and embedded), visible connections, and the list of spec files in [noinclude/specs/](noinclude/specs/).
-- [noinclude/claude/extension-architecture.md](noinclude/claude/extension-architecture.md) — extension files and their roles, reader frontend modules, global state (`g.*`), document subtype numbers.
+- [noinclude/claude/extension-architecture.md](noinclude/claude/extension-architecture.md) — extension files and their roles, the extension's host adapter.
 - [noinclude/claude/persisted-settings.md](noinclude/claude/persisted-settings.md) — how to add a persisted, cross-tab-synced reader setting (theme, font size, ...). Required reading before adding any user-configurable setting.
+- [extension/reader/CLAUDE.md](extension/reader/CLAUDE.md) and [extension/reader/docs/](extension/reader/docs/) — the reader's own rules, modules, global state (`g.*`), document subtype numbers and the `g.hostAdapter` interface ([host-adapter.md](extension/reader/docs/host-adapter.md)).
+
+## Key Rules
+
+- [extension/reader/](extension/reader/) is a git submodule ([kgcoder/rw-reader-ui](https://github.com/kgcoder/rw-reader-ui)) shared with the Reader's Web Publisher WordPress plugin. Reader changes are committed and pushed in the submodule (its own repo), then the pin is bumped here with `git add extension/reader`. The plugin's pin has to be bumped separately.
+- The reader must stay host-agnostic. Anything extension-specific (`chrome.*`, `bridge.js` messaging, extension DOM ids) belongs in [extension/adapter/](extension/adapter/), not in `extension/reader/`.
+- After cloning or switching branches, run `git submodule update --init` if `extension/reader/` is empty or out of date.
