@@ -2678,11 +2678,14 @@ setupFlinksCanvasDPR(){
         }
 
 
-        const {rightTop,rightBottom} = flink //@@@
+        const {rightTop,rightBottom} = flink
+
+        const topPanelHeight = g.pdm.getCurrentDocTopOffset()
+
 
         const currentRightY = kLeftDivTop - rightScrollDiv.scrollTop + (rightTop + flink.topIndentHeight + rightBottom) / 2
 
-        const neededRightScrollTop =  -leftY + rightTopPanelHeight + rightScrollDiv.scrollTop + currentRightY //@@@
+        const neededRightScrollTop =  -leftY - topPanelHeight + rightTopPanelHeight + rightScrollDiv.scrollTop + currentRightY
 
         this.animateScroll(rightScrollDiv,neededRightScrollTop)
 

@@ -129,7 +129,7 @@ class PopupDocumentManager{
     }
     
     
-    loadUI = () => {     
+    loadUI = () => {    
         const allDocumentsContainer = document.getElementById("AllDocumentsContainer")
         allDocumentsContainer.style.width = `${window.innerWidth}px`
     
@@ -147,7 +147,7 @@ class PopupDocumentManager{
     
       
       
-        const closeButton = document.getElementById("CurrentDocumentCloseButton")
+        const closeButton = document.getElementById(g.hostAdapter.currentDocumentCloseButtonId)
         if(closeButton){
             this.createOneSVGIconComponent(closeButton,g.iconsInfo.svgIcons.closeIcon,'Reader-CloseButton')
     

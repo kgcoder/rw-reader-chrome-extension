@@ -273,7 +273,6 @@ canvas {
     pointer-events: none;
     z-index: 2000;
     opacity: 0;
-    /* background-color: red; */
     background-color: #D4D4D4;
     /* rgb(169, 169, 169); */
 }
@@ -727,6 +726,15 @@ code {
     display: flex;
 }
 
+/* Old WebKit (iOS 12 Safari) ignores min-height:auto here and shrinks these
+   items to the scroll container's height, so content overlaps the elements below. */
+#CurrentDocumentInnerRow,
+.BelowContentComments,
+.BottomBar,
+.PostNavBar {
+    flex-shrink: 0;
+}
+
 #CurrentDocumentBody{
     display: flex;
     flex: 1;
@@ -867,7 +875,6 @@ code {
 .NoteEditButton {
     display: flex;
     position: absolute;
-    /* background-color: red; */
     /* width:40px;
     height: 20px; */
     padding: 5px;
@@ -1460,7 +1467,6 @@ a.TopPanelOptionLink:hover {
 #CurrentDocumentMainCollageDiv {
     display: none;
     flex: 1;
-    background-color: red;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -1564,7 +1570,6 @@ a.TopPanelOptionLink:hover {
     display: none;
     flex: 1;
     position: relative;
-    background-color: red;
     flex-direction: column;
     /* overflow-y: scroll; */
     /* padding: 20px; */
@@ -1599,7 +1604,6 @@ a.TopPanelOptionLink:hover {
     width: 40px;
     flex-shrink: 0;
     cursor: pointer;
-    color:red;
 }
 
 .Reader-OneIconComponent {
@@ -1775,7 +1779,6 @@ div.MenuHorizontalLine {
 
     border-radius: 8px;
     padding: 10px;
-    background-color: red;
 
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 

@@ -50,6 +50,7 @@ export default class HostAdapter {
 
     mainDocumentTitleSpanId = "CurrentDocumentTitleSpan"
     mainDocumentInfoButtonId = "CurrentDocumentInfoButton"
+    currentDocumentCloseButtonId = "CurrentDocumentCloseButton"
 
     shouldBlockCrossOriginCommentsRequests = false
     isPromotionalButtonSupported = false
