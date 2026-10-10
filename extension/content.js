@@ -258,7 +258,7 @@ function addDocumentHostnames(contentString, hdocDataJSON, isCondoc) {
     }
     if (hdocDataJSON) {
         for (const con of (hdocDataJSON.connections ?? [])) tryAdd(con.url)
-        tryAdd(hdocDataJSON?.panels?.side?.comments?.url)
+        tryAdd(hdocDataJSON?.panels?.comments?.url)
         return
     }
     for (const m of contentString.matchAll(/<doc\s[^>]*url="([^"]+)"/gi)) tryAdd(m[1])

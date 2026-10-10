@@ -63,7 +63,7 @@ function registerDocumentHostnames(html) {
         if (jm) {
             const j = JSON.parse(jm[1].trim().replace(/^<!\[CDATA\[/, '').replace(/\]\]$/, ''))
             for (const con of (j.connections ?? [])) tryAdd(con.url)
-            tryAdd(j?.panels?.side?.comments?.url)
+            tryAdd(j?.panels?.comments?.url)
         }
     } catch {}
 }
